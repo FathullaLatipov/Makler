@@ -15,3 +15,4 @@ class HouseModelAdmin(admin.ModelAdmin):
     list_display = ['title', 'price', 'category', 'type', 'created_at']
     search_fields = ['title', 'type']
     list_filter = ['created_at']
+
