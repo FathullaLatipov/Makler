@@ -29,6 +29,8 @@ class HouseModel(models.Model):
         max_length=200,
         choices=ADD_TYPE,
         default=ADD_TYPE[1],
+        null=True,
+        blank=True,
     )
     RENTAL_TYPE = (
         ('long_time', 'Long_time'),
@@ -39,6 +41,8 @@ class HouseModel(models.Model):
         max_length=200,
         choices=RENTAL_TYPE,
         default=RENTAL_TYPE[1],
+        null=True,
+        blank=True,
     )
     PROPERTY_TYPE = (
         ('residential', 'Residential'),
@@ -56,7 +60,9 @@ class HouseModel(models.Model):
     object = models.CharField(
         max_length=200,
         choices=OBJECT,
-        default=None
+        default=None,
+        null=True,
+        blank=True,
     )
     map = models.CharField(max_length=190, verbose_name=_('map'))
     image = models.FileField(upload_to='house_image', verbose_name=_('image'))
@@ -75,7 +81,9 @@ class HouseModel(models.Model):
         max_length=50,
         choices=BUILDING_TYPE,
         default=None,
-        verbose_name=_('building_type')
+        verbose_name=_('building_type'),
+        null=True,
+        blank=True,
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
