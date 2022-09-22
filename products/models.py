@@ -64,6 +64,7 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
+
     map = models.CharField(max_length=190, verbose_name=_('map'))
     image = models.FileField(upload_to='house_image', verbose_name=_('image'))
     general = models.CharField(max_length=90, verbose_name=_('general'))
