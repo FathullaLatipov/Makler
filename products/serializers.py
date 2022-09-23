@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from products.models import CategoryModel, HouseModel, AmenitiesModel, MasterModel
+from products.models import CategoryModel, HouseModel, AmenitiesModel, MasterModel, MasterActivity
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -23,7 +23,15 @@ class HomeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MasterActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterActivity
+        fields = ['title']
+
+
 class MasterSerializer(serializers.ModelSerializer):
+    activity = MasterActivitySerializer(many=True)
+
     class Meta:
         model = MasterModel
         fields = '__all__'
