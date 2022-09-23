@@ -109,6 +109,18 @@ class HouseModel(models.Model):
         verbose_name_plural = _('Houses')
 
 
+class MasterActivity(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('title'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Master_activity')
+        verbose_name_plural = _('Master_activities')
+
+
 class MasterModel(models.Model):
     image = models.FileField(upload_to='master_image', verbose_name=_('image'))
     name = models.CharField(max_length=100, verbose_name=_('name'))
@@ -116,14 +128,5 @@ class MasterModel(models.Model):
     phone = models.PositiveIntegerField(verbose_name=_('phone'))
     password = models.CharField(verbose_name=_('password'), max_length=100)
     descriptions = models.TextField(verbose_name=_('descriptions'))
-    TYPE_ACTIVITY = (('plumber', 'plumber'),
-                     ('electric', 'electric'),
-                     ('furniture maker', 'furniture maker'),
-                     ('window master', 'window master'),
-                     ('Cleaner', 'Cleaner'))
-    activity = MultiSelectField(choices=TYPE_ACTIVITY,
-                                max_choices=3,
-                                max_length=30,
-                                null=True,
-                                blank=True)
+    activity = models.ManyToManyField(MasterActivity, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))

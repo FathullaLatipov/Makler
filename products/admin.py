@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from products.models import CategoryModel, HouseModel, AmenitiesModel, MasterModel
+from products.models import CategoryModel, HouseModel, AmenitiesModel, MasterModel, MasterActivity
 
 
 @admin.register(CategoryModel)
@@ -22,6 +22,13 @@ class HouseModelAdmin(admin.ModelAdmin):
     list_display = ['title', 'price', 'category', 'type', 'created_at']
     search_fields = ['title', 'type']
     list_filter = ['created_at']
+
+
+@admin.register(MasterActivity)
+class MasterActivityAdmin(admin.ModelAdmin):
+    list_display = ['title', 'created_at']
+    search_fields = ['title', 'created_at']
+    list_filter = ['title', 'created_at']
 
 
 @admin.register(MasterModel)
