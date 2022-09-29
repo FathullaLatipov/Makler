@@ -28,11 +28,24 @@ class AmenitiesModel(models.Model):
         verbose_name_plural = _('All_amenities')
 
 
+class MapModel(models.Model):
+    addressName = models.CharField(max_length=200, verbose_name=_('address'))
+    latitude = models.FloatField(max_length=100, verbose_name=_('latitude'))
+    longtitude = models.FloatField(max_length=100, verbose_name=_('longtitude'))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.addressName
+
+    class Meta:
+        verbose_name = _('Map')
+        verbose_name_plural = _('Maps')
+
 class HouseModel(models.Model):
     title = models.CharField(max_length=600, verbose_name=_('title'))
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'))
     descriptions = models.TextField(verbose_name=_('descriptions'))
-    price = models.PositiveIntegerField()
+    price = models.CharField(max_length=100, verbose_name=_('price'))
     ADD_TYPE = (
         ('rent', 'Rent'),
         ('for_sale', 'For_sale'),
@@ -77,7 +90,7 @@ class HouseModel(models.Model):
         blank=True,
     )
 
-    map = models.CharField(max_length=190, verbose_name=_('map'))
+    map = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('map'), null=True)
     image = models.FileField(upload_to='house_image', verbose_name=_('image'))
     general = models.CharField(max_length=90, verbose_name=_('general'))
     residential = models.CharField(max_length=90, verbose_name=_('residential'))
@@ -99,6 +112,7 @@ class HouseModel(models.Model):
         blank=True,
     )
     amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), null=True, blank=True)
+    isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     def __str__(self):
