@@ -41,6 +41,16 @@ class MapModel(models.Model):
         verbose_name = _('Map')
         verbose_name_plural = _('Maps')
 
+
+class HouseImageModel(models.Model):
+    image = models.FileField(upload_to='house_images', verbose_name=_('image'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    class Meta:
+        verbose_name = _('house_image')
+        verbose_name_plural = _('house_images')
+
+
 class HouseModel(models.Model):
     title = models.CharField(max_length=600, verbose_name=_('title'))
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'))
@@ -90,8 +100,8 @@ class HouseModel(models.Model):
         blank=True,
     )
 
-    map = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('map'), null=True)
-    image = models.FileField(upload_to='house_image', verbose_name=_('image'))
+    address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
+    image = models.ManyToManyField(HouseImageModel, verbose_name=_('image'))
     general = models.CharField(max_length=90, verbose_name=_('general'))
     residential = models.CharField(max_length=90, verbose_name=_('residential'))
     number_of_rooms = models.CharField(max_length=30, verbose_name=_('number_of_rooms'))

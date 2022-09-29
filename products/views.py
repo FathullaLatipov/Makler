@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MasterModel
-from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, MasterSerializer
+from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, MasterSerializer, \
+    HomeDetailSerializer
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -17,10 +19,17 @@ class AmenitiesListAPIView(generics.ListAPIView):
     serializer_class = AmenitiesSerializer
 
 
-class ProductListAPIView(generics.ListAPIView):
+class HouseListAPIView(generics.ListAPIView):
     ''' Products (Houses)'''
     queryset = HouseModel.objects.order_by('pk')
     serializer_class = HomeSerializer
+
+
+class HouseDetailAPIView(APIView):
+    def get(self, request, pk):
+        houses = HouseModel.objects.get(id=pk)
+        serializer = HomeDetailSerializer(houses)
+        return Response(serializer.data)
 
 
 class MasterListAPIView(generics.ListAPIView):
