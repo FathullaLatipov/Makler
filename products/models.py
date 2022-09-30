@@ -121,7 +121,7 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
-    amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), null=True, blank=True)
+    amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), blank=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
