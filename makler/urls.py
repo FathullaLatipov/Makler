@@ -18,7 +18,7 @@ from django.urls import path, include
 from .yasg import urlpatterns as doc_urls
 
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, MasterListAPIView, \
-    HouseDetailAPIView
+    HouseDetailAPIView, HouseFavListAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
     path('api/v1/maklers/', MasterListAPIView.as_view()),
+    path('api/v1/fav/', HouseFavListAPIView.as_view()),
 ]
 
 urlpatterns += doc_urls

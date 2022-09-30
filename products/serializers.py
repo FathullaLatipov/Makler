@@ -29,6 +29,14 @@ class HomeSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'price', 'address', 'image', 'isBookmarked', 'created_at']
 
 
+class HomeFavSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+
+    class Meta:
+        model = HouseModel
+        fields = ['id', 'title', 'price', 'address', 'image', 'isBookmarked', 'created_at']
+
+
 class HomeDetailSerializer(serializers.ModelSerializer):
 
     class Meta:

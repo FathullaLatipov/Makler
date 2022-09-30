@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MasterModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, MasterSerializer, \
-    HomeDetailSerializer
+    HomeDetailSerializer, HomeFavSerializer
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -23,6 +23,12 @@ class HouseListAPIView(generics.ListAPIView):
     ''' Products (Houses)'''
     queryset = HouseModel.objects.order_by('pk')
     serializer_class = HomeSerializer
+
+
+class HouseFavListAPIView(generics.ListAPIView):
+    ''' Fav (Houses)'''
+    queryset = HouseModel.objects.order_by('pk')
+    serializer_class = HomeFavSerializer
 
 
 class HouseDetailAPIView(APIView):
