@@ -10,5 +10,6 @@ class MasterModelAdmin(admin.ModelAdmin):
     list_filter = ['name', 'email', 'phone']
 
 
-admin.site.register(MasterImagesModel)
-admin.site.register(MasterProfessionModel)
+@admin.register(MasterImagesModel)
+class MasterImagesModel(admin.ModelAdmin):
+    list_display = ['pk', 'image']
