@@ -27,7 +27,7 @@ class MapModelAdmin(admin.ModelAdmin):
 
 @admin.register(HouseImageModel)
 class HouseImageModelAdmin(admin.ModelAdmin):
-    list_display = ['image', 'created_at']
+    list_display = ['pk', 'image', 'created_at']
     search_fields = ['created_at']
     list_filter = ['created_at']
 
