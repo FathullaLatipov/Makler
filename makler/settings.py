@@ -34,6 +34,7 @@ INSTALLED_APPS = [
 
     # django apps
     'products',
+    'masters',
 ]
 
 MIDDLEWARE = [
@@ -129,7 +130,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 9
 }
 
-APPEND_SLASH = False
 
 INTERNAL_IPS = [
     "127.0.0.1",

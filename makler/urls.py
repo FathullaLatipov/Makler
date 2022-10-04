@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from masters.views import MasterListAPIView
 from .yasg import urlpatterns as doc_urls
 
-from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, MasterListAPIView, \
+from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
     HouseDetailAPIView, HouseFavListAPIView
 
 urlpatterns = [

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from products.models import CategoryModel, HouseModel, AmenitiesModel, MasterModel
-from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, MasterSerializer, \
+from products.models import CategoryModel, HouseModel, AmenitiesModel
+from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer
 
 
@@ -38,7 +38,3 @@ class HouseDetailAPIView(APIView):
         return Response(serializer.data)
 
 
-class MasterListAPIView(generics.ListAPIView):
-    ''' Masters '''
-    queryset = MasterModel.objects.order_by('pk')
-    serializer_class = MasterSerializer

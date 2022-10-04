@@ -30,8 +30,8 @@ class AmenitiesModel(models.Model):
 
 class MapModel(models.Model):
     addressName = models.CharField(max_length=200, verbose_name=_('address'))
-    latitude = models.FloatField(max_length=100, verbose_name=_('latitude'))
-    longtitude = models.FloatField(max_length=100, verbose_name=_('longtitude'))
+    latitude = models.FloatField(verbose_name=_('latitude'))
+    longtitude = models.FloatField(verbose_name=_('longtitude'))
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -131,26 +131,3 @@ class HouseModel(models.Model):
     class Meta:
         verbose_name = _('House')
         verbose_name_plural = _('Houses')
-
-
-class MasterActivity(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('title'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _('Master_activity')
-        verbose_name_plural = _('Master_activities')
-
-
-class MasterModel(models.Model):
-    image = models.FileField(upload_to='master_image', verbose_name=_('image'))
-    name = models.CharField(max_length=100, verbose_name=_('name'))
-    email = models.EmailField(verbose_name=_('email'))
-    phone = models.PositiveIntegerField(verbose_name=_('phone'))
-    password = models.CharField(verbose_name=_('password'), max_length=100)
-    descriptions = models.TextField(verbose_name=_('descriptions'))
-    activity = models.ManyToManyField(MasterActivity, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
