@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel
+from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -21,8 +21,15 @@ class AddressSerializer(serializers.ModelSerializer):
         exclude = ['created_at']
 
 
+class HomeImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HouseImageModel
+        exclude = ['image']
+
+
 class HomeSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
+    image = HomeImageSerializer(many=True)
 
     class Meta:
         model = HouseModel
@@ -38,9 +45,6 @@ class HomeFavSerializer(serializers.ModelSerializer):
 
 
 class HomeDetailSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = HouseModel
         fields = '__all__'
-
-
