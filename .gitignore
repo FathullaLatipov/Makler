@@ -139,4 +139,6 @@ dmypy.json
 cython_debug/
 
 .idea
+static
 media
+settings_local.py
