@@ -30,10 +30,13 @@ class MasterModel(models.Model):
     email = models.EmailField(verbose_name=_('email'))
     phone = models.PositiveIntegerField(verbose_name=_('phone'))
     password = models.CharField(verbose_name=_('password'), max_length=100)
-    address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
+    address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'),
+                                related_name='address', null=True)
     avatar = models.FileField(upload_to='master_avatar', verbose_name=_('avatar'))
-    profession = models.ManyToManyField(MasterProfessionModel, verbose_name=_('profession'), blank=True)
-    images = models.ManyToManyField(MasterImagesModel, verbose_name=_('images'), blank=True)
+    profession = models.ManyToManyField(MasterProfessionModel, verbose_name=_('profession'),
+                                        related_name='profession', blank=True
+                                        )
+    images = models.ManyToManyField(MasterImagesModel, verbose_name=_('images'), related_name='images', blank=True)
     descriptions = models.TextField(verbose_name=_('descriptions'))
     experience = models.IntegerField(verbose_name=_('experience'), null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
