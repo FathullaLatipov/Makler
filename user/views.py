@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .models import CustomUser
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, MyTokenObtainPairSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,3 +23,7 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors)
 
+
+class LoginView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer

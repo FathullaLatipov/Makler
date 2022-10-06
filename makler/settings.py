@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'rest_framework_simplejwt',
+    'djoser',
 
     # django apps
     'products',
@@ -44,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -123,18 +124,21 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 LOCALE_PATHS = BASE_DIR / 'locale',
+
+AUTH_USER_MODEL = 'user.CustomUser'
 # REST
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+      'rest_framework.authentication.TokenAuthentication',
+      'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 9
+    'PAGE_SIZE': 8
 }
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=20),
@@ -159,11 +163,27 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-AUTH_USER_MODEL = 'user.CustomUser'
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Type in the *\'Value\'* input box below: **\'Bearer &lt;JWT&gt;\'**, where JWT is the JSON web token you get back when logging in.'
+        }
+    },
+    'DOC_EXPANSION': False
+
+}
 
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
@@ -177,6 +197,7 @@ CORS_ORIGIN_WHITELIST = (
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+SET_PASSWORD_RETYPE = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

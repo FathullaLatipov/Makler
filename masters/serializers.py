@@ -32,4 +32,17 @@ class MasterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MasterModel
+        fields = ['name', 'address', 'avatar', 'profession', 'images']
+
+
+class MasterDetailSerializer(serializers.ModelSerializer):
+    profession = MasterProfessionModelSerializer(many=True)
+    address = AddressModelSerializer()
+    images = ImageModelSerializer(many=True)
+
+    class Meta:
+        model = MasterModel
         fields = '__all__'
+
+    def get_img_url(self, obj):
+        return self.context['request'].build_absolute_uri(obj.image.url)
