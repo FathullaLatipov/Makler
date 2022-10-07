@@ -23,18 +23,18 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
+        fields = ['phone_number', 'password1', 'password2']
         extra_kwargs = dict(
             password=dict(required=True)
         )
 
     def validate(self, attrs):
         errors = defaultdict(list)
-        emails = CustomUser.objects.filter(email=attrs['email'])
+        # emails = CustomUser.objects.filter(email=attrs['email'])
         password1 = attrs.get('password1')
         password2 = attrs.get('password2')
-        if emails.exists():
-            errors['email'].append('Email has already')
+        # if emails.exists():
+        #     errors['email'].append('Email has already')
         if errors:
             raise serializers.ValidationError(errors)
         if password1 != password2:

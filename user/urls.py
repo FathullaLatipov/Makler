@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from user.views import  UserViewSet
+from user.views import UserViewSet
 
 router = DefaultRouter()
 router.register('api/v1/signup', UserViewSet, 'signup')
