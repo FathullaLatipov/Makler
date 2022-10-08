@@ -30,10 +30,11 @@ class HomeImageSerializer(serializers.ModelSerializer):
 class HomeSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     image = HomeImageSerializer(many=True)
+    category = CategorySerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'address', 'image', 'isBookmarked', 'created_at']
+        fields = ['id', 'title', 'category', 'price', 'address', 'image', 'isBookmarked', 'created_at']
 
 
 class HomeFavSerializer(serializers.ModelSerializer):
