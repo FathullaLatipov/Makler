@@ -39,10 +39,6 @@ class HouseDetailAPIView(APIView):
 
 
 class HouseAddCreateAPIView(APIView):
-    def get(self, request):
-        houses = HouseModel.objects.all()
-        return Response({'posts': HomeDetailSerializer(houses, many=True).data})
-
     def post(self, request):
         serializers = HomeCreateSerializer(data=request.data)
         serializers.is_valid(raise_exception=True)
