@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from products.models import CategoryModel, HouseModel, AmenitiesModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
-    HomeDetailSerializer, HomeFavSerializer
+    HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -38,3 +38,27 @@ class HouseDetailAPIView(APIView):
         return Response(serializer.data)
 
 
+class HouseAddCreateAPIView(APIView):
+    def get(self, request):
+        houses = HouseModel.objects.all()
+        return Response({'posts': HomeDetailSerializer(houses, many=True).data})
+
+    def post(self, request):
+        serializers = HomeCreateSerializer(data=request.data)
+        serializers.is_valid(raise_exception=True)
+        serializers.save()
+        return Response({'post': serializers.data})
+
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method PUT not allowed"})
+        try:
+            instance = HouseModel.objects.get(pk=pk)
+        except:
+            return Response({"error": "Object does not exists"})
+
+        serializer = HomeCreateSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"post": serializer.data})

@@ -22,13 +22,14 @@ from store.views import StoreModelAPIView
 from .yasg import urlpatterns as doc_urls
 
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
-    HouseDetailAPIView, HouseFavListAPIView
+    HouseDetailAPIView, HouseFavListAPIView, HouseAddCreateAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/houses/', HouseListAPIView.as_view()),
+    path('api/v1/houses/create', HouseAddCreateAPIView.as_view()),
     path('api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
     path('api/v1/maklers/', MasterListAPIView.as_view()),

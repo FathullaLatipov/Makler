@@ -54,7 +54,7 @@ class HouseImageModel(models.Model):
 class HouseModel(models.Model):
     title = models.CharField(max_length=600, verbose_name=_('title'))
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
-                                 related_name=_('category')
+                                 related_name=_('category'), null=True
                                  )
     descriptions = models.TextField(verbose_name=_('descriptions'))
     price = models.CharField(max_length=100, verbose_name=_('price'))
