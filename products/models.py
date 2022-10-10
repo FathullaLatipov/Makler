@@ -130,6 +130,11 @@ class HouseModel(models.Model):
     def __str__(self):
         return self.title
 
+    @staticmethod
+    def get_from_wishlist(request):
+        wishlist = request.session.get('wishlist', [])
+        return HouseModel.objects.filter(pk__in=wishlist)
+
     class Meta:
         verbose_name = _('House')
         verbose_name_plural = _('Houses')

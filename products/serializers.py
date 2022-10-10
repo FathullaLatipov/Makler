@@ -44,6 +44,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
         instance.number_of_rooms = validated_data.get("number_of_rooms", instance.number_of_rooms)
         instance.floor = validated_data.get("floor", instance.floor)
         instance.floor_from = validated_data.get("floor_from", instance.floor_from)
+        # instance.image = validated_data.get("image", instance.image)
         instance.save()
         return instance
 

@@ -40,3 +40,16 @@ class MasterModel(models.Model):
     descriptions = models.TextField(verbose_name=_('descriptions'))
     experience = models.IntegerField(verbose_name=_('experience'), null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def get_from_wishlist(request):
+        wishlist = request.session.get('wishlist', [])
+        return MasterModel.objects.filter(pk__in=wishlist)
+
+    class Meta:
+        verbose_name = _('Master')
+        verbose_name_plural = _('Masters')
+

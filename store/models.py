@@ -13,6 +13,11 @@ class StoreModel(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_from_wishlist(request):
+        wishlist = request.session.get('wishlist', [])
+        return StoreModel.objects.filter(pk__in=wishlist)
+
     class Meta:
         verbose_name = _('Store')
         verbose_name_plural = _('Stores')
