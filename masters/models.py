@@ -39,6 +39,7 @@ class MasterModel(models.Model):
     images = models.ManyToManyField(MasterImagesModel, verbose_name=_('images'), related_name='images', blank=True)
     descriptions = models.TextField(verbose_name=_('descriptions'))
     experience = models.IntegerField(verbose_name=_('experience'), null=True)
+    isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     def __str__(self):

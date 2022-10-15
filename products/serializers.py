@@ -67,7 +67,19 @@ class HomeFavSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'price', 'address', 'image', 'isBookmarked', 'created_at']
 
 
+class HomeCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CategoryModel
+        fields = ['title']
+
+
 class HomeDetailSerializer(serializers.ModelSerializer):
+    category = HomeCategorySerializer()
+    address = AddressSerializer()
+    image = HomeImageSerializer(many=True)
+    amenities = AmenitiesSerializer(many=True)
+
     class Meta:
         model = HouseModel
         fields = '__all__'

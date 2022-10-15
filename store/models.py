@@ -8,6 +8,7 @@ class StoreModel(models.Model):
     image = models.FileField(upload_to='store_images', verbose_name=_('image'))
     phoneNumber = models.PositiveIntegerField(verbose_name=_('phoneNumber'))
     email = models.EmailField(verbose_name=_('email'))
+    isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     def __str__(self):

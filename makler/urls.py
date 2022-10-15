@@ -17,12 +17,19 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from masters.views import MasterListAPIView, MasterDetailAPIView
+from masters.views import MasterListAPIView, MasterDetailAPIView, MasterAddCreateAPIView, MasterUpdateAPIView, \
+    MasterDestroyAPIView
 from store.views import StoreModelAPIView
 from .yasg import urlpatterns as doc_urls
+from rest_framework.routers import DefaultRouter
 
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
     HouseDetailAPIView, HouseFavListAPIView, HouseAddCreateAPIView
+
+router = DefaultRouter()
+router.register(r'api/v1/maklers/create', MasterAddCreateAPIView)
+router.register(r'api/v1/maklers/update', MasterUpdateAPIView)
+router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +40,7 @@ urlpatterns = [
     path('api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
     path('api/v1/maklers/', MasterListAPIView.as_view()),
+    # path('api/v1/maklers/create', MasterAddCreateAPIView.as_view()),
     path('api/v1/maklers/<int:pk>', MasterDetailAPIView.as_view()),
     path('api/v1/store/', StoreModelAPIView.as_view()),
     path('api/v1/fav/', HouseFavListAPIView.as_view()),
@@ -44,3 +52,4 @@ urlpatterns = [
 ]
 
 urlpatterns += doc_urls
+urlpatterns += router.urls

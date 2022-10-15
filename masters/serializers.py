@@ -35,6 +35,15 @@ class MasterSerializer(serializers.ModelSerializer):
         fields = ['name', 'address', 'avatar', 'profession', 'images']
 
 
+class MasterCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterModel
+        fields = '__all__'
+
+    def create(self, validated_data):
+        return MasterModel.objects.create(**validated_data)
+
+
 class MasterDetailSerializer(serializers.ModelSerializer):
     profession = MasterProfessionModelSerializer(many=True)
     address = AddressModelSerializer()
