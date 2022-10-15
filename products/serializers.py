@@ -35,18 +35,18 @@ class HomeCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return HouseModel.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.descriptions = validated_data.get("descriptions", instance.descriptions)
-        instance.price = validated_data.get("price", instance.price)
-        instance.general = validated_data.get("general", instance.general)
-        instance.residential = validated_data.get("residential", instance.residential)
-        instance.number_of_rooms = validated_data.get("number_of_rooms", instance.number_of_rooms)
-        instance.floor = validated_data.get("floor", instance.floor)
-        instance.floor_from = validated_data.get("floor_from", instance.floor_from)
-        # instance.image = validated_data.get("image", instance.image)
-        instance.save()
-        return instance
+    # def update(self, instance, validated_data):
+    #     instance.title = validated_data.get("title", instance.title)
+    #     instance.descriptions = validated_data.get("descriptions", instance.descriptions)
+    #     instance.price = validated_data.get("price", instance.price)
+    #     instance.general = validated_data.get("general", instance.general)
+    #     instance.residential = validated_data.get("residential", instance.residential)
+    #     instance.number_of_rooms = validated_data.get("number_of_rooms", instance.number_of_rooms)
+    #     instance.floor = validated_data.get("floor", instance.floor)
+    #     instance.floor_from = validated_data.get("floor_from", instance.floor_from)
+    #     # instance.image = validated_data.get("image", instance.image)
+    #     instance.save()
+    #     return instance
 
 
 class HomeSerializer(serializers.ModelSerializer):

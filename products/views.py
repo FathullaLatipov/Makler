@@ -1,8 +1,10 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
+
 from products.models import CategoryModel, HouseModel, AmenitiesModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer
@@ -58,23 +60,29 @@ class HouseDetailAPIView(APIView):
         return Response(serializer.data)
 
 
-class HouseAddCreateAPIView(APIView):
-    def post(self, request):
-        serializers = HomeCreateSerializer(data=request.data)
-        serializers.is_valid(raise_exception=True)
-        serializers.save()
-        return Response({'post': serializers.data})
+class HouseAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
+    queryset = HouseModel.objects.all()
+    serializer_class = HomeCreateSerializer
 
-    # def put(self, request, *args, **kwargs):
-    #     pk = kwargs.get("pk", None)
-    #     if not pk:
-    #         return Response({"error": "Method PUT not allowed"})
-    #     try:
-    #         instance = HouseModel.objects.get(pk=pk)
-    #     except:
-    #         return Response({"error": "Object does not exists"})
-    #
-    #     serializer = HomeCreateSerializer(data=request.data, instance=instance)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response({"post": serializer.data})
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+
+class HouseUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
+    queryset = HouseModel.objects.all()
+    serializer_class = HomeCreateSerializer
+
+    def update(self, request, *args, **kwargs):
+        user_profile = self.get_object()
+        serializer = self.get_serializer(user_profile, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+
+class HouseDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
+    queryset = HouseModel.objects.all()
+    serializer_class = HomeCreateSerializer
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
