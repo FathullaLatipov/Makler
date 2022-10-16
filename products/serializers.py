@@ -24,7 +24,7 @@ class AddressSerializer(serializers.ModelSerializer):
 class HomeImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseImageModel
-        exclude = ['image']
+        fields = '__all__'
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
