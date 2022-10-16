@@ -5,7 +5,7 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ['pk']
+    list_display = ['pk', 'phone_number']
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

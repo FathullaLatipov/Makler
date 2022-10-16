@@ -11,8 +11,6 @@ from .serializers import RegistrationSerializer, MyTokenObtainPairSerializer
 class UserViewSet(viewsets.ModelViewSet):
     ''' Регистрация юзера '''
     queryset = CustomUser.objects.all()
-    ordering = ['-date_joined']
-    search_fields = ['username']
     serializer_class = RegistrationSerializer
 
     def create(self, request):
