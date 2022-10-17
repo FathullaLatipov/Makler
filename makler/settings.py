@@ -203,7 +203,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
     'http://127.0.0.1',
-    'https://makler1.herokuapp.com'
+    'https://makler1.herokuapp.com',
+    'http://193.162.143.210'
 )
 
 # Default primary key field type

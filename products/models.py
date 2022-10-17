@@ -138,3 +138,13 @@ class HouseModel(models.Model):
     class Meta:
         verbose_name = _('House')
         verbose_name_plural = _('Houses')
+
+#
+# class HouseOptionsModel(models.Model):
+#     product = models.ForeignKey(HouseModel, on_delete=models.PROTECT, related_name='products_options',
+#                                 verbose_name=_('product'), null=True, blank=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#
+#     class Meta:
+#         verbose_name = _('product_options')
+#         verbose_name_plural = _('product_options')
