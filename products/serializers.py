@@ -22,9 +22,13 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class HomeImageSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = HouseImageModel
         fields = '__all__'
+
+    def get_img_url(self, obj):
+        return self.context['request'].build_absolute_uri(obj.image.url)
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
