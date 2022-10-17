@@ -51,7 +51,7 @@ class MasterDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MasterModel
-        fields = '__all__'
+        exclude = ['password']
 
     def get_img_url(self, obj):
         return self.context['request'].build_absolute_uri(obj.image.url)
