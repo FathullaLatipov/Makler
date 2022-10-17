@@ -36,7 +36,7 @@ def add_to_wishlist(request, pk):
 class StoreDetailAPIView(APIView):
     def get(self, request, pk):
         houses = StoreModel.objects.get(id=pk)
-        serializer = StoreModelSerializer(houses)
+        serializer = StoreModelSerializer(houses, context={'request': request})
         return Response(serializer.data)
 
 
