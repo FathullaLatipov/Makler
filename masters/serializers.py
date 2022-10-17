@@ -32,7 +32,7 @@ class MasterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MasterModel
-        fields = ['name', 'address', 'avatar', 'profession', 'images']
+        fields = ['name', 'address', 'avatar', 'profession', 'images', 'experience', 'isBookmarked']
 
 
 class MasterCreateSerializer(serializers.ModelSerializer):
