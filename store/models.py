@@ -11,6 +11,7 @@ class StoreModel(models.Model):
     price = models.PositiveIntegerField(verbose_name=_('price'), null=True)
     use_for = models.CharField(max_length=400, verbose_name=_('use_for'), null=True)
     phoneNumber = models.PositiveIntegerField(verbose_name=_('phoneNumber'))
+    address = models.CharField(max_length=400, verbose_name=_('address'), null=True)
     email = models.EmailField(verbose_name=_('email'))
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
