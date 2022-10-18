@@ -22,7 +22,6 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class HomeImageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = HouseImageModel
         fields = '__all__'
@@ -32,12 +31,31 @@ class HomeImageSerializer(serializers.ModelSerializer):
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
+    #amenities = AmenitiesSerializer() # ishlatingchi hop many=True kerak emasmi? yo§k o§xshamasa keyin qoyib koramz ok
     class Meta:
         model = HouseModel
-        exclude = ['category', 'image', 'amenities']
+        fields = ['title', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
+                'residential', 'amenities']
 
     def create(self, validated_data):
-        return HouseModel.objects.create(**validated_data)
+        housemodel = HouseModel.objects.create(title=validated_data['title'],
+                                               descriptions=validated_data['descriptions'],
+                                               price=validated_data['price'], type=validated_data['type'],
+                                               rental_type=validated_data['rental_type'],
+                                               object=validated_data['object'], address=validated_data['address'],
+                                               general=validated_data['general'],
+                                               residential=validated_data['residential']
+                                               )
+
+        for i in validated_data['amenities']:
+            housemodel.amenities.add(i.id)
+        housemodel.save()
+        return housemodel
+
+    def to_representation(self, instance):
+        context = super().to_representation(instance)
+        context['amenities'] = AmenitiesSerializer(instance.amenities, many=True).data   # (((
+        return context
     # def update(self, instance, validated_data):
     #     instance.title = validated_data.get("title", instance.title)
     #     instance.descriptions = validated_data.get("descriptions", instance.descriptions)
@@ -50,6 +68,8 @@ class HomeCreateSerializer(serializers.ModelSerializer):
     #     # instance.image = validated_data.get("image", instance.image)
     #     instance.save()
     #     return instance
+
+
 
 
 class HomeSerializer(serializers.ModelSerializer):
@@ -71,7 +91,6 @@ class HomeFavSerializer(serializers.ModelSerializer):
 
 
 class HomeCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CategoryModel
         fields = ['title']
@@ -82,10 +101,9 @@ class HomeDetailSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     image = HomeImageSerializer(many=True)
     amenities = AmenitiesSerializer(many=True)
+
     # choices = serializers.SerializerMethodField('get_choices')
 
     class Meta:
         model = HouseModel
-        fields = ['choices', 'category', 'address', 'image', 'amenities']
-
-
+        fields = '__all__'
