@@ -34,7 +34,7 @@ class HomeImageSerializer(serializers.ModelSerializer):
 class HomeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
-        exclude = ['category', 'image']
+        exclude = ['category', 'image', 'amenities']
 
     def create(self, validated_data):
         return HouseModel.objects.create(**validated_data)
