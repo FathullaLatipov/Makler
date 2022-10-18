@@ -38,7 +38,6 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return HouseModel.objects.create(**validated_data)
-
     # def update(self, instance, validated_data):
     #     instance.title = validated_data.get("title", instance.title)
     #     instance.descriptions = validated_data.get("descriptions", instance.descriptions)
@@ -83,7 +82,10 @@ class HomeDetailSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     image = HomeImageSerializer(many=True)
     amenities = AmenitiesSerializer(many=True)
+    # choices = serializers.SerializerMethodField('get_choices')
 
     class Meta:
         model = HouseModel
-        fields = '__all__'
+        fields = ['choices', 'category', 'address', 'image', 'amenities']
+
+

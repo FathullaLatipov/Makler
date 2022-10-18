@@ -135,6 +135,10 @@ class HouseModel(models.Model):
         wishlist = request.session.get('wishlist', [])
         return HouseModel.objects.filter(pk__in=wishlist)
 
+    @property
+    def choices(self):
+        return [{'rental_type': self.rental_type}, ['object', self.object], ['building_type', self.building_type]]
+
     class Meta:
         verbose_name = _('House')
         verbose_name_plural = _('Houses')
