@@ -5,21 +5,18 @@ from .models import MasterModel, MasterProfessionModel, MasterImagesModel
 
 
 class MasterProfessionModelSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = MasterProfessionModel
         fields = ['title']
 
 
 class AddressModelSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = MapModel
         exclude = ['id', 'created_at']
 
 
 class ImageModelSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = MasterImagesModel
         exclude = ['id']
@@ -38,10 +35,31 @@ class MasterSerializer(serializers.ModelSerializer):
 class MasterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
-        fields = '__all__'
+        fields = ['image', 'name', 'email', 'phone', 'address', 'avatar', 'profession', 'images', 'descriptions', 'experience']
 
     def create(self, validated_data):
-        return MasterModel.objects.create(**validated_data)
+        mastermodel = MasterModel.objects.create(image=validated_data['image'],
+                                                 name=validated_data['name'],
+                                                 email=validated_data['email'],
+                                                 phone=validated_data['phone'],
+                                                 address=validated_data['address'],
+                                                 avatar=validated_data['avatar'],
+                                                 descriptions=validated_data['descriptions'],
+                                                 experience=validated_data['experience']
+                                                 )
+
+        for i in validated_data['profession']:
+            mastermodel.profession.add(i.id)
+        for j in validated_data['images']:
+            mastermodel.images.add(j.id)
+        mastermodel.save()
+        return mastermodel
+
+    def to_representation(self, instance):
+        context = super().to_representation(instance)
+        context['profession'] = MasterProfessionModelSerializer(instance.profession, many=True).data
+        context['images'] = ImageModelSerializer(instance.images, many=True).data
+        return context
 
 
 class MasterDetailSerializer(serializers.ModelSerializer):
