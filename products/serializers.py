@@ -24,22 +24,25 @@ class AddressSerializer(serializers.ModelSerializer):
 class HomeImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseImageModel
-        fields = '__all__'
+        fields = ['property_id', 'image']
 
     def get_img_url(self, obj):
         return self.context['request'].build_absolute_uri(obj.image.url)
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
+    images = HomeImageSerializer(many=True)
+
     class Meta:
         model = HouseModel
-        fields = ['title', 'category', 'descriptions', 'price', 'image', 'type', 'rental_type', 'object', 'address', 'general',
-                  'residential', 'amenities']
+        fields = ['title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
+                  'residential', 'amenities', 'images']
 
     def create(self, validated_data):
         housemodel = HouseModel.objects.create(title=validated_data['title'],
                                                descriptions=validated_data['descriptions'],
                                                category=validated_data['category'],
+                                               images=validated_data['images'],
                                                price=validated_data['price'], type=validated_data['type'],
                                                rental_type=validated_data['rental_type'],
                                                object=validated_data['object'], address=validated_data['address'],
@@ -49,15 +52,15 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
         for i in validated_data['amenities']:
             housemodel.amenities.add(i.id)
-        for j in validated_data['image']:
-            housemodel.image.add(j.id)
+        for j in validated_data['images']:
+            housemodel.images.add(j.id)
         housemodel.save()
         return housemodel
 
     def to_representation(self, instance):
         context = super().to_representation(instance)
         context['amenities'] = AmenitiesSerializer(instance.amenities, many=True).data
-        context['image'] = HomeImageSerializer(instance.image, many=True).data
+        # context['images'] = HomeImageSerializer(instance.images, many=True).data
         context['category'] = CategorySerializer(instance.category).data
         context['address'] = AddressSerializer(instance.address).data
         return context
@@ -77,12 +80,12 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
 class HomeSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
-    image = HomeImageSerializer(many=True)
+    # image = HomeImageSerializer(many=True)
     category = CategorySerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'category', 'price', 'address', 'image', 'isBookmarked', 'created_at']
+        fields = ['id', 'title', 'category', 'price', 'address', 'isBookmarked', 'created_at']
 
 
 class HomeFavSerializer(serializers.ModelSerializer):
@@ -90,7 +93,7 @@ class HomeFavSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'address', 'image', 'isBookmarked', 'created_at']
+        fields = ['id', 'title', 'price', 'address', 'isBookmarked', 'created_at']
 
 
 class HomeCategorySerializer(serializers.ModelSerializer):
@@ -102,7 +105,7 @@ class HomeCategorySerializer(serializers.ModelSerializer):
 class HomeDetailSerializer(serializers.ModelSerializer):
     category = HomeCategorySerializer()
     address = AddressSerializer()
-    image = HomeImageSerializer(many=True)
+    # image = HomeImageSerializer(many=True)
     amenities = AmenitiesSerializer(many=True)
 
     # choices = serializers.SerializerMethodField('get_choices')
