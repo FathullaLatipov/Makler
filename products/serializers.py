@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel
+from products.helpers import modify_input_for_multiple_files
+from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -30,40 +31,39 @@ class HomeImageSerializer(serializers.ModelSerializer):
         return self.context['request'].build_absolute_uri(obj.image.url)
 
 
+# class ImagesModelSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model =
+class ImageSerializer(serializers.Serializer):
+    image = serializers.FileField()
+
+    def get_img_url(self, obj):
+        return self.context['request'].build_absolute_url(obj.image.url)
+
+
 class HomeCreateSerializer(serializers.ModelSerializer):
-    images = HomeImageSerializer(many=True)
+    class Meta:
+        model = ImagesModel
+        fields = ['image', ]
 
     class Meta:
         model = HouseModel
         fields = ['title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
                   'residential', 'amenities', 'images']
-
-    def create(self, validated_data):
-        housemodel = HouseModel.objects.create(title=validated_data['title'],
-                                               descriptions=validated_data['descriptions'],
-                                               category=validated_data['category'],
-                                               images=validated_data['images'],
-                                               price=validated_data['price'], type=validated_data['type'],
-                                               rental_type=validated_data['rental_type'],
-                                               object=validated_data['object'], address=validated_data['address'],
-                                               general=validated_data['general'],
-                                               residential=validated_data['residential']
-                                               )
-
-        for i in validated_data['amenities']:
-            housemodel.amenities.add(i.id)
-        for j in validated_data['images']:
-            housemodel.images.add(j.id)
-        housemodel.save()
-        return housemodel
+        extra_kwargs = {
+            'images': {'required': False}
+        }
 
     def to_representation(self, instance):
         context = super().to_representation(instance)
         context['amenities'] = AmenitiesSerializer(instance.amenities, many=True).data
-        # context['images'] = HomeImageSerializer(instance.images, many=True).data
+        context['images'] = ImageSerializer(instance.images, many=True).data
         context['category'] = CategorySerializer(instance.category).data
         context['address'] = AddressSerializer(instance.address).data
         return context
+
+    def get_img_url(self, obj):
+        return self.context['request'].build_absolute_url(obj.images.url)
     # def update(self, instance, validated_data):
     #     instance.title = validated_data.get("title", instance.title)
     #     instance.descriptions = validated_data.get("descriptions", instance.descriptions)

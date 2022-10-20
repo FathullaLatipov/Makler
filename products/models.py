@@ -42,6 +42,12 @@ class MapModel(models.Model):
         verbose_name_plural = _('Maps')
 
 
+class ImagesModel(models.Model):
+    image = models.FileField(upload_to='house_test_image', null=True)
+
+    def __str__(self):
+        return f"127.0.0.1:7783{self.image.url}"
+
 
 class HouseModel(models.Model):
     title = models.CharField(max_length=600, verbose_name=_('title'))
@@ -95,7 +101,7 @@ class HouseModel(models.Model):
     )
 
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
-    images = models.FileField(upload_to='house_images', verbose_name=_('image'), null=True)
+    images = models.ManyToManyField(ImagesModel, null=True, blank=True)
     general = models.CharField(max_length=90, verbose_name=_('general'))
     residential = models.CharField(max_length=90, verbose_name=_('residential'))
     number_of_rooms = models.CharField(max_length=30, verbose_name=_('number_of_rooms'))
@@ -137,7 +143,8 @@ class HouseModel(models.Model):
 
 
 class HouseImageModel(models.Model):
-    property_id = models.ForeignKey(HouseModel, null=False, default=1, on_delete=models.CASCADE, related_name='pr_images')
+    property_id = models.ForeignKey(HouseModel, null=False, default=1, on_delete=models.CASCADE,
+                                    related_name='pr_images')
     image = models.FileField(upload_to='house_images', verbose_name=_('image'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 

@@ -28,11 +28,14 @@ from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListA
     HouseDetailAPIView, HouseFavListAPIView, HouseAddCreateAPIView, HouseUpdateAPIView, HouseDestroyAPIView, \
     HouseImageAPIView
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 router = DefaultRouter()
 router.register(r'api/v1/maklers/create', MasterAddCreateAPIView)
 router.register(r'api/v1/maklers/update', MasterUpdateAPIView)
 router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)
-router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
+# router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
 router.register(r'api/v1/houses/update', HouseUpdateAPIView)
 router.register(r'api/v1/houses/delete', HouseDestroyAPIView)
 router.register(r'api/v1/store/create', StoreAddCreateAPIView)
@@ -44,6 +47,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/houses/', HouseListAPIView.as_view()),
+    path('api/v1/houses/create/', HouseAddCreateAPIView.as_view()),
     path('api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
     path('api/v1/maklers/', MasterListAPIView.as_view()),
@@ -61,3 +65,4 @@ urlpatterns = [
 
 urlpatterns += doc_urls
 urlpatterns += router.urls
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

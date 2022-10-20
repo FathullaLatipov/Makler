@@ -1,5 +1,4 @@
-def modify_input_for_multiple_files(property_id, image):
+def modify_input_for_multiple_files(images):
     dict = {}
-    dict['property_id'] = property_id
-    dict['image'] = image
+    dict['images'] = images
     return dict
