@@ -42,7 +42,7 @@ class ImageSerializer(serializers.Serializer):
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
-    # images = serializers.FileField()
+    images = serializers.FileField()
 
     class Meta:
         model = ImagesModel
@@ -52,7 +52,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
         model = HouseModel
         fields = ['title', 'descriptions', 'price',
                   'residential', 'number_of_rooms', 'floor', 'floor_from', 'general', 'isBookmarked',
-                  'residential',]
+                   'images']
         extra_kwargs = {
             'images': {'required': False}
         }
@@ -60,7 +60,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         context = super().to_representation(instance)
         # context['amenities'] = AmenitiesSerializer(instance.amenities, many=True).data
-        # context['images'] = ImageSerializer(instance.images, many=True).data
+        context['images'] = ImageSerializer(instance.images, many=True).data
         # context['category'] = CategorySerializer(instance.category).data
         # context['address'] = AddressSerializer(instance.address).data
         return context
