@@ -50,7 +50,9 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title',]
+        fields = ['title', 'descriptions', 'price',
+                  'residential', 'number_of_rooms', 'floor', 'floor_from', 'general', 'isBookmarked',
+                  'residential',]
         extra_kwargs = {
             'images': {'required': False}
         }
