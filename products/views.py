@@ -117,7 +117,6 @@ class HouseAddCreateAPIView(APIView):
         print(request.FILES.getlist('images'))
         category = CategoryModel.objects.get(id=int(request.data['category']))
         address = MapModel.objects.get(id=int(request.data['address']))
-        creator = request.user
         house = HouseModel.objects.create(
             title=request.data['title'],
             category=category,

@@ -104,7 +104,6 @@ class LoginSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
     posts = MasterSerializer(many=True)
-    houses = HomeSerializer(many=True)
     stores = StoreModelSerializer(many=True)
 
     class Meta:
