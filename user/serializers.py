@@ -103,7 +103,7 @@ class LoginSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    posts = MasterSerializer(many=True)
+    maklers = MasterSerializer(many=True)
     stores = StoreModelSerializer(many=True)
 
     class Meta:

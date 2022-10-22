@@ -26,7 +26,7 @@ class MasterImagesModel(models.Model):
 
 
 class MasterModel(models.Model):
-    owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='posts')
+    owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='maklers')
     image = models.FileField(upload_to='master_image', verbose_name=_('image'))
     name = models.CharField(max_length=100, verbose_name=_('name'))
     email = models.EmailField(verbose_name=_('email'))
