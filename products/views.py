@@ -122,7 +122,7 @@ class HouseAddCreateAPIView(APIView):
         # serializer = self.serializer_class(data=request.data)
         print(request.FILES.getlist('images'))
         # category = CategoryModel.objects.get(id=int(request.data['category']))
-        # address = MapModel.objects.get(id=int(request.data['address']))
+        address = MapModel.objects.get(id=int(request.data['address']))
         house = HouseModel.objects.create(
             title=request.data['title'],
             # category=category,
@@ -131,7 +131,7 @@ class HouseAddCreateAPIView(APIView):
             # type=request.data['type'],
             # rental_type=request.data['rental_type'],
             # object=request.data['object'],
-            # address=address,
+            address=address,
             general=request.data['general'],
             residential=request.data['residential'],
         )
@@ -141,7 +141,7 @@ class HouseAddCreateAPIView(APIView):
             house.images.add(img)
         # for i in request.data['amenities']:
         #     house.amenities.add(int(i))
-        #     house.save()
+            house.save()
 
         return Response(self.serializer_class(house).data, status=status.HTTP_201_CREATED)
 

@@ -50,9 +50,9 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title', 'descriptions', 'price',
+        fields = ['title', 'descriptions', 'price', 'address',
                   'residential', 'number_of_rooms', 'floor', 'floor_from', 'general', 'isBookmarked',
-                   'images']
+                  'images']
         extra_kwargs = {
             'images': {'required': False}
         }
@@ -62,7 +62,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
         # context['amenities'] = AmenitiesSerializer(instance.amenities, many=True).data
         context['images'] = ImageSerializer(instance.images, many=True).data
         # context['category'] = CategorySerializer(instance.category).data
-        # context['address'] = AddressSerializer(instance.address).data
+        context['address'] = AddressSerializer(instance.address).data
         return context
 
     def get_img_url(self, obj):
