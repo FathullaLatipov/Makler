@@ -120,28 +120,28 @@ class HouseAddCreateAPIView(APIView):
 
     def post(self, request):
         # serializer = self.serializer_class(data=request.data)
-        print(request.FILES.getlist('images'))
+        # print(request.FILES.getlist('images'))
         # category = CategoryModel.objects.get(id=int(request.data['category']))
-        address = MapModel.objects.get(id=int(request.data['address']))
+        # address = MapModel.objects.get(id=int(request.data['address']))
         house = HouseModel.objects.create(
             title=request.data['title'],
             # category=category,
-            descriptions=request.data['descriptions'],
-            price=request.data['price'],
-            type=request.data['type'],
-            rental_type=request.data['rental_type'],
-            object=request.data['object'],
-            address=address,
-            general=request.data['general'],
-            residential=request.data['residential'],
+            # descriptions=request.data['descriptions'],
+            # price=request.data['price'],
+            # type=request.data['type'],
+            # rental_type=request.data['rental_type'],
+            # object=request.data['object'],
+            # address=address,
+            # general=request.data['general'],
+            # residential=request.data['residential'],
         )
-        image = request.FILES.getlist('images')
-        for img_name in image:
-            img = ImagesModel.objects.create(image=img_name)
-            house.images.add(img)
-        for i in request.data['amenities']:
-            house.amenities.add(int(i))
-            house.save()
+        # image = request.FILES.getlist('images')
+        # for img_name in image:
+        #     img = ImagesModel.objects.create(image=img_name)
+        #     house.images.add(img)
+        # for i in request.data['amenities']:
+        #     house.amenities.add(int(i))
+        #     house.save()
 
         return Response(self.serializer_class(house).data, status=status.HTTP_201_CREATED)
 

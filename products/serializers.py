@@ -42,7 +42,7 @@ class ImageSerializer(serializers.Serializer):
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
-    images = serializers.FileField()
+    # images = serializers.FileField()
 
     class Meta:
         model = ImagesModel
@@ -50,9 +50,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title', 'descriptions', 'price',
-                  'residential', 'number_of_rooms', 'floor', 'floor_from', 'general', 'isBookmarked',
-                  'residential', 'amenities', 'images']
+        fields = ['title',]
         extra_kwargs = {
             'images': {'required': False}
         }
