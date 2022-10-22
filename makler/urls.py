@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from masters.views import MasterListAPIView, MasterDetailAPIView, MasterAddCreateAPIView, MasterUpdateAPIView, \
-    MasterDestroyAPIView
+from masters.views import MasterListAPIView, MasterDetailAPIView, MasterUpdateAPIView, \
+    MasterDestroyAPIView, PostList, PostDetail, MasterAddCreateAPIView
 from store.views import StoreModelAPIView, StoreDetailAPIView, StoreAddCreateAPIView, StoreUpdateAPIView, \
     StoreDestroyAPIView
+from user.views import UserDetail, UserList
 from .yasg import urlpatterns as doc_urls
 from rest_framework.routers import DefaultRouter
 
@@ -61,6 +62,10 @@ urlpatterns = [
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/v1/users/', include('user.urls')),
+    path('api/v1/all-users/', UserList.as_view()),
+    path('api/v1/all-users/<int:pk>/', UserDetail.as_view()),
+    path('posts/', PostList.as_view()),
+    path('posts/<int:pk>/', PostDetail.as_view()),
 ]
 
 urlpatterns += doc_urls

@@ -1,8 +1,11 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from user.models import CustomUser
+
 
 class StoreModel(models.Model):
+    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='stores')
     name = models.CharField(max_length=200, verbose_name=_('name'))
     description = models.TextField()
     image = models.FileField(upload_to='store_images', verbose_name=_('image'))
@@ -15,6 +18,20 @@ class StoreModel(models.Model):
     email = models.EmailField(verbose_name=_('email'))
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    draft = models.BooleanField(default=False)
+    PRODUCT_STATUS = (
+        ('InProgress', 'InProgress'),
+        ('PUBLISH', 'PUBLISH'),
+        ('DELETED', 'DELETED'),
+        ('ARCHIVED', 'ARCHIVED'),
+        ('REJECTED', 'REJECTED')
+    )
+    product_status = models.CharField(
+        choices=PRODUCT_STATUS,
+        default=PRODUCT_STATUS[0],
+        max_length=30,
+        null=True
+    )
 
     def __str__(self):
         return self.name
@@ -27,3 +44,7 @@ class StoreModel(models.Model):
     class Meta:
         verbose_name = _('Store')
         verbose_name_plural = _('Stores')
+        ordering = ['-id']
+
+
+#HOUSE model qani endi products

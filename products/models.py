@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from multiselectfield import MultiSelectField
 
+from user.models import CustomUser
+
 
 class CategoryModel(models.Model):
     title = models.CharField(max_length=500, verbose_name=_('title'))
@@ -50,6 +52,7 @@ class ImagesModel(models.Model):
 
 
 class HouseModel(models.Model):
+    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='houses')
     title = models.CharField(max_length=600, verbose_name=_('title'))
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
                                  related_name=_('category'), null=True
@@ -99,7 +102,7 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
-
+    # kim yaratgani qayerda uni hali qowmaganman
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
     images = models.ManyToManyField(ImagesModel, null=True, blank=True)
     general = models.CharField(max_length=90, verbose_name=_('general'))
@@ -124,6 +127,20 @@ class HouseModel(models.Model):
     amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), blank=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    draft = models.BooleanField(default=False)
+    PRODUCT_STATUS = (
+        ('InProgress', 'InProgress'),
+        ('PUBLISH', 'PUBLISH'),
+        ('DELETED', 'DELETED'),
+        ('ARCHIVED', 'ARCHIVED'),
+        ('REJECTED', 'REJECTED')
+    )
+    product_status = models.CharField(
+        choices=PRODUCT_STATUS,
+        default=PRODUCT_STATUS[0],
+        max_length=30,
+        null=True
+    )
 
     def __str__(self):
         return self.title
@@ -140,6 +157,7 @@ class HouseModel(models.Model):
     class Meta:
         verbose_name = _('House')
         verbose_name_plural = _('Houses')
+        ordering = ['-id']
 
 
 class HouseImageModel(models.Model):

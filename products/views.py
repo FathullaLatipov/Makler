@@ -4,6 +4,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+
+from masters.models import MasterModel
+from store.models import StoreModel
 from .models import ImagesModel, MapModel
 from rest_framework.decorators import parser_classes
 
@@ -57,7 +60,7 @@ class HouseImageAPIView(APIView):
 
 class HouseListAPIView(generics.ListAPIView):
     ''' Products (Houses)'''
-    queryset = HouseModel.objects.order_by('pk')
+    queryset = HouseModel.objects.filter(draft=False)
     serializer_class = HomeSerializer
 
 
@@ -114,7 +117,9 @@ class HouseAddCreateAPIView(APIView):
         print(request.FILES.getlist('images'))
         category = CategoryModel.objects.get(id=int(request.data['category']))
         address = MapModel.objects.get(id=int(request.data['address']))
+        print(request.user)
         house = HouseModel.objects.create(
+            creator=request.user,
             title=request.data['title'],
             category=category,
             descriptions=request.data['descriptions'],
@@ -191,3 +196,8 @@ class HouseDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+#user app bormi alohida daa
+
+        

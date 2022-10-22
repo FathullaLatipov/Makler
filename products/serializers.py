@@ -48,11 +48,12 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
+        fields = ['creator', 'title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
                   'residential', 'amenities', 'images']
         extra_kwargs = {
             'images': {'required': False}
         }
+        read_only_fields = ['creator',]
 
     def to_representation(self, instance):
         context = super().to_representation(instance)
@@ -77,7 +78,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
     #     instance.save()
     #     return instance
 
-
+#  bu homeniki
 class HomeSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     # image = HomeImageSerializer(many=True)
@@ -85,7 +86,7 @@ class HomeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'category', 'price', 'address', 'isBookmarked', 'created_at']
+        fields = ['id', 'title', 'category', 'price', 'address', 'isBookmarked', 'created_at', 'product_status']
 
 
 class HomeFavSerializer(serializers.ModelSerializer):

@@ -1,13 +1,14 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, mixins
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from products.utils import get_wishlist_data
 from .models import MasterModel
-from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer
+from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer, PostSerializer
 
 
 class MasterListAPIView(generics.ListAPIView):
@@ -49,6 +50,27 @@ class MasterAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
         return {'request': self.request}
 
 
+# class MasterAddCreateAPIView(APIView):
+#     serializer_class = MasterCreateSerializer
+#
+#     def get_object(self):
+#         return MasterModel.objects.all()
+#
+#     def get(self, request):
+#         serailizer = self.serializer_class(self.get_object(), many=True)
+#         return Response(serailizer.data, status=200)
+#
+#     def post(self, request):
+#         print(request.user)
+#         serializer = self.serializer_class(data=request.data)
+#         if serializer.is_valid():
+#             serializer.create(validated_data=serializer.validated_data, user=request.user)
+#         return Response(serializer.data)
+#
+#     def get_serializer_context(self):
+#         return {'request': self.request}
+
+
 class MasterUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
@@ -67,3 +89,18 @@ class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class PostList(generics.ListCreateAPIView):
+    queryset = MasterModel.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [AllowAny, ]
+
+    def perform_create(self, serializer):
+        print(serializer)
+        serializer.save(owner=self.request.owner)
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MasterModel.objects.all()
+    serializer_class = PostSerializer

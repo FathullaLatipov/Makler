@@ -35,8 +35,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
-    'drf_yasg',
     'djoser',
+    'drf_yasg',
+
 
     # django apps
     'products',
@@ -122,7 +123,6 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
 
-
 STATICFILES_DIRS = BASE_DIR / 'assets',
 
 MEDIA_URL = '/media/'
@@ -131,6 +131,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOCALE_PATHS = BASE_DIR / 'locale',
 
 AUTH_USER_MODEL = 'user.CustomUser'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # REST
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -209,6 +210,8 @@ CORS_ORIGIN_WHITELIST = (
     'https://makler1.herokuapp.com',
     'http://193.162.143.210'
 )
+
+SITE_ID = 1
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

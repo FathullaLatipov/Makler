@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from products.models import MapModel
+from user.models import CustomUser
 
 
 class MasterProfessionModel(models.Model):
@@ -25,6 +26,7 @@ class MasterImagesModel(models.Model):
 
 
 class MasterModel(models.Model):
+    owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='posts')
     image = models.FileField(upload_to='master_image', verbose_name=_('image'))
     name = models.CharField(max_length=100, verbose_name=_('name'))
     email = models.EmailField(verbose_name=_('email'))
@@ -41,6 +43,20 @@ class MasterModel(models.Model):
     experience = models.IntegerField(verbose_name=_('experience'), null=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+    draft = models.BooleanField(default=False)
+    PRODUCT_STATUS = (
+        ('InProgress', 'InProgress'),
+        ('PUBLISH', 'PUBLISH'),
+        ('DELETED', 'DELETED'),
+        ('ARCHIVED', 'ARCHIVED'),
+        ('REJECTED', 'REJECTED')
+    )
+    product_status = models.CharField(
+        choices=PRODUCT_STATUS,
+        default=PRODUCT_STATUS[0],
+        max_length=30,
+        null=True
+    )
 
     def __str__(self):
         return self.name
@@ -53,4 +69,5 @@ class MasterModel(models.Model):
     class Meta:
         verbose_name = _('Master')
         verbose_name_plural = _('Masters')
+        ordering = ['-id']
 
