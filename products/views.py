@@ -103,6 +103,7 @@ class HouseDetailAPIView(APIView):
 # @parser_classes([MultiPartParser, FormParser])
 class HouseAddCreateAPIView(APIView):
     serializer_class = HomeCreateSerializer
+    parser_classes = [MultiPartParser]
 
     def get_object(self, pk=None):
         if pk:
