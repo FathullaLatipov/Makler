@@ -70,13 +70,17 @@ class LoginView(GenericViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+
+
+
 class UserProfile(APIView):
     get_serializer_class = None
 
-    def get_object(self, user, pk=None):
+    def get_object(self, user, pk=None): #axxaxvaaaxaaaaaa
         houses = HouseModel.objects.filter(creator=user)
-        masters = MasterModel.objects.filter(creator=user)
+        masters = MasterModel.objects.filter(owner=user)
         stores = StoreModel.objects.filter(creator=user)
+
 
         data = {
             'houses': houses,
@@ -85,19 +89,21 @@ class UserProfile(APIView):
         }
         return data
 
+
     def get(self, request, **kwargs):
         announcements = self.get_object(user=request.user)
-        housesserializer = HomeSerializer(announcements.get('houses'), many=True).data()
-        mastersserializer = MasterSerializer(announcements.get('masters'), many=True).data()
-        storesserializer = StoreModelSerializer(announcements.get('stores'), many=True).data()
+        housesserializer = HomeSerializer(announcements.get('houses'), many=True).data
+        mastersserializer = MasterSerializer(announcements.get('masters'), many=True).data
+        storesserializer = StoreModelSerializer(announcements.get('stores'), many=True).data
 
         data = {
-            'announcements': [housesserializer, mastersserializer, storesserializer]
+            'announcements': {'HOUSEMODEL': housesserializer, 'MASTERMODEL': mastersserializer, 'STORAGEMODEL':storesserializer}
         }
         return Response(data, status=200)
-    # shu data ni olib bita view qb ushani ichiga chqarb qoysechi hamma danniy la shunda kevoriyu data da TG go tg ga
 
-    # ishlatib korishimiz kere hurol yozing brnnasalar qling masalan??
+
+
+
 
 
 class UserList(generics.ListAPIView):

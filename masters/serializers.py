@@ -11,8 +11,6 @@ class MasterProfessionModelSerializer(serializers.ModelSerializer):
         fields = ['title']
 
 
-# qaren bita narsa korsataman ok mi? ok boldi
-
 class AddressModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MapModel
@@ -40,10 +38,11 @@ class MasterSerializer(serializers.ModelSerializer):
 class MasterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
-        fields = ['image', 'name', 'email', 'phone', 'address', 'avatar', 'profession', 'images', 'descriptions', 'experience']
+        fields = ['image', 'name', 'email', 'phone', 'address', 'avatar', 'profession', 'images', 'descriptions', 'experience', 'owner',]
+        read_only_fields = ['owner',]
 
-    def create(self, validated_data):
-        mastermodel = MasterModel.objects.create(
+    def create(self, validated_data, owner):
+        mastermodel = MasterModel.objects.create(owner=owner,
                                                  image=validated_data['image'],
                                                  name=validated_data['name'],
                                                  email=validated_data['email'],
@@ -62,8 +61,8 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         context = super().to_representation(instance)
-        context['profession'] = MasterProfessionModelSerializer(instance.profession, many=True).data
-        context['images'] = ImageModelSerializer(instance.images, many=True).data
+        # context['profession'] = MasterProfessionModelSerializer(instance.profession, many=True).data
+        # context['images'] = ImageModelSerializer(instance.images, many=True).data
         return context
 
 

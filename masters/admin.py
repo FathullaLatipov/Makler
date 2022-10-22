@@ -11,7 +11,10 @@ class MasterProfessionModelAdmin(admin.ModelAdmin):
     save_on_top = True
     save_as = True
 
-
+#         for i in validated_data['profession']:
+#             profession = MasterProfessionModel.objects.get(id=i)
+#             mastermodel.profession.add(profession)
+#        profession = MasterProfessionModel.objects.filter(profession=self.instance.id)
 @admin.register(MasterModel)
 class MasterModelAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'phone']

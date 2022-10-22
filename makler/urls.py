@@ -27,7 +27,7 @@ from rest_framework.routers import DefaultRouter
 
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
     HouseDetailAPIView, HouseFavListAPIView, HouseAddCreateAPIView, HouseUpdateAPIView, HouseDestroyAPIView, \
-    HouseImageAPIView
+    HouseImageAPIView, HouseArchiveListAPIView
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -45,6 +45,8 @@ router.register(r'api/v1/store/update', StoreUpdateAPIView)
 router.register(r'api/v1/store/delete', StoreDestroyAPIView)
 
 urlpatterns = [
+    path('master/', include('masters.urls')),
+    # path('user/', include()),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
@@ -58,6 +60,8 @@ urlpatterns = [
     path('api/v1/store/<int:pk>', StoreDetailAPIView.as_view()),
     path('api/v1/fav/', HouseFavListAPIView.as_view()),
     path('api/v1/houses/image/', HouseImageAPIView.as_view()),
+    path('api/v1/houses/archived/', HouseArchiveListAPIView.as_view()),
+    # nega status ARCHIVED KEMAYAPTI qani bowqattan
     # path('api/v1/login', LoginView.as_view()),
     # path('api/v1/auth/', include('djoser.urls.authtoken')),
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

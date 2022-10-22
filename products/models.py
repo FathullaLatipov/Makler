@@ -141,6 +141,7 @@ class HouseModel(models.Model):
         max_length=30,
         null=True
     )
+    # mana models
 
     def __str__(self):
         return self.title

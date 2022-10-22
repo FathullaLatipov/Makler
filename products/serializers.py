@@ -50,7 +50,8 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
+        fields = ['title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address',
+                  'residential', 'number_of_rooms', 'floor', 'floor_from', 'general', 'isBookmarked',
                   'residential', 'amenities', 'images']
         extra_kwargs = {
             'images': {'required': False}
@@ -79,6 +80,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
     #     instance.save()
     #     return instance
 
+
 #  bu homeniki
 class HomeSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
@@ -88,6 +90,16 @@ class HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ['id', 'title', 'category', 'price', 'address', 'isBookmarked', 'created_at', 'product_status']
+
+
+class HomeArchiveSerializer(serializers.ModelSerializer):
+    product_status = serializers.PrimaryKeyRelatedField(
+        queryset=HouseModel.objects.filter(product_status='ARCHIVED')
+    )
+
+    class Meta:
+        model = HouseModel
+        fields = '__all__'
 
 
 class HomeFavSerializer(serializers.ModelSerializer):

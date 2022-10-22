@@ -50,25 +50,24 @@ class MasterAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
         return {'request': self.request}
 
 
-# class MasterAddCreateAPIView(APIView):
-#     serializer_class = MasterCreateSerializer
-#
-#     def get_object(self):
-#         return MasterModel.objects.all()
-#
-#     def get(self, request):
-#         serailizer = self.serializer_class(self.get_object(), many=True)
-#         return Response(serailizer.data, status=200)
-#
-#     def post(self, request):
-#         print(request.user)
-#         serializer = self.serializer_class(data=request.data)
-#         if serializer.is_valid():
-#             serializer.create(validated_data=serializer.validated_data, user=request.user)
-#         return Response(serializer.data)
-#
-#     def get_serializer_context(self):
-#         return {'request': self.request}
+class MasterCreateAPIView(APIView):
+    serializer_class = MasterCreateSerializer
+
+    def get_object(self):
+        return MasterModel.objects.all()
+
+    def get(self, request):
+        serailizer = self.serializer_class(self.get_object(), many=True)
+        return Response(serailizer.data, status=200)
+
+    def post(self, request):
+        print(request.user)
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.create(validated_data=serializer.validated_data, owner=request.user)
+        return Response(serializer.data)
+
+
 
 
 class MasterUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):

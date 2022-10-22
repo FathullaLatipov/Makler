@@ -13,7 +13,7 @@ from rest_framework.decorators import parser_classes
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImageModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
-    HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer
+    HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, HomeArchiveSerializer
 from products.utils import get_wishlist_data
 
 
@@ -80,6 +80,11 @@ def add_to_wishlist(request, pk):
 
     data['wishlist_len'] = get_wishlist_data(wishlist)
     return JsonResponse(data)
+
+
+class HouseArchiveListAPIView(generics.ListAPIView):
+    queryset = HouseModel.objects.order_by('pk')
+    serializer_class = HomeArchiveSerializer
 
 
 class HouseFavListAPIView(generics.ListAPIView):
@@ -195,7 +200,4 @@ class HouseDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-
-#user app bormi alohida daa
-
-        
+# user app bormi alohida daa
