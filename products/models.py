@@ -55,7 +55,7 @@ class HouseModel(models.Model):
     # creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='houses')
     title = models.CharField(max_length=600, verbose_name=_('title'))
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
-                                 related_name=_('category'), null=True
+                                 related_name=_('category'), null=True, blank=True
                                  )
     descriptions = models.TextField(verbose_name=_('descriptions'))
     price = models.CharField(max_length=100, verbose_name=_('price'))
