@@ -43,7 +43,8 @@ class MasterCreateSerializer(serializers.ModelSerializer):
         fields = ['image', 'name', 'email', 'phone', 'address', 'avatar', 'profession', 'images', 'descriptions', 'experience']
 
     def create(self, validated_data):
-        mastermodel = MasterModel.objects.create(image=validated_data['image'],
+        mastermodel = MasterModel.objects.create(
+                                                 image=validated_data['image'],
                                                  name=validated_data['name'],
                                                  email=validated_data['email'],
                                                  phone=validated_data['phone'],
@@ -52,19 +53,12 @@ class MasterCreateSerializer(serializers.ModelSerializer):
                                                  descriptions=validated_data['descriptions'],
                                                  experience=validated_data['experience']
                                                  )
-
         for i in validated_data['profession']:
             mastermodel.profession.add(i.id)
         for j in validated_data['images']:
             mastermodel.images.add(j.id)
         mastermodel.save()
         return mastermodel
-
-    def to_representation(self, instance):
-        context = super().to_representation(instance)
-        context['profession'] = MasterProfessionModelSerializer(instance.profession, many=True).data
-        context['images'] = ImageModelSerializer(instance.images, many=True).data
-        return context
 
     def to_representation(self, instance):
         context = super().to_representation(instance)
@@ -124,7 +118,6 @@ class MasterDetailSerializer(serializers.ModelSerializer):
 # asdasdasd
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    read_only_fields = ['creator']
 
     class Meta:
         model = MasterModel

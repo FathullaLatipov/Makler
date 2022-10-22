@@ -91,14 +91,17 @@ class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
         return self.destroy(request, *args, **kwargs)
 
 
+from rest_framework.authentication import TokenAuthentication
+
+
 class PostList(generics.ListCreateAPIView):
     queryset = MasterModel.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [AllowAny, ]
-
-    def perform_create(self, serializer):
-        print(serializer)
-        serializer.save(owner=self.request.owner)
+    authentication_classes = [TokenAuthentication]
+    # def perform_create(self, serializer):
+    #     print(serializer)
+    #     print('+++==+++++', self.request.user.is_authenticated)
+    #     serializer.save(owner=self.request.user)
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):

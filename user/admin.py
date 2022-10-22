@@ -10,13 +10,13 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('pk', 'phone_number',),
+            'fields': ('pk', 'phone_number', 'is_superuser'),
         }),
     )
     fieldsets = (
         (None, {
             "fields": (
-                ('phone_number',),
+                ('phone_number', 'is_superuser', 'is_staff'),
             ),
         }),
     )

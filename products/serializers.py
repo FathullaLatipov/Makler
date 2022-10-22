@@ -42,18 +42,19 @@ class ImageSerializer(serializers.Serializer):
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
+    images = serializers.FileField()
+
     class Meta:
         model = ImagesModel
         fields = ['image', ]
 
     class Meta:
         model = HouseModel
-        fields = ['creator', 'title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
+        fields = ['title', 'category', 'descriptions', 'price', 'type', 'rental_type', 'object', 'address', 'general',
                   'residential', 'amenities', 'images']
         extra_kwargs = {
             'images': {'required': False}
         }
-        read_only_fields = ['creator',]
 
     def to_representation(self, instance):
         context = super().to_representation(instance)
@@ -64,7 +65,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
         return context
 
     def get_img_url(self, obj):
-        return self.context['request'].build_absolute_url(obj.images.url)
+        return self.context['request'].build_absolute_url(obj.image.url)
     # def update(self, instance, validated_data):
     #     instance.title = validated_data.get("title", instance.title)
     #     instance.descriptions = validated_data.get("descriptions", instance.descriptions)

@@ -21,7 +21,7 @@ from masters.views import MasterListAPIView, MasterDetailAPIView, MasterUpdateAP
     MasterDestroyAPIView, PostList, PostDetail, MasterAddCreateAPIView
 from store.views import StoreModelAPIView, StoreDetailAPIView, StoreAddCreateAPIView, StoreUpdateAPIView, \
     StoreDestroyAPIView
-from user.views import UserDetail, UserList
+from user.views import UserDetail, UserList, LoginView
 from .yasg import urlpatterns as doc_urls
 from rest_framework.routers import DefaultRouter
 
@@ -33,6 +33,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 router = DefaultRouter()
+router.register('login', LoginView, 'auth')
 router.register(r'api/v1/maklers/create', MasterAddCreateAPIView)
 router.register(r'api/v1/maklers/update', MasterUpdateAPIView)
 router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)
@@ -57,7 +58,8 @@ urlpatterns = [
     path('api/v1/store/<int:pk>', StoreDetailAPIView.as_view()),
     path('api/v1/fav/', HouseFavListAPIView.as_view()),
     path('api/v1/houses/image/', HouseImageAPIView.as_view()),
-    path('api/v1/auth/', include('djoser.urls.authtoken')),
+    # path('api/v1/login', LoginView.as_view()),
+    # path('api/v1/auth/', include('djoser.urls.authtoken')),
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

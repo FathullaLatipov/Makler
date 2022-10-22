@@ -97,6 +97,11 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
 
 
+class LoginSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(required=True)
+    password = serializers.CharField()
+
+
 class UserSerializer(serializers.ModelSerializer):
     posts = MasterSerializer(many=True)
     houses = HomeSerializer(many=True)
