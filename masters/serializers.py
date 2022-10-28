@@ -5,25 +5,28 @@ from user.models import CustomUser
 from .models import MasterModel, MasterProfessionModel, MasterImagesModel
 
 
+# master profiessions
 class MasterProfessionModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterProfessionModel
         fields = ['title']
 
 
+# master address
 class AddressModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MapModel
         exclude = ['id', 'created_at']
 
 
+# master images
 class ImageModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterImagesModel
         exclude = ['id']
 
 
-# bu masterniki all masters
+# all masters
 class MasterSerializer(serializers.ModelSerializer):
     profession = MasterProfessionModelSerializer(many=True)
     address = AddressModelSerializer()
@@ -36,10 +39,16 @@ class MasterSerializer(serializers.ModelSerializer):
 
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
+    profession = MasterProfessionModelSerializer(many=True)
+    address = AddressModelSerializer()
+    images = ImageModelSerializer(many=True)
+
     class Meta:
         model = MasterModel
-        fields = ['image', 'name', 'email', 'phone', 'address', 'avatar', 'profession', 'images', 'descriptions', 'experience', 'owner',]
-        read_only_fields = ['owner',]
+        fields = ['image', 'name', 'email', 'phone', 'address', 'avatar', 'profession', 'images',
+                  'descriptions', 'experience', 'owner',
+                  ]
+        read_only_fields = ['owner', ]
 
     def create(self, validated_data, owner):
         mastermodel = MasterModel.objects.create(owner=owner,
@@ -58,6 +67,13 @@ class MasterCreateSerializer(serializers.ModelSerializer):
             mastermodel.images.add(j.id)
         mastermodel.save()
         return mastermodel
+
+    def get_img_url(self, obj):
+        urls = []
+        for i in obj.images.all():
+            myurl = self.context['request'].build_absolute_uri(i.image.url)
+            urls.append(myurl)
+        return urls
 
     def to_representation(self, instance):
         context = super().to_representation(instance)

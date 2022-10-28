@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.authentication import TokenAuthentication
 
 from products.utils import get_wishlist_data
 from .models import MasterModel
@@ -41,13 +42,13 @@ class MasterDetailAPIView(APIView):
         serializer = MasterDetailSerializer(products, context={'request': request})
         return Response(serializer.data)
 
-
-class MasterAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
-    queryset = MasterModel.objects.all()
-    serializer_class = MasterCreateSerializer
-
-    def get_serializer_context(self):
-        return {'request': self.request}
+#
+# class MasterAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
+#     queryset = MasterModel.objects.all()
+#     serializer_class = MasterCreateSerializer
+#
+#     def get_serializer_context(self):
+#         return {'request': self.request}
 
 
 class MasterCreateAPIView(APIView):
@@ -57,11 +58,10 @@ class MasterCreateAPIView(APIView):
         return MasterModel.objects.all()
 
     def get(self, request):
-        serailizer = self.serializer_class(self.get_object(), many=True)
+        serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
         return Response(serailizer.data, status=200)
 
     def post(self, request):
-        print(request.user)
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.create(validated_data=serializer.validated_data, owner=request.user)
@@ -90,7 +90,7 @@ class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
         return self.destroy(request, *args, **kwargs)
 
 
-from rest_framework.authentication import TokenAuthentication
+
 
 
 class PostList(generics.ListCreateAPIView):

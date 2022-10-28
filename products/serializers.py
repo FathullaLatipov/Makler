@@ -13,7 +13,14 @@ class CategorySerializer(serializers.ModelSerializer):
 class AmenitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AmenitiesModel
-        fields = ['title', 'created_at']
+        fields = ['title', 'image', 'created_at']
+
+
+# web
+class WebAmenitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AmenitiesModel
+        fields = ['title', 'image', 'created_at']
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -90,6 +97,20 @@ class HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ['id', 'title', 'category', 'price', 'address', 'isBookmarked', 'created_at', 'product_status']
+
+
+# web
+class WebHomeSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+    # image = HomeImageSerializer(many=True)
+    category = CategorySerializer()
+
+    class Meta:
+        model = HouseModel
+        fields = ['id', 'title', 'category', 'price', 'address',
+                  'web_type', 'web_rental_type', 'web_object', 'web_building_type',
+                  'isBookmarked', 'created_at', 'product_status'
+                  ]
 
 
 class HomeArchiveSerializer(serializers.ModelSerializer):

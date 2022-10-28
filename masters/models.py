@@ -13,16 +13,16 @@ class MasterProfessionModel(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = _('profession')
-        verbose_name_plural = _('professions')
+        verbose_name = _('Профессия')
+        verbose_name_plural = _('Профессии')
 
 
 class MasterImagesModel(models.Model):
     image = models.FileField(upload_to='master_images', verbose_name=_('image'))
 
     class Meta:
-        verbose_name = _('master_image')
-        verbose_name_plural = _('master_images')
+        verbose_name = _('Изображения для мастера')
+        verbose_name_plural = _('Изображения для мастеров')
 
 
 class MasterModel(models.Model):
@@ -67,7 +67,7 @@ class MasterModel(models.Model):
         return MasterModel.objects.filter(pk__in=wishlist)
 
     class Meta:
-        verbose_name = _('Master')
-        verbose_name_plural = _('Masters')
+        verbose_name = _('Мастер')
+        verbose_name_plural = _('Мастеры')
         ordering = ['-id']
 

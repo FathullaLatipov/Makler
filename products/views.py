@@ -13,7 +13,8 @@ from rest_framework.decorators import parser_classes
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImageModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
-    HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, HomeArchiveSerializer
+    HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, HomeArchiveSerializer, \
+    WebAmenitiesSerializer, WebHomeSerializer
 from products.utils import get_wishlist_data
 
 
@@ -27,6 +28,13 @@ class AmenitiesListAPIView(generics.ListAPIView):
     ''' Удобства (Amenities in product)'''
     queryset = AmenitiesModel.objects.order_by('pk')
     serializer_class = AmenitiesSerializer
+
+
+# web
+class WebAmenitiesListAPIView(generics.ListAPIView):
+    ''' web amenities '''
+    queryset = AmenitiesModel.objects.order_by('-pk')
+    serializer_class = WebAmenitiesSerializer
 
 
 class HouseImageAPIView(APIView):
@@ -62,6 +70,31 @@ class HouseListAPIView(generics.ListAPIView):
     ''' Products (Houses)'''
     queryset = HouseModel.objects.filter(draft=False)
     serializer_class = HomeSerializer
+
+
+def add_to_wishlist(request, pk):
+    try:
+        product = HouseModel.objects.get(pk=pk)
+    except HouseModel.DoesNotExist:
+        return Response(data={'status': False})
+    wishlist = request.session.get('wishlist', [])
+    if product.pk in wishlist:
+        wishlist.remove(product.pk)
+        data = {'status': True, 'added': False}
+    else:
+        wishlist.append(product.pk)
+        data = {'status': True, 'added': True}
+    request.session['wishlist'] = wishlist
+
+    data['wishlist_len'] = get_wishlist_data(wishlist)
+    return JsonResponse(data)
+
+
+# web WebHomeSerializer
+class WebHouseListAPIView(generics.ListAPIView):
+    ''' Products (Houses)'''
+    queryset = HouseModel.objects.filter(draft=False)
+    serializer_class = WebHomeSerializer
 
 
 def add_to_wishlist(request, pk):
@@ -139,12 +172,28 @@ class HouseAddCreateAPIView(APIView):
         for img_name in image:
             img = ImagesModel.objects.create(image=img_name)
             house.images.add(img)
-        # for i in request.data['amenities']:
-        #     house.amenities.add(int(i))
+            # for i in request.data['amenities']:
+            #     house.amenities.add(int(i))
             house.save()
 
         return Response(self.serializer_class(house).data, status=status.HTTP_201_CREATED)
 
+
+# class NewHouseCreateAPIView(APIView):
+#     serializer_class = HomeCreateSerializer
+#
+#     def get_object(self):
+#         return HouseModel.objects.all()
+#
+#     def get(self, request):
+#         serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
+#         return Response(serailizer.data, status=200)
+#
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         if serializer.is_valid():
+#             serializer.create(validated_data=serializer.validated_data, creator=request.user)
+#         return Response(serializer.data)
 
 # class HouseAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
 #     queryset = HouseModel.objects.all()

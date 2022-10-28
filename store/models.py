@@ -42,8 +42,8 @@ class StoreModel(models.Model):
         return StoreModel.objects.filter(pk__in=wishlist)
 
     class Meta:
-        verbose_name = _('Store')
-        verbose_name_plural = _('Stores')
+        verbose_name = _('Обустройствo дома')
+        verbose_name_plural = _('Обустройствo дома')
         ordering = ['-id']
 
 

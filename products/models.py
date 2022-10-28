@@ -14,20 +14,21 @@ class CategoryModel(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = _('category')
-        verbose_name_plural = _('categories')
+        verbose_name = _('Категория')
+        verbose_name_plural = _('Категории')
 
 
 class AmenitiesModel(models.Model):
     title = models.CharField(max_length=300, verbose_name=_('title'))
+    image = models.FileField(upload_to='amenities_images')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = _('All_amenities')
-        verbose_name_plural = _('All_amenities')
+        verbose_name = _('Все удобства')
+        verbose_name_plural = _('Все удобства')
 
 
 class MapModel(models.Model):
@@ -40,8 +41,8 @@ class MapModel(models.Model):
         return self.addressName
 
     class Meta:
-        verbose_name = _('Map')
-        verbose_name_plural = _('Maps')
+        verbose_name = _('Карта')
+        verbose_name_plural = _('Карты')
 
 
 class ImagesModel(models.Model):
@@ -52,7 +53,7 @@ class ImagesModel(models.Model):
 
 
 class HouseModel(models.Model):
-    # creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='houses')
+    creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses')
     title = models.CharField(max_length=600, verbose_name=_('title'))
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
                                  related_name=_('category'), null=True, blank=True
@@ -70,6 +71,10 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
+    web_type = models.CharField(max_length=400, verbose_name=_('web_type'), null=True)
+    web_rental_type = models.CharField(max_length=500, verbose_name=_('web_rental_type'), null=True)
+    web_object = models.CharField(max_length=300, verbose_name=_('web_object'), null=True)
+    web_building_type = models.CharField(max_length=600, verbose_name=_('web_building_type'), null=True)
     RENTAL_TYPE = (
         ('long_time', 'Long_time'),
         ('several_months', 'Several_months'),
@@ -102,7 +107,6 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
-    # kim yaratgani qayerda uni hali qowmaganman
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
     images = models.ManyToManyField(ImagesModel, null=True, blank=True)
     general = models.CharField(max_length=90, verbose_name=_('general'))
@@ -156,8 +160,8 @@ class HouseModel(models.Model):
     #     return [{'rental_type': self.rental_type}, ['object', self.object], ['building_type', self.building_type]]
 
     class Meta:
-        verbose_name = _('House')
-        verbose_name_plural = _('Houses')
+        verbose_name = _('Маклер, (квартиры и т.д)')
+        verbose_name_plural = _('Маклер, (квартиры и т.д)')
         ordering = ['-id']
 
 
@@ -168,8 +172,8 @@ class HouseImageModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     class Meta:
-        verbose_name = _('house_image')
-        verbose_name_plural = _('house_images')
+        verbose_name = _('Изображения маклер (квартиры и т.д)')
+        verbose_name_plural = _('Изображения маклер (квартиры и т.д)')
 
 #
 # class HouseOptionsModel(models.Model):

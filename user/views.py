@@ -76,16 +76,15 @@ class LoginView(GenericViewSet):
 class UserProfile(APIView):
     get_serializer_class = None
 
-    def get_object(self, user, pk=None): #axxaxvaaaxaaaaaa
+    def get_object(self, user, pk=None):
         houses = HouseModel.objects.filter(creator=user)
         masters = MasterModel.objects.filter(owner=user)
         stores = StoreModel.objects.filter(creator=user)
 
-
         data = {
             'houses': houses,
             'masters': masters,
-            'stores': stores
+            'stores': stores,
         }
         return data
 
@@ -100,10 +99,6 @@ class UserProfile(APIView):
             'announcements': {'HOUSEMODEL': housesserializer, 'MASTERMODEL': mastersserializer, 'STORAGEMODEL':storesserializer}
         }
         return Response(data, status=200)
-
-
-
-
 
 
 class UserList(generics.ListAPIView):

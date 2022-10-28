@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from masters.views import MasterListAPIView, MasterDetailAPIView, MasterUpdateAPIView, \
-    MasterDestroyAPIView, PostList, PostDetail, MasterAddCreateAPIView
+    MasterDestroyAPIView, PostList, PostDetail
 from store.views import StoreModelAPIView, StoreDetailAPIView, StoreAddCreateAPIView, StoreUpdateAPIView, \
     StoreDestroyAPIView
 from user.views import UserDetail, UserList, LoginView
@@ -26,15 +26,15 @@ from .yasg import urlpatterns as doc_urls
 from rest_framework.routers import DefaultRouter
 
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
-    HouseDetailAPIView, HouseFavListAPIView, HouseAddCreateAPIView, HouseUpdateAPIView, HouseDestroyAPIView, \
-    HouseImageAPIView, HouseArchiveListAPIView
+    HouseDetailAPIView, HouseFavListAPIView, HouseUpdateAPIView, HouseDestroyAPIView, \
+    HouseImageAPIView, HouseArchiveListAPIView, WebAmenitiesListAPIView, HouseAddCreateAPIView, WebHouseListAPIView
 
 from django.conf.urls.static import static
 from django.conf import settings
 
 router = DefaultRouter()
 router.register('login', LoginView, 'auth')
-router.register(r'api/v1/maklers/create', MasterAddCreateAPIView)
+# router.register(r'api/v1/maklers/create', MasterAddCreateAPIView)
 router.register(r'api/v1/maklers/update', MasterUpdateAPIView)
 router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)
 # router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
@@ -51,9 +51,11 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/houses/', HouseListAPIView.as_view()),
+    path('api/v1/web-houses/', WebHouseListAPIView.as_view()),
     path('api/v1/houses/create/', HouseAddCreateAPIView.as_view()),
     path('api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
+    path('api/v1/web-amenities/', WebAmenitiesListAPIView.as_view()),
     path('api/v1/maklers/', MasterListAPIView.as_view()),
     path('api/v1/maklers/<int:pk>', MasterDetailAPIView.as_view()),
     path('api/v1/store/', StoreModelAPIView.as_view()),
