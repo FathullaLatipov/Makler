@@ -46,5 +46,3 @@ class StoreModel(models.Model):
         verbose_name_plural = _('Обустройствo дома')
         ordering = ['-id']
 
-
-#HOUSE model qani endi products

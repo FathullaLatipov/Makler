@@ -21,7 +21,7 @@ from masters.views import MasterListAPIView, MasterDetailAPIView, MasterUpdateAP
     MasterDestroyAPIView, PostList, PostDetail
 from store.views import StoreModelAPIView, StoreDetailAPIView, StoreAddCreateAPIView, StoreUpdateAPIView, \
     StoreDestroyAPIView
-from user.views import UserDetail, UserList, LoginView
+from user.views import UserDetail, UserList, LoginView, UserViewSet
 from .yasg import urlpatterns as doc_urls
 from rest_framework.routers import DefaultRouter
 
@@ -34,6 +34,7 @@ from django.conf import settings
 
 router = DefaultRouter()
 router.register('login', LoginView, 'auth')
+router.register('signup', UserViewSet, 'register')
 # router.register(r'api/v1/maklers/create', MasterAddCreateAPIView)
 router.register(r'api/v1/maklers/update', MasterUpdateAPIView)
 router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)

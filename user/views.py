@@ -21,18 +21,26 @@ from store.serializers import StoreModelSerializer
 from .serializers import RegistrationSerializer, MyTokenObtainPairSerializer, UserSerializer, LoginSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(GenericViewSet):
     ''' Регистрация юзера '''
     queryset = CustomUser.objects.all()
     serializer_class = RegistrationSerializer
 
-    def create(self, request):
-        serializer = RegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": True})
-        else:
-            return Response(serializer.errors)
+    # @action(['POST'], detail=False, permission_classes=[permissions.AllowAny])
+    def create(self, request: Request):
+        self.serializer_class = RegistrationSerializer
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        phone_number = serializer.validated_data['phone_number']
+        token, created = CustomUser.objects.get_or_create(phone_number=phone_number)
+        return Response({'token': token.tokens()})
+
+    #
+    @action(['DELETE'], detail=False, permission_classes=[IsAuthenticated])
+    def logout(self, request: Request):
+        Token.objects.get(user=request.user).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 
 # class LoginView(TokenObtainPairView):
@@ -70,9 +78,6 @@ class LoginView(GenericViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-
-
 class UserProfile(APIView):
     get_serializer_class = None
 
@@ -88,7 +93,6 @@ class UserProfile(APIView):
         }
         return data
 
-
     def get(self, request, **kwargs):
         announcements = self.get_object(user=request.user)
         housesserializer = HomeSerializer(announcements.get('houses'), many=True).data
@@ -96,7 +100,8 @@ class UserProfile(APIView):
         storesserializer = StoreModelSerializer(announcements.get('stores'), many=True).data
 
         data = {
-            'announcements': {'HOUSEMODEL': housesserializer, 'MASTERMODEL': mastersserializer, 'STORAGEMODEL':storesserializer}
+            'announcements': {'HOUSEMODEL': housesserializer, 'MASTERMODEL': mastersserializer,
+                              'STORAGEMODEL': storesserializer}
         }
         return Response(data, status=200)
 
