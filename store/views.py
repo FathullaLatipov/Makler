@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, mixins
+from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
@@ -40,12 +41,30 @@ class StoreDetailAPIView(APIView):
         return Response(serializer.data)
 
 
-class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
-    queryset = StoreModel.objects.all()
-    serializer_class = StoreModelSerializer
+# class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
+#     queryset = StoreModel.objects.all()
+#     serializer_class = StoreModelSerializer
+#
+#     def get_serializer_context(self):
+#         return {'request': self.request}
 
-    def get_serializer_context(self):
-        return {'request': self.request}
+class StoreAddCreateAPIView(APIView):
+    serializer_class = StoreModelSerializer
+    parser_classes = [MultiPartParser]
+
+    def get_object(self):
+        return StoreModel.objects.all()
+
+    def get(self, request):
+        serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
+        return Response(serailizer.data, status=200)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.create(validated_data=serializer.validated_data, creator=request.user)
+        return Response(serializer.data)
+
 
 
 class StoreUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):

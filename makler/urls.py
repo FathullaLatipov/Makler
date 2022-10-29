@@ -41,7 +41,7 @@ router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)
 # router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
 router.register(r'api/v1/houses/update', HouseUpdateAPIView)
 router.register(r'api/v1/houses/delete', HouseDestroyAPIView)
-router.register(r'api/v1/store/create', StoreAddCreateAPIView)
+# router.register(r'api/v1/store/create', StoreAddCreateAPIView)
 router.register(r'api/v1/store/update', StoreUpdateAPIView)
 router.register(r'api/v1/store/delete', StoreDestroyAPIView)
 
@@ -61,6 +61,7 @@ urlpatterns = [
     path('api/v1/maklers/<int:pk>', MasterDetailAPIView.as_view()),
     path('api/v1/store/', StoreModelAPIView.as_view()),
     path('api/v1/store/<int:pk>', StoreDetailAPIView.as_view()),
+    path('api/v1/store/create/', StoreAddCreateAPIView.as_view()),
     path('api/v1/fav/', HouseFavListAPIView.as_view()),
     path('api/v1/houses/image/', HouseImageAPIView.as_view()),
     path('api/v1/houses/archived/', HouseArchiveListAPIView.as_view()),

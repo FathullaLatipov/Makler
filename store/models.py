@@ -5,7 +5,7 @@ from user.models import CustomUser
 
 
 class StoreModel(models.Model):
-    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='stores', null=True)
+    creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='stores')
     name = models.CharField(max_length=200, verbose_name=_('name'))
     description = models.TextField()
     image = models.FileField(upload_to='store_images', verbose_name=_('image'))

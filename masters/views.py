@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, mixins
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -53,6 +54,7 @@ class MasterDetailAPIView(APIView):
 
 class MasterCreateAPIView(APIView):
     serializer_class = MasterCreateSerializer
+    parser_classes = [MultiPartParser]
 
     def get_object(self):
         return MasterModel.objects.all()
