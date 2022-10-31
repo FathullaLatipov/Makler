@@ -38,7 +38,7 @@ router.register('signup', UserViewSet, 'register')
 # router.register(r'api/v1/maklers/create', MasterAddCreateAPIView)
 router.register(r'api/v1/maklers/update', MasterUpdateAPIView)
 router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)
-# router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
+router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
 router.register(r'api/v1/houses/update', HouseUpdateAPIView)
 router.register(r'api/v1/houses/delete', HouseDestroyAPIView)
 # router.register(r'api/v1/store/create', StoreAddCreateAPIView)
@@ -53,7 +53,7 @@ urlpatterns = [
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/houses/', HouseListAPIView.as_view()),
     path('api/v1/web-houses/', WebHouseListAPIView.as_view()),
-    path('api/v1/houses/create/', HouseAddCreateAPIView.as_view()),
+    # path('api/v1/houses/create/', HouseAddCreateAPIView.as_view()),
     path('api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
     path('api/v1/web-amenities/', WebAmenitiesListAPIView.as_view()),

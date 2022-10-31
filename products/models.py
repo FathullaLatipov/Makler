@@ -108,7 +108,7 @@ class HouseModel(models.Model):
         blank=True,
     )
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
-    images = models.ManyToManyField(ImagesModel, null=True, blank=True)
+    # images = models.ManyToManyField(ImagesModel, null=True, blank=True)
     general = models.CharField(max_length=90, verbose_name=_('general'))
     residential = models.CharField(max_length=90, verbose_name=_('residential'))
     number_of_rooms = models.CharField(max_length=30, verbose_name=_('number_of_rooms'))
@@ -162,6 +162,11 @@ class HouseModel(models.Model):
         verbose_name = _('Маклер, (квартиры и т.д)')
         verbose_name_plural = _('Маклер, (квартиры и т.д)')
         ordering = ['-id']
+
+
+class NewHouseImages(models.Model):
+    product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, related_name='images')
+    images = models.FileField(upload_to='API/images', max_length=100, null=True)
 
 
 class HouseImageModel(models.Model):

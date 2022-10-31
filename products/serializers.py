@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from products.helpers import modify_input_for_multiple_files
-from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel
+from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel, \
+    NewHouseImages
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -41,43 +42,39 @@ class HomeImageSerializer(serializers.ModelSerializer):
 # class ImagesModelSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model =
+# class ImageSerializer(serializers.Serializer):
+#     image = serializers.FileField(use_url=True)
+#
+#
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ImagesModel
-        fields = ['image',]
+        model = NewHouseImages
+        fields = ['images']
 
     def get_img_url(self, obj):
         return self.context['request'].build_absolute_url(obj.image.url)
 
 
 class NewHomeCreateSerializer(serializers.ModelSerializer):
-    image = serializers.FileField(required=True)
+    images = ImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.FileField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
 
     class Meta:
         model = HouseModel
-        fields = ('title', 'descriptions', 'price', 'address', 'image', 'residential', 'number_of_rooms', 'floor', 'floor_from', 'general', 'isBookmarked',
-                  'images',)
-        extra_kwargs = {
-            'images': {'required': False, "read_only": True}
-        }
-    # manaqa qsechi? hozi
-    def create(self, validated_data, creator, imagelist):
-        housemodel = HouseModel.objects.create(creator=creator,
-                                               title=validated_data['title'],
-                                               descriptions=validated_data['descriptions'],
-                                               price=validated_data['price'],
-                                               address=validated_data['address'],
-                                               residential=validated_data['residential'],
-                                               number_of_rooms=validated_data['number_of_rooms'],
-                                               floor=validated_data['floor'],
-                                               floor_from=validated_data['floor_from'],
-                                               general=validated_data['general'],
-                                               )
-        for img_name in imagelist:
-            img = ImagesModel.objects.create(image=img_name)
-            housemodel.images.add(img)
-        housemodel.save()
-        return housemodel
+        fields = ('title', 'descriptions', 'price', 'address', 'residential', 'number_of_rooms',
+                  'floor', 'floor_from', 'general', 'isBookmarked',
+                  'images', 'uploaded_images', 'creator')
+        extra_kwargs = {"user": {"read_only": True}}
+
+    def create(self, validated_data):
+        uploaded_data = validated_data.pop('uploaded_images')
+        new_product = HouseModel.objects.create(**validated_data)
+        for uploaded_item in uploaded_data:
+            new_product_image = NewHouseImages.objects.create(product=new_product, images=uploaded_item)
+        return new_product
 
     def get_img_url(self, obj):
         urls = []
@@ -86,11 +83,14 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
             urls.append(myurl)
         return urls
 
-    def to_representation(self, instance):
-        context = super().to_representation(instance)
-        print('+++++++++++++++++++++++', instance.images.all())
-        context['images'] = ImageSerializer(instance.images.all(), many=True).data
-        return context
+    def save(self, **kwargs):
+        kwargs["creator"] = self.fields["creator"].get_default()
+        return super().save(**kwargs)
+
+        # def to_representation(self, instance):
+    #     context = super().to_representation(instance)
+    #     context['images'] = ImageSerializer(instance.images, many=True).data
+    #     return context
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):

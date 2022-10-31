@@ -1,10 +1,11 @@
 from django.http import JsonResponse
 from rest_framework import generics, mixins, status
+from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from masters.models import MasterModel
 from store.models import StoreModel
@@ -140,27 +141,16 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 
-class HouseAddCreateAPIView(APIView):
-    # queryset = HouseModel.objects.all()
+class HouseAddCreateAPIView(ModelViewSet):
+    queryset = HouseModel.objects.all()
     serializer_class = NewHomeCreateSerializer
     parser_classes = [MultiPartParser]
-    # pagination_class = StandardResultsSetPagination
+    pagination_class = StandardResultsSetPagination
+    search_fields = ['title', 'description']
 
-    def get_object(self):
-        return HouseModel.objects.all()
+    def get_serializer_context(self):
+        return {'request': self.request}
 
-    def get(self, request):
-        serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
-        return Response(serailizer.data, status=200)
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            imagelist = request.FILES.getlist('images')
-            serializer.create(validated_data=serializer.validated_data,
-                              creator=request.user, imagelist=imagelist,
-                              )
-        return Response(serializer.data)
 
 
 # @parser_classes([MultiPartParser, FormParser])
