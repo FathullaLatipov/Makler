@@ -41,11 +41,56 @@ class HomeImageSerializer(serializers.ModelSerializer):
 # class ImagesModelSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model =
-class ImageSerializer(serializers.Serializer):
-    image = serializers.FileField()
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImagesModel
+        fields = ['image',]
 
     def get_img_url(self, obj):
         return self.context['request'].build_absolute_url(obj.image.url)
+
+
+class NewHomeCreateSerializer(serializers.ModelSerializer):
+    image = serializers.FileField(required=True)
+
+    class Meta:
+        model = HouseModel
+        fields = ('title', 'descriptions', 'price', 'address', 'image', 'residential', 'number_of_rooms', 'floor', 'floor_from', 'general', 'isBookmarked',
+                  'images',)
+        extra_kwargs = {
+            'images': {'required': False, "read_only": True}
+        }
+    # manaqa qsechi? hozi
+    def create(self, validated_data, creator, imagelist):
+        housemodel = HouseModel.objects.create(creator=creator,
+                                               title=validated_data['title'],
+                                               descriptions=validated_data['descriptions'],
+                                               price=validated_data['price'],
+                                               address=validated_data['address'],
+                                               residential=validated_data['residential'],
+                                               number_of_rooms=validated_data['number_of_rooms'],
+                                               floor=validated_data['floor'],
+                                               floor_from=validated_data['floor_from'],
+                                               general=validated_data['general'],
+                                               )
+        for img_name in imagelist:
+            img = ImagesModel.objects.create(image=img_name)
+            housemodel.images.add(img)
+        housemodel.save()
+        return housemodel
+
+    def get_img_url(self, obj):
+        urls = []
+        for i in obj.images.all():
+            myurl = self.context['request'].build_absolute_uri(i.image.url)
+            urls.append(myurl)
+        return urls
+
+    def to_representation(self, instance):
+        context = super().to_representation(instance)
+        print('+++++++++++++++++++++++', instance.images.all())
+        context['images'] = ImageSerializer(instance.images.all(), many=True).data
+        return context
 
 
 class HomeCreateSerializer(serializers.ModelSerializer):
@@ -67,7 +112,7 @@ class HomeCreateSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         context = super().to_representation(instance)
         # context['amenities'] = AmenitiesSerializer(instance.amenities, many=True).data
-        context['images'] = ImageSerializer(instance.images, many=True).data
+        # context['images'] = ImageSerializer(instance.images, many=True).data
         # context['category'] = CategorySerializer(instance.category).data
         context['address'] = AddressSerializer(instance.address).data
         return context
