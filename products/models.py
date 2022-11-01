@@ -166,13 +166,13 @@ class HouseModel(models.Model):
 
 class NewHouseImages(models.Model):
     product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, related_name='images')
-    images = models.FileField(upload_to='API/images', max_length=100, null=True)
+    images = models.ImageField(upload_to='API/images', max_length=100, null=True)
 
 
 class HouseImageModel(models.Model):
     property_id = models.ForeignKey(HouseModel, null=False, default=1, on_delete=models.CASCADE,
                                     related_name='pr_images')
-    image = models.FileField(upload_to='house_images', verbose_name=_('image'))
+    image = models.ImageField(upload_to='house_images', verbose_name=_('image'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     class Meta:

@@ -1,4 +1,6 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
+from rest_framework.decorators import action
 
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel, \
@@ -58,17 +60,20 @@ class ImageSerializer(serializers.ModelSerializer):
 class NewHomeCreateSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
-        child=serializers.FileField(max_length=1000000, allow_empty_file=False, use_url=False),
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
+    # address = AddressSerializer()
 
     class Meta:
         model = HouseModel
-        fields = ('title', 'descriptions', 'price', 'address', 'residential', 'number_of_rooms',
+        fields = ('title', 'descriptions', 'price', 'residential', 'number_of_rooms',
                   'floor', 'floor_from', 'general', 'isBookmarked',
-                  'images', 'uploaded_images', 'creator')
+                  'images', 'uploaded_images',)
         extra_kwargs = {"user": {"read_only": True}}
 
+    @swagger_auto_schema(operation_description='Upload file...', )
+    @action(detail=False, methods=['post'])
     def create(self, validated_data):
         uploaded_data = validated_data.pop('uploaded_images')
         new_product = HouseModel.objects.create(**validated_data)
@@ -83,9 +88,9 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
             urls.append(myurl)
         return urls
 
-    def save(self, **kwargs):
-        kwargs["creator"] = self.fields["creator"].get_default()
-        return super().save(**kwargs)
+    # def save(self, **kwargs):
+    #     kwargs["creator"] = self.fields["creator"].get_default()
+    #     return super().save(**kwargs)
 
         # def to_representation(self, instance):
     #     context = super().to_representation(instance)

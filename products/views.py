@@ -1,8 +1,9 @@
 from django.http import JsonResponse
 from rest_framework import generics, mixins, status
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
+from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -144,13 +145,11 @@ class StandardResultsSetPagination(PageNumberPagination):
 class HouseAddCreateAPIView(ModelViewSet):
     queryset = HouseModel.objects.all()
     serializer_class = NewHomeCreateSerializer
-    parser_classes = [MultiPartParser]
     pagination_class = StandardResultsSetPagination
     search_fields = ['title', 'description']
 
     def get_serializer_context(self):
         return {'request': self.request}
-
 
 
 # @parser_classes([MultiPartParser, FormParser])
