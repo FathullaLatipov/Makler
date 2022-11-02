@@ -70,7 +70,7 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
         fields = ('title', 'descriptions', 'price', 'residential', 'number_of_rooms',
                   'floor', 'floor_from', 'general', 'isBookmarked',
                   'images', 'uploaded_images',)
-        extra_kwargs = {"user": {"read_only": True}}
+        # extra_kwargs = {"user": {"read_only": True}}
 
     @swagger_auto_schema(operation_description='Upload file...', )
     @action(detail=False, methods=['post'])
