@@ -68,7 +68,7 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ('title', 'descriptions', 'price', 'residential', 'number_of_rooms',
-                  'floor', 'floor_from', 'general', 'isBookmarked',
+                  'floor', 'floor_from', 'general', 'web_type', 'web_rental_type', 'web_object', 'web_building_type', 'isBookmarked',
                   'images', 'uploaded_images',)
         # extra_kwargs = {"user": {"read_only": True}}
 
