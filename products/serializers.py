@@ -152,14 +152,19 @@ class HomeSerializer(serializers.ModelSerializer):
 # web
 class WebHomeSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
+    images = ImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
     # image = HomeImageSerializer(many=True)
-    category = CategorySerializer()
+    # category = CategorySerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'category', 'price', 'address',
+        fields = ['id', 'title', 'price', 'address',
                   'web_type', 'web_rental_type', 'web_object', 'web_building_type',
-                  'isBookmarked', 'created_at', 'product_status'
+                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images',
                   ]
 
 
