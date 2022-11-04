@@ -53,7 +53,8 @@ class ImagesModel(models.Model):
 
 
 class HouseModel(models.Model):
-    creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True, blank=True)
+    creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True,
+                                blank=True)
     title = models.CharField(max_length=600, verbose_name=_('title'))
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
                                  related_name=_('category'), null=True, blank=True
@@ -167,6 +168,19 @@ class HouseModel(models.Model):
 class NewHouseImages(models.Model):
     product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, related_name='images')
     images = models.ImageField(upload_to='API/images', max_length=100, null=True)
+
+
+class PriceListModel(models.Model):
+    product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, related_name='price_type')
+    price = models.CharField(max_length=10, verbose_name=_('price'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.price
+
+    class Meta:
+        verbose_name = _('Цена')
+        verbose_name_plural = _('Цены')
 
 
 class HouseImageModel(models.Model):

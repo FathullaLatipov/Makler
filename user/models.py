@@ -56,4 +56,3 @@ class CustomUser(AbstractUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
-    # Ertaga qlamz plss oka hozi qliylik a tohten hozi

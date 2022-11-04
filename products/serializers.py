@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel, \
-    NewHouseImages
+    NewHouseImages, PriceListModel
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -23,7 +23,13 @@ class AmenitiesSerializer(serializers.ModelSerializer):
 class WebAmenitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AmenitiesModel
-        fields = ['title', 'image', 'created_at']
+        fields = ['id', 'title', 'image', 'created_at']
+
+
+class WebPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PriceListModel
+        fields = ['id', 'price']
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -63,12 +69,14 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
+
     # address = AddressSerializer()
 
     class Meta:
         model = HouseModel
         fields = ('title', 'descriptions', 'price', 'residential', 'number_of_rooms',
-                  'floor', 'floor_from', 'general', 'web_type', 'web_rental_type', 'web_object', 'web_building_type', 'isBookmarked',
+                  'floor', 'floor_from', 'general', 'web_type', 'web_rental_type', 'web_object', 'web_building_type',
+                  'isBookmarked',
                   'images', 'uploaded_images',)
         # extra_kwargs = {"user": {"read_only": True}}
 
@@ -92,7 +100,7 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
     #     kwargs["creator"] = self.fields["creator"].get_default()
     #     return super().save(**kwargs)
 
-        # def to_representation(self, instance):
+    # def to_representation(self, instance):
     #     context = super().to_representation(instance)
     #     context['images'] = ImageSerializer(instance.images, many=True).data
     #     return context
@@ -151,18 +159,23 @@ class HomeSerializer(serializers.ModelSerializer):
 
 # web
 class WebHomeSerializer(serializers.ModelSerializer):
-    address = AddressSerializer()
+    # address = AddressSerializer()
     images = ImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
+    amenities = WebAmenitiesSerializer(many=True)
+    price_type = WebPriceSerializer(many=True)
+    # WebAmenitiesSerializer
+    # WebPriceSerializer
+
     # image = HomeImageSerializer(many=True)
     # category = CategorySerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'address',
+        fields = ['id', 'title', 'price', 'amenities', 'price_type',
                   'web_type', 'web_rental_type', 'web_object', 'web_building_type',
                   'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images',
                   ]

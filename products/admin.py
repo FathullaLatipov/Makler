@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, \
-    HouseImageModel
+    HouseImageModel, PriceListModel
 
 
 @admin.register(CategoryModel)
@@ -17,6 +17,11 @@ class AmenitiesModelAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_at']
     search_fields = ['title', 'created_at']
     list_filter = ['created_at']
+    save_as = True
+
+@admin.register(PriceListModel)
+class PriceListModelAdmin(admin.ModelAdmin):
+    list_display = ['price', 'created_at']
     save_as = True
 
 

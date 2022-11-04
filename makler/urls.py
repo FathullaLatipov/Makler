@@ -27,7 +27,8 @@ from rest_framework.routers import DefaultRouter
 
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
     HouseDetailAPIView, HouseFavListAPIView, HouseUpdateAPIView, HouseDestroyAPIView, \
-    HouseImageAPIView, HouseArchiveListAPIView, WebAmenitiesListAPIView, HouseAddCreateAPIView, WebHouseListAPIView
+    HouseImageAPIView, HouseArchiveListAPIView, WebAmenitiesListAPIView, HouseAddCreateAPIView, WebHouseListAPIView, \
+    WebPriceListAPIView, WebHomeCreateView
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -44,6 +45,7 @@ router.register(r'api/v1/houses/delete', HouseDestroyAPIView)
 # router.register(r'api/v1/store/create', StoreAddCreateAPIView)
 router.register(r'api/v1/store/update', StoreUpdateAPIView)
 router.register(r'api/v1/store/delete', StoreDestroyAPIView)
+router.register(r'web/api/v1/web-houses', WebHomeCreateView)
 
 urlpatterns = [
     path('master/', include('masters.urls')),
@@ -52,11 +54,12 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/houses/', HouseListAPIView.as_view()),
-    path('api/v1/web-houses/', WebHouseListAPIView.as_view()),
+    # path('web/api/v1/web-houses/', WebHomeCreateView.as_view()),
     # path('api/v1/houses/create/', HouseAddCreateAPIView.as_view()),
     path('api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
-    path('api/v1/web-amenities/', WebAmenitiesListAPIView.as_view()),
+    path('web/api/v1/web-amenities/', WebAmenitiesListAPIView.as_view()),
+    path('web/api/v1/web-prices/', WebPriceListAPIView.as_view()),
     path('api/v1/maklers/', MasterListAPIView.as_view()),
     path('api/v1/maklers/<int:pk>', MasterDetailAPIView.as_view()),
     path('api/v1/store/', StoreModelAPIView.as_view()),

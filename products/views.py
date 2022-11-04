@@ -10,14 +10,14 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from masters.models import MasterModel
 from store.models import StoreModel
-from .models import ImagesModel, MapModel
+from .models import ImagesModel, MapModel, PriceListModel
 from rest_framework.decorators import parser_classes
 
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImageModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, HomeArchiveSerializer, \
-    WebAmenitiesSerializer, WebHomeSerializer, NewHomeCreateSerializer
+    WebAmenitiesSerializer, WebHomeSerializer, NewHomeCreateSerializer, WebPriceSerializer
 from products.utils import get_wishlist_data
 
 
@@ -33,11 +33,23 @@ class AmenitiesListAPIView(generics.ListAPIView):
     serializer_class = AmenitiesSerializer
 
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
 # web
 class WebAmenitiesListAPIView(generics.ListAPIView):
     ''' web amenities '''
     queryset = AmenitiesModel.objects.order_by('-pk')
     serializer_class = WebAmenitiesSerializer
+
+
+class WebPriceListAPIView(generics.ListAPIView):
+    queryset = PriceListModel.objects.order_by('-pk')
+    serializer_class = WebPriceSerializer
+    pagination_class = StandardResultsSetPagination
 
 
 class HouseImageAPIView(APIView):
@@ -100,6 +112,13 @@ class WebHouseListAPIView(generics.ListAPIView):
     serializer_class = WebHomeSerializer
 
 
+# web create Home
+class WebHomeCreateView(ModelViewSet):
+    queryset = HouseModel.objects.all()
+    serializer_class = WebHomeSerializer
+    pagination_class = StandardResultsSetPagination
+
+
 def add_to_wishlist(request, pk):
     try:
         product = HouseModel.objects.get(pk=pk)
@@ -134,12 +153,6 @@ class HouseDetailAPIView(APIView):
         houses = HouseModel.objects.get(id=pk)
         serializer = HomeDetailSerializer(houses, context={'request': request})
         return Response(serializer.data)
-
-
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 5
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
 
 
 class HouseAddCreateAPIView(ModelViewSet):
