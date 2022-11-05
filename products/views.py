@@ -11,13 +11,13 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from masters.models import MasterModel
 from store.models import StoreModel
 from .models import ImagesModel, MapModel, PriceListModel
-from rest_framework.decorators import parser_classes
+from rest_framework.decorators import parser_classes, api_view
 
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImageModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, HomeArchiveSerializer, \
-    WebAmenitiesSerializer, WebHomeSerializer, NewHomeCreateSerializer, WebPriceSerializer
+    WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, PriceListSerializer
 from products.utils import get_wishlist_data
 
 
@@ -109,14 +109,39 @@ def add_to_wishlist(request, pk):
 class WebHouseListAPIView(generics.ListAPIView):
     ''' Products (Houses)'''
     queryset = HouseModel.objects.filter(draft=False)
-    serializer_class = WebHomeSerializer
+    serializer_class = NewWebHomeCreateSerializer
 
 
 # web create Home
 class WebHomeCreateView(ModelViewSet):
     queryset = HouseModel.objects.all()
-    serializer_class = WebHomeSerializer
+    serializer_class = NewWebHomeCreateSerializer
     pagination_class = StandardResultsSetPagination
+
+    def create(self, request, *args, **kwargs):
+        uv = PriceListModel(price=str(request.data['price_type']))
+        serializer = self.serializer_class(uv, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# web
+@api_view(['GET', 'POST'])
+def snippet_list(request):
+    if request.method == 'GET':
+        snippets = HouseModel.objects.all()
+        serializer = NewWebHomeCreateSerializer(snippets, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = NewWebHomeCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def add_to_wishlist(request, pk):

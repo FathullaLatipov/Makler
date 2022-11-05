@@ -52,6 +52,18 @@ class ImagesModel(models.Model):
         return f"127.0.0.1:7783{self.image.url}"
 
 
+class PriceListModel(models.Model):
+    price = models.CharField(max_length=10, verbose_name=_('price'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.price
+
+    class Meta:
+        verbose_name = _('Цена')
+        verbose_name_plural = _('Цены')
+
+
 class HouseModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True,
                                 blank=True)
@@ -61,6 +73,7 @@ class HouseModel(models.Model):
                                  )
     descriptions = models.TextField(verbose_name=_('descriptions'))
     price = models.CharField(max_length=100, verbose_name=_('price'))
+    price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types')
     ADD_TYPE = (
         ('rent', 'Rent'),
         ('for_sale', 'For_sale'),
@@ -168,19 +181,6 @@ class HouseModel(models.Model):
 class NewHouseImages(models.Model):
     product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, related_name='images')
     images = models.ImageField(upload_to='API/images', max_length=100, null=True)
-
-
-class PriceListModel(models.Model):
-    product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, related_name='price_type')
-    price = models.CharField(max_length=10, verbose_name=_('price'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
-
-    def __str__(self):
-        return self.price
-
-    class Meta:
-        verbose_name = _('Цена')
-        verbose_name_plural = _('Цены')
 
 
 class HouseImageModel(models.Model):

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
 from rest_framework.decorators import action
@@ -157,28 +158,56 @@ class HomeSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'category', 'price', 'address', 'isBookmarked', 'created_at', 'product_status']
 
 
+class PriceListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PriceListModel
+        fields = ['price']
+
+
 # web
-class WebHomeSerializer(serializers.ModelSerializer):
-    # address = AddressSerializer()
+class NewWebHomeCreateSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
-    amenities = WebAmenitiesSerializer(many=True)
-    price_type = WebPriceSerializer(many=True)
-    # WebAmenitiesSerializer
-    # WebPriceSerializer
+    # amenities = WebAmenitiesSerializer(many=True)
+    price_type = PriceListSerializer()
 
-    # image = HomeImageSerializer(many=True)
-    # category = CategorySerializer()
+    # address = AddressSerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'amenities', 'price_type',
+        fields = ['id', 'title', 'price', 'price_type',
                   'web_type', 'web_rental_type', 'web_object', 'web_building_type',
                   'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images',
                   ]
+        # extra_kwargs = {"user": {"read_only": True}}
+
+    # def create(self, validated_data):
+    #     loc_id = validated_data.pop("location")["id"]
+    #     try:
+    #         loc_obj = get_object_or_404(Location, id=loc_id)
+    #         validated_data["location"] = loc_obj
+    #         organization = Organization.objects.create(**validated_data)
+    #         return organization
+    #     except Exception as e:
+    #         raise serializers.ValidationError(e)
+    # @action(detail=False, methods=['post'])
+    # def create(self, validated_data):
+    #     uploaded_data = validated_data.pop('uploaded_images')
+    #     new_product = HouseModel.objects.create(**validated_data)
+    #     for uploaded_item in uploaded_data:
+    #         new_product_image = NewHouseImages.objects.create(product=new_product, images=uploaded_item)
+    #     print(validated_data)
+    #     return new_product
+
+    def get_img_url(self, obj):
+        urls = []
+        for i in obj.images.all():
+            myurl = self.context['request'].build_absolute_uri(i.image.url)
+            urls.append(myurl)
+        return urls
 
 
 class HomeArchiveSerializer(serializers.ModelSerializer):

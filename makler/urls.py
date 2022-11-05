@@ -27,8 +27,8 @@ from rest_framework.routers import DefaultRouter
 
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
     HouseDetailAPIView, HouseFavListAPIView, HouseUpdateAPIView, HouseDestroyAPIView, \
-    HouseImageAPIView, HouseArchiveListAPIView, WebAmenitiesListAPIView, HouseAddCreateAPIView, WebHouseListAPIView, \
-    WebPriceListAPIView, WebHomeCreateView
+    HouseImageAPIView, HouseArchiveListAPIView, WebAmenitiesListAPIView, HouseAddCreateAPIView, \
+    WebPriceListAPIView, WebHomeCreateView, snippet_list
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -79,6 +79,7 @@ urlpatterns = [
     path('api/v1/all-users/<int:pk>/', UserDetail.as_view()),
     path('posts/', PostList.as_view()),
     path('posts/<int:pk>/', PostDetail.as_view()),
+    path('web2/', snippet_list)
 ]
 
 urlpatterns += doc_urls
