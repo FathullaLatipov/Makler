@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins, status
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.mixins import CreateModelMixin
@@ -119,6 +120,8 @@ class WebHomeListAPIView(ListAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewAllWebHomeCreateSerializer
     pagination_class = StandardResultsSetPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['product_status']
 
 
 class WebHomeCreateView(mixins.CreateModelMixin, GenericViewSet):
@@ -189,7 +192,7 @@ def add_to_wishlist(request, pk):
 
 
 class HouseArchiveListAPIView(generics.ListAPIView):
-    queryset = HouseModel.objects.order_by('pk')
+    queryset = HouseModel.objects.all()
     serializer_class = HomeArchiveSerializer
 
 
