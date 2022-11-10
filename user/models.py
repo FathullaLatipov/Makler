@@ -5,7 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.exceptions import ValidationError
 
 
-class MyUserManager(BaseUserManager):  # kiring shunga xozr
+class MyUserManager(BaseUserManager):
     use_in_migrations = True
 
     def create_user(self, phone_number, password, **extra_fields):

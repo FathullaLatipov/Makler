@@ -53,11 +53,11 @@ class ImagesModel(models.Model):
 
 
 class PriceListModel(models.Model):
-    price = models.CharField(max_length=10, verbose_name=_('price'))
+    price_t = models.CharField(max_length=10, verbose_name=_('price'), null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
 
     def __str__(self):
-        return self.price
+        return self.price_t
 
     class Meta:
         verbose_name = _('Цена')
@@ -85,6 +85,9 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
+    web_address_title = models.CharField(max_length=400, verbose_name=_('web_address_title'), null=True)
+    web_address_latitude = models.FloatField(verbose_name=_('web_address_latitude'), null=True)
+    web_address_longtitude = models.FloatField(verbose_name=_('web_address_longtitude'), null=True)
     web_type = models.CharField(max_length=400, verbose_name=_('web_type'), null=True)
     web_rental_type = models.CharField(max_length=500, verbose_name=_('web_rental_type'), null=True)
     web_object = models.CharField(max_length=300, verbose_name=_('web_object'), null=True)
@@ -142,7 +145,7 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
-    amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), blank=True)
+    amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), related_name=_('pr_amenities'), blank=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     draft = models.BooleanField(default=False)

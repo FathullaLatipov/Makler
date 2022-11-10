@@ -21,7 +21,7 @@ class AmenitiesModelAdmin(admin.ModelAdmin):
 
 @admin.register(PriceListModel)
 class PriceListModelAdmin(admin.ModelAdmin):
-    list_display = ['price', 'created_at']
+    list_display = ['id', 'price_t', 'created_at']
     save_as = True
 
 

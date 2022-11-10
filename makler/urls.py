@@ -28,7 +28,7 @@ from rest_framework.routers import DefaultRouter
 from products.views import CategoryListAPIView, HouseListAPIView, AmenitiesListAPIView, \
     HouseDetailAPIView, HouseFavListAPIView, HouseUpdateAPIView, HouseDestroyAPIView, \
     HouseImageAPIView, HouseArchiveListAPIView, WebAmenitiesListAPIView, HouseAddCreateAPIView, \
-    WebPriceListAPIView, WebHomeCreateView, snippet_list
+    WebPriceListAPIView, WebHomeCreateView, snippet_list, WebHomeListAPIView
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -44,11 +44,14 @@ router.register(r'api/v1/houses/update', HouseUpdateAPIView)
 router.register(r'api/v1/houses/delete', HouseDestroyAPIView)
 # router.register(r'api/v1/store/create', StoreAddCreateAPIView)
 router.register(r'api/v1/store/update', StoreUpdateAPIView)
-router.register(r'api/v1/store/delete', StoreDestroyAPIView)
 router.register(r'web/api/v1/web-houses', WebHomeCreateView)
+router.register(r'api/v1/store/delete', StoreDestroyAPIView)
+
 
 urlpatterns = [
     path('master/', include('masters.urls')),
+    path('web/api/v1/all-web-houses', WebHomeListAPIView.as_view()),
+    # path('web/api/v1/web-houses', WebHomeCreateView),
     # path('user/', include()),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
@@ -79,7 +82,7 @@ urlpatterns = [
     path('api/v1/all-users/<int:pk>/', UserDetail.as_view()),
     path('posts/', PostList.as_view()),
     path('posts/<int:pk>/', PostDetail.as_view()),
-    path('web2/', snippet_list)
+    path('web2/', snippet_list),
 ]
 
 urlpatterns += doc_urls

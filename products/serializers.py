@@ -30,7 +30,7 @@ class WebAmenitiesSerializer(serializers.ModelSerializer):
 class WebPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = PriceListModel
-        fields = ['id', 'price']
+        fields = ['id', 'price_t']
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -161,46 +161,75 @@ class HomeSerializer(serializers.ModelSerializer):
 class PriceListSerializer(serializers.ModelSerializer):
     class Meta:
         model = PriceListModel
-        fields = ['price']
+        fields = ['price_t']
 
 
 # web
-class NewWebHomeCreateSerializer(serializers.ModelSerializer):
+class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
-    # amenities = WebAmenitiesSerializer(many=True)
+    amenities = WebAmenitiesSerializer(many=True)
     price_type = PriceListSerializer()
 
     # address = AddressSerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'price_type',
-                  'web_type', 'web_rental_type', 'web_object', 'web_building_type',
-                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images',
+        fields = ['id', 'title', 'price', 'price_type', 'amenities',
+                  'web_type', 'web_rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'web_rental_type', 'web_object', 'web_building_type',
+                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images'
+                  ]
+
+
+class NewWebHomeCreateSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
+
+    # address = AddressSerializer()
+
+    class Meta:
+        model = HouseModel
+        fields = ['id', 'title', 'price', 'price_type', 'amenities',
+                  'web_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'web_rental_type',
+                  'web_object', 'web_building_type',
+                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images'
                   ]
         # extra_kwargs = {"user": {"read_only": True}}
 
-    # def create(self, validated_data):
-    #     loc_id = validated_data.pop("location")["id"]
-    #     try:
-    #         loc_obj = get_object_or_404(Location, id=loc_id)
-    #         validated_data["location"] = loc_obj
-    #         organization = Organization.objects.create(**validated_data)
-    #         return organization
-    #     except Exception as e:
-    #         raise serializers.ValidationError(e)
-    # @action(detail=False, methods=['post'])
-    # def create(self, validated_data):
-    #     uploaded_data = validated_data.pop('uploaded_images')
-    #     new_product = HouseModel.objects.create(**validated_data)
-    #     for uploaded_item in uploaded_data:
-    #         new_product_image = NewHouseImages.objects.create(product=new_product, images=uploaded_item)
-    #     print(validated_data)
-    #     return new_product
+    def create(self, validated_data):
+        uploaded_data = validated_data.pop('uploaded_images')
+        price_types = validated_data.pop('price_type')
+        amenities = validated_data.get('amenities')
+        title = validated_data.get('title')
+        web_address_title = validated_data.get('web_address_title')
+        web_address_latitude = validated_data.get('web_address_latitude')
+        web_address_longtitude = validated_data.get('web_address_longtitude')
+        web_type = validated_data.get('web_type')
+        web_rental_type = validated_data.get('web_rental_type')
+        web_object = validated_data.get('web_object')
+        web_building_type = validated_data.get('web_building_type')
+        price = validated_data.get('price')
+        titles = [i.title for i in amenities]
+        amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
+        price_t = PriceListModel.objects.get(price_t=price_types)
+        target_objs = HouseModel.objects.create(price_type=price_t, title=title, price=price,
+                                                web_address_title=web_address_title,
+                                                web_address_latitude=web_address_latitude,
+                                                web_address_longtitude=web_address_longtitude,
+                                                web_type=web_type, web_rental_type=web_rental_type,
+                                                web_object=web_object, web_building_type=web_building_type,
+                                                )
+        target_objs.amenities.add(*amenities_titles)
+        for uploaded_item in uploaded_data:
+            new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
+        return target_objs
+
 
     def get_img_url(self, obj):
         urls = []

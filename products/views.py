@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from rest_framework import generics, mixins, status
 from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
 from rest_framework.renderers import JSONRenderer
@@ -17,7 +18,8 @@ from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImageModel
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, HomeArchiveSerializer, \
-    WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, PriceListSerializer
+    WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, \
+    PriceListSerializer, NewAllWebHomeCreateSerializer
 from products.utils import get_wishlist_data
 
 
@@ -113,19 +115,43 @@ class WebHouseListAPIView(generics.ListAPIView):
 
 
 # web create Home
-class WebHomeCreateView(ModelViewSet):
+class WebHomeListAPIView(ListAPIView):
+    queryset = HouseModel.objects.all()
+    serializer_class = NewAllWebHomeCreateSerializer
+    pagination_class = StandardResultsSetPagination
+
+
+class WebHomeCreateView(mixins.CreateModelMixin, GenericViewSet):
     queryset = HouseModel.objects.all()
     serializer_class = NewWebHomeCreateSerializer
     pagination_class = StandardResultsSetPagination
 
-    def create(self, request, *args, **kwargs):
-        uv = PriceListModel(price=str(request.data['price_type']))
-        serializer = self.serializer_class(uv, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # def create(self, validated_data):
+    #     targetDef = validated_data.pop(targetDefn)
+    #
+    #
+    #     #save the objects into its respective models.
+    #     targetDefId = TargetDefination.objects.create(**targetDef)
+    #
+    #     #get the objects of roleId and empID
+    #     role = list(validated_data['roleId'].items())
+    #     role_id = Role.objects.get(roleName =role[0][1])
+    #     emp_id = Employee.objects.get(pk=validated_data['empId']['id'])
+    #
+    #     target_obj = Target.object.create(targetDef=targetDefId, roleId=role_id, empID=emp_id, startDate=validated_data['startDate'], endDate=validated_data['endDate'], value=validated_data['value'])
+    #
+    #     return target_obj
+
+    # def create(self, validated_data):
+    #
+
+    # uv = PriceListModel(price=str(request.data['price_type']))
+    # serializer = self.serializer_class(uv, data=request.data)
+    # if serializer.is_valid():
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # else:
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # web
