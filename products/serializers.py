@@ -64,6 +64,80 @@ class ImageSerializer(serializers.ModelSerializer):
         return self.context['request'].build_absolute_url(obj.image.url)
 
 
+class APPHomeCreateSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
+
+    # address = AddressSerializer()
+
+    class Meta:
+        model = HouseModel
+        fields = ['title', 'descriptions', 'price', 'app_currency', 'app_type', 'typeOfRent', 'typeOfHouse',
+                  'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
+                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
+                  'images', 'uploaded_images',]
+        # extra_kwargs = {"user": {"read_only": True}}
+
+    def create(self, validated_data):
+        uploaded_data = validated_data.pop('uploaded_images')
+        title = validated_data.get('title')
+        descriptions = validated_data.get('descriptions')
+        price = validated_data.get('price')
+        app_currency = validated_data.get('app_currency')
+        app_type = validated_data.get('app_type')
+        typeOfRent = validated_data.get('typeOfRent')
+        typeOfHouse = validated_data.get('typeOfHouse')
+        typeOfObject = validated_data.get('typeOfObject')
+        app_ipoteka = validated_data.get('app_ipoteka')
+        app_mebel = validated_data.get('app_mebel')
+        type = validated_data.get('type')
+        address = validated_data.get('address')
+        general = validated_data.get('general')
+        residential = validated_data.get('residential')
+        number_of_rooms = validated_data.get('number_of_rooms')
+        floor = validated_data.get('floor')
+        floor_from = validated_data.get('floor_from')
+        building_type = validated_data.get('building_type')
+        product_status = validated_data.get('product_status')
+        amenities = validated_data.get('amenities')
+        titles = [i.title for i in amenities]
+        amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
+        new_product = HouseModel.objects.create(
+            title=title,
+            descriptions=descriptions,
+            price=price,
+            app_currency=app_currency,
+            app_type=app_type,
+            typeOfRent=typeOfRent,
+            typeOfHouse=typeOfHouse,
+            typeOfObject=typeOfObject,
+            app_ipoteka=app_ipoteka,
+            app_mebel=app_mebel,
+            type=type,
+            address=address,
+            general=general,
+            residential=residential,
+            number_of_rooms=number_of_rooms,
+            floor=floor,
+            floor_from=floor_from,
+            building_type=building_type,
+            product_status=product_status,
+        )
+        new_product.amenities.add(*amenities_titles)
+        for uploaded_item in uploaded_data:
+            new_product_image = NewHouseImages.objects.create(product=new_product, images=uploaded_item)
+        return new_product
+
+    def get_img_url(self, obj):
+        urls = []
+        for i in obj.images.all():
+            myurl = self.context['request'].build_absolute_uri(i.image.url)
+            urls.append(myurl)
+        return urls
+
 class NewHomeCreateSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(

@@ -73,7 +73,14 @@ class HouseModel(models.Model):
                                  )
     descriptions = models.TextField(verbose_name=_('descriptions'))
     price = models.CharField(max_length=100, verbose_name=_('price'))
-    price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types')
+    app_currency = models.CharField(max_length=10, verbose_name=_('app_currency'), null=True)
+    app_type = models.CharField(max_length=80, verbose_name=_('app_type'), null=True)
+    typeOfRent = models.CharField(max_length=90, verbose_name=_('typeOfRent'), null=True)
+    typeOfHouse = models.CharField(max_length=90, verbose_name=_('typeOfHouse'), null=True)
+    typeOfObject = models.CharField(max_length=90, null=True)
+    app_ipoteka = models.BooleanField(default=False, null=True)
+    app_mebel = models.BooleanField(default=False, null=True)
+    price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types', null=True)
     ADD_TYPE = (
         ('rent', 'Rent'),
         ('for_sale', 'For_sale'),

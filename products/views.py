@@ -20,7 +20,7 @@ from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImag
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, HomeArchiveSerializer, \
     WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, \
-    PriceListSerializer, NewAllWebHomeCreateSerializer
+    PriceListSerializer, NewAllWebHomeCreateSerializer, APPHomeCreateSerializer
 from products.utils import get_wishlist_data
 
 
@@ -218,6 +218,17 @@ class HouseAddCreateAPIView(ModelViewSet):
     def get_serializer_context(self):
         return {'request': self.request}
 
+
+class APPHouseAddCreateAPIView(ModelViewSet):
+    queryset = HouseModel.objects.all()
+    serializer_class = APPHomeCreateSerializer
+    pagination_class = StandardResultsSetPagination
+    search_fields = ['title', 'description']
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+#
 
 # @parser_classes([MultiPartParser, FormParser])
 # class HouseAddCreateAPIView(APIView):

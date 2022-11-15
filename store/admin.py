@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from store.models import StoreModel
+from store.models import StoreModel, StoreAmenities
+
+
+@admin.register(StoreAmenities)
+class StoreAmenities(admin.ModelAdmin):
+    list_display = ['title', 'created_at']
 
 
 @admin.register(StoreModel)

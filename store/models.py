@@ -4,12 +4,24 @@ from django.utils.translation import gettext_lazy as _
 from user.models import CustomUser
 
 
+class StoreAmenities(models.Model):
+    title = models.CharField(max_length=90, verbose_name=_('title'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Store_amenities')
+        verbose_name_plural = _('Store_amenities')
+
+
 class StoreModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='stores')
     name = models.CharField(max_length=200, verbose_name=_('name'))
     description = models.TextField()
-    image = models.FileField(upload_to='store_images', verbose_name=_('image'))
-    brand_image = models.FileField(upload_to='avatar_image', verbose_name=_('brand_image'), null=True)
+    # image = models.ImageField(upload_to='store_images', max_length=100, verbose_name=_('image'))
+    # brand_image = models.FileField(upload_to='avatar_image', verbose_name=_('brand_image'), null=True)
     brand = models.CharField(max_length=200, verbose_name=_('brand'), null=True)
     price = models.PositiveIntegerField(verbose_name=_('price'), null=True)
     use_for = models.CharField(max_length=400, verbose_name=_('use_for'), null=True)
@@ -32,6 +44,7 @@ class StoreModel(models.Model):
         max_length=30,
         null=True
     )
+    store_amenitites = models.ManyToManyField(StoreAmenities, verbose_name=_('store_amenities'))
 
     def __str__(self):
         return self.name
@@ -45,4 +58,3 @@ class StoreModel(models.Model):
         verbose_name = _('Обустройствo дома')
         verbose_name_plural = _('Обустройствo дома')
         ordering = ['-id']
-
