@@ -5,12 +5,11 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ['pk', 'phone_number', 'created_at',]
-    ordering = ['pk',]
+    list_display = ['id', 'phone_number', 'created_at', 'is_superuser', 'is_staff', 'is_active']
+    ordering = ['id']
     add_fieldsets = (
         (None, {
-            'classes': ('wide',),
-            'fields': ('pk', 'phone_number', 'is_superuser'),
+            'fields': ('phone_number', 'is_superuser'),
         }),
     )
     fieldsets = (

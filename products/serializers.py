@@ -254,7 +254,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
         model = HouseModel
         fields = ['id', 'title', 'price', 'price_type', 'amenities',
                   'web_type', 'web_rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'web_rental_type', 'web_object', 'web_building_type',
-                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images'
+                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images', 'creator'
                   ]
 
 
@@ -269,12 +269,12 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'price_type', 'amenities',
+        fields = ['id', 'creator', 'title', 'price', 'price_type', 'amenities',
                   'web_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'web_rental_type',
                   'web_object', 'web_building_type',
                   'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images'
                   ]
-        # extra_kwargs = {"user": {"read_only": True}}
+        extra_kwargs = {"creator": {"read_only": True}}
 
     def create(self, validated_data):
         uploaded_data = validated_data.pop('uploaded_images')
@@ -289,6 +289,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         web_object = validated_data.get('web_object')
         web_building_type = validated_data.get('web_building_type')
         price = validated_data.get('price')
+        creator = self.context['request'].user
         titles = [i.title for i in amenities]
         amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
         price_t = PriceListModel.objects.get(price_t=price_types)
@@ -298,6 +299,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                                                 web_address_longtitude=web_address_longtitude,
                                                 web_type=web_type, web_rental_type=web_rental_type,
                                                 web_object=web_object, web_building_type=web_building_type,
+                                                creator=creator
                                                 )
         target_objs.amenities.add(*amenities_titles)
         for uploaded_item in uploaded_data:

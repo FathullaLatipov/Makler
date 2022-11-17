@@ -58,3 +58,6 @@ class StoreModel(models.Model):
         verbose_name = _('Обустройствo дома')
         verbose_name_plural = _('Обустройствo дома')
         ordering = ['-id']
+
+# tempaltes, update
+# tempaltes, admin

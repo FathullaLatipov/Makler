@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins, status
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import PageNumberPagination
@@ -12,6 +13,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from masters.models import MasterModel
 from store.models import StoreModel
+from user.models import CustomUser
 from .models import ImagesModel, MapModel, PriceListModel
 from rest_framework.decorators import parser_classes, api_view
 
@@ -122,6 +124,7 @@ class WebHomeListAPIView(ListAPIView):
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['product_status']
+
 
 
 class WebHomeCreateView(mixins.CreateModelMixin, GenericViewSet):
