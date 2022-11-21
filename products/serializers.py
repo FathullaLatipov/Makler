@@ -225,13 +225,22 @@ class HomeCreateSerializer(serializers.ModelSerializer):
 
 #  bu homeniki
 class HomeSerializer(serializers.ModelSerializer):
-    address = AddressSerializer()
+    images = ImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
+
+    # address = AddressSerializer()
     # image = HomeImageSerializer(many=True)
-    category = CategorySerializer()
+    # category = CategorySerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'category', 'price', 'address', 'isBookmarked', 'created_at', 'product_status']
+        fields = ['title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent', 'typeOfHouse',
+                  'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
+                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
+                  'images', 'uploaded_images', 'creator']
 
 
 class PriceListSerializer(serializers.ModelSerializer):

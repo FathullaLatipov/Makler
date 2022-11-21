@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'masters',
     'user',
     'store',
+    'authorization',
 ]
 
 MIDDLEWARE = [
