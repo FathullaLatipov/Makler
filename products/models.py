@@ -152,6 +152,7 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
+    phone_number = models.CharField(max_length=19, verbose_name=_('phone_number'), null=True)
     amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), related_name=_('pr_amenities'), blank=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))

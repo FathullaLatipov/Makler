@@ -75,7 +75,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title', 'descriptions', 'price', 'app_currency', 'app_type', 'typeOfRent', 'typeOfHouse',
+        fields = ['title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent', 'typeOfHouse',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
                   'images', 'uploaded_images',]
@@ -149,7 +149,7 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ('title', 'descriptions', 'price', 'residential', 'number_of_rooms',
+        fields = ('title', 'descriptions', 'price', 'residential', 'number_of_rooms', 'phone_number',
                   'floor', 'floor_from', 'general', 'web_type', 'web_rental_type', 'web_object', 'web_building_type',
                   'isBookmarked',
                   'images', 'uploaded_images',)
@@ -252,7 +252,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'price_type', 'amenities',
+        fields = ['id', 'title', 'price', 'price_type', 'amenities', 'phone_number',
                   'web_type', 'web_rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'web_rental_type', 'web_object', 'web_building_type',
                   'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images', 'creator'
                   ]
@@ -269,7 +269,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'creator', 'title', 'price', 'price_type', 'amenities',
+        fields = ['id', 'creator', 'title', 'price', 'price_type', 'amenities', 'phone_number',
                   'web_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'web_rental_type',
                   'web_object', 'web_building_type',
                   'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images'

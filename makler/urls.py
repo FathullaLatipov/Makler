@@ -72,7 +72,6 @@ urlpatterns = [
     path('api/v1/fav/', HouseFavListAPIView.as_view()),
     path('api/v1/houses/image/', HouseImageAPIView.as_view()),
     path('api/v1/houses/archived/', HouseArchiveListAPIView.as_view()),
-    # nega status ARCHIVED KEMAYAPTI qani bowqattan
     # path('api/v1/login', LoginView.as_view()),
     # path('api/v1/auth/', include('djoser.urls.authtoken')),
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
