@@ -86,6 +86,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         title = validated_data.get('title')
         descriptions = validated_data.get('descriptions')
         price = validated_data.get('price')
+        phone_number = validated_data.get('phone_number')
         app_currency = validated_data.get('app_currency')
         app_type = validated_data.get('app_type')
         typeOfRent = validated_data.get('typeOfRent')
@@ -109,6 +110,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
             title=title,
             descriptions=descriptions,
             price=price,
+            phone_number=phone_number,
             app_currency=app_currency,
             app_type=app_type,
             typeOfRent=typeOfRent,
