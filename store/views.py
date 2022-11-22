@@ -48,7 +48,7 @@ class StoreDetailAPIView(APIView):
 #     def get_serializer_context(self):
 #         return {'request': self.request}
 
-class StoreAddCreateAPIView(ModelViewSet):
+class StoreAddCreateAPIView(generics.CreateAPIView, GenericViewSet):
     serializer_class = StoreModelSerializer
     parser_classes = [MultiPartParser]
     queryset = StoreModel.objects.all()
