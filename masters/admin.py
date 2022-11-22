@@ -26,6 +26,6 @@ class MasterModelAdmin(admin.ModelAdmin):
 
 @admin.register(MasterImagesModel)
 class MasterImagesModel(admin.ModelAdmin):
-    list_display = ['pk', 'image']
+    list_display = ['pk', 'images']
     save_on_top = True
     save_as = True

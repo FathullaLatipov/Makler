@@ -23,35 +23,36 @@ class AddressModelSerializer(serializers.ModelSerializer):
 class ImageModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterImagesModel
-        exclude = ['id']
+        fields = ['images']
+
+    def get_img_url(self, obj):
+        return self.context['request'].build_absolute_url(obj.image.url)
 
 
 # all masters
 class MasterSerializer(serializers.ModelSerializer):
     profession = MasterProfessionModelSerializer(many=True)
     address = AddressModelSerializer()
-    images = ImageModelSerializer(many=True)
 
     class Meta:
         model = MasterModel
-        fields = ['name', 'address', 'avatar', 'profession', 'images', 'experience', 'isBookmarked']
+        fields = ['name', 'address', 'avatar', 'profession', 'images', 'experience', 'isBookmarked', 'owner']
 
 
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
-    profession = MasterProfessionModelSerializer(many=True)
-    address = AddressModelSerializer()
-    images = ImageModelSerializer(many=True)
+    # profession = MasterProfessionModelSerializer(many=True)
+    # address = AddressModelSerializer()
 
     class Meta:
         model = MasterModel
-        fields = ['image', 'name', 'email', 'phone', 'address', 'avatar', 'profession', 'images',
+        fields = ['name', 'email', 'image', 'phone', 'address', 'avatar', 'profession',
                   'descriptions', 'experience', 'owner',
                   ]
-        read_only_fields = ['owner', ]
+        extra_kwargs = {"owner": {"read_only": True}}
 
-    def create(self, validated_data, owner):
-        mastermodel = MasterModel.objects.create(owner=owner,
+    def create(self, validated_data):
+        mastermodel = MasterModel.objects.create(
                                                  image=validated_data['image'],
                                                  name=validated_data['name'],
                                                  email=validated_data['email'],
@@ -63,9 +64,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
                                                  )
         for i in validated_data['profession']:
             mastermodel.profession.add(i.id)
-        for j in validated_data['images']:
-            mastermodel.images.add(j.id)
-        mastermodel.save()
+            mastermodel.save()
         return mastermodel
 
     def get_img_url(self, obj):

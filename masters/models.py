@@ -17,17 +17,11 @@ class MasterProfessionModel(models.Model):
         verbose_name_plural = _('Профессии')
 
 
-class MasterImagesModel(models.Model):
-    image = models.FileField(upload_to='master_images', verbose_name=_('image'))
-
-    class Meta:
-        verbose_name = _('Изображения для мастера')
-        verbose_name_plural = _('Изображения для мастеров')
 
 
 class MasterModel(models.Model):
-    owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='maklers')
-    image = models.FileField(upload_to='master_image', verbose_name=_('image'))
+    owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='maklers', null=True)
+    image = models.FileField(upload_to='master_image')
     name = models.CharField(max_length=100, verbose_name=_('name'))
     email = models.EmailField(verbose_name=_('email'))
     phone = models.PositiveIntegerField(verbose_name=_('phone'))
@@ -38,7 +32,6 @@ class MasterModel(models.Model):
     profession = models.ManyToManyField(MasterProfessionModel, verbose_name=_('profession'),
                                         related_name='profession', blank=True
                                         )
-    images = models.ManyToManyField(MasterImagesModel, verbose_name=_('images'), related_name='images', blank=True)
     descriptions = models.TextField(verbose_name=_('descriptions'))
     experience = models.IntegerField(verbose_name=_('experience'), null=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
@@ -71,3 +64,11 @@ class MasterModel(models.Model):
         verbose_name_plural = _('Мастеры')
         ordering = ['-id']
 
+
+class MasterImagesModel(models.Model):
+    master = models.ForeignKey(MasterModel, on_delete=models.CASCADE, related_name='images')
+    images = models.FileField(upload_to='master_images', max_length=100, null=True)
+
+    class Meta:
+        verbose_name = _('Изображения для мастера')
+        verbose_name_plural = _('Изображения для мастеров')

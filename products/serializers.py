@@ -270,11 +270,11 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
 
 
 class NewWebHomeCreateSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True
-    )
+    # images = ImageSerializer(many=True, read_only=True)
+    # uploaded_images = serializers.ListField(
+    #     child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+    #     write_only=True
+    # )
 
     # address = AddressSerializer()
 
@@ -283,12 +283,12 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'creator', 'title', 'price', 'price_type', 'amenities', 'phone_number',
                   'web_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'web_rental_type',
                   'web_object', 'web_building_type',
-                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images'
+                  'isBookmarked', 'created_at', 'product_status',
                   ]
         extra_kwargs = {"creator": {"read_only": True}}
 
     def create(self, validated_data):
-        uploaded_data = validated_data.pop('uploaded_images')
+        # uploaded_data = validated_data.pop('uploaded_images')
         price_types = validated_data.pop('price_type')
         amenities = validated_data.get('amenities')
         title = validated_data.get('title')
@@ -300,12 +300,14 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         web_object = validated_data.get('web_object')
         web_building_type = validated_data.get('web_building_type')
         price = validated_data.get('price')
+        phone_number = validated_data.get('phone_number')
         creator = self.context['request'].user
         titles = [i.title for i in amenities]
         amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
         price_t = PriceListModel.objects.get(price_t=price_types)
         target_objs = HouseModel.objects.create(price_type=price_t, title=title, price=price,
                                                 web_address_title=web_address_title,
+                                                phone_number=phone_number,
                                                 web_address_latitude=web_address_latitude,
                                                 web_address_longtitude=web_address_longtitude,
                                                 web_type=web_type, web_rental_type=web_rental_type,
@@ -313,8 +315,8 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                                                 creator=creator
                                                 )
         target_objs.amenities.add(*amenities_titles)
-        for uploaded_item in uploaded_data:
-            new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
+        # for uploaded_item in uploaded_data:
+        #     new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
         return target_objs
 
 

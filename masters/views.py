@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, status
+from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
@@ -43,6 +44,7 @@ class MasterDetailAPIView(APIView):
         serializer = MasterDetailSerializer(products, context={'request': request})
         return Response(serializer.data)
 
+
 #
 # class MasterAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
 #     queryset = MasterModel.objects.all()
@@ -52,24 +54,38 @@ class MasterDetailAPIView(APIView):
 #         return {'request': self.request}
 
 
-class MasterCreateAPIView(APIView):
+class MasterCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
+    queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
-    parser_classes = [MultiPartParser]
 
-    def get_object(self):
-        return MasterModel.objects.all()
 
-    def get(self, request):
-        serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
-        return Response(serailizer.data, status=200)
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.create(validated_data=serializer.validated_data, owner=request.user)
+@api_view(['GET', 'POST'])
+def snippet_list(request):
+    if request.method == 'GET':
+        snippets = MasterModel.objects.all()
+        serializer = MasterCreateSerializer(snippets, many=True)
         return Response(serializer.data)
 
+    elif request.method == 'POST':
+        serializer = MasterCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+# def get_object(self):
+#     return MasterModel.objects.all()
+#
+# def get(self, request):
+#     serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
+#     return Response(serailizer.data, status=200)
+#
+# def post(self, request):
+#     serializer = self.serializer_class(data=request.data)
+#     if serializer.is_valid():
+#         serializer.create(validated_data=serializer.validated_data, owner=request.user)
+#     return Response(serializer.data)
 
 
 class MasterUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
@@ -90,9 +106,6 @@ class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
-
-
-
 
 
 class PostList(generics.ListCreateAPIView):
