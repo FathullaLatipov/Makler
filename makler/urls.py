@@ -30,7 +30,7 @@ router = DefaultRouter()
 
 urlpatterns = [
     path('master/', include('masters.urls')),
-    path('store/', include('store.urls')),
+    path('store2/', include('store.urls')),
     path('users/', include('user.urls')),
     path('admin/', admin.site.urls),
     path('products/', include('products.urls')),
