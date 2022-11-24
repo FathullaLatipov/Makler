@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from masters.models import MasterModel
@@ -36,11 +37,10 @@ class UserViewSet(GenericViewSet):
         return Response({'token': token.tokens()})
 
     #
-    @action(['DELETE'], detail=False, permission_classes=[IsAuthenticated])
-    def logout(self, request: Request):
-        Token.objects.get(user=request.user).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+    # @action(['DELETE'], detail=False, permission_classes=[IsAuthenticated])
+    # def logout(self, request: Request):
+    #     Token.objects.get(user=request.user).delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # class LoginView(TokenObtainPairView):
@@ -72,10 +72,22 @@ class LoginView(GenericViewSet):
         return Response({'token': token.tokens()})
 
     #
-    @action(['DELETE'], detail=False, permission_classes=[IsAuthenticated])
-    def logout(self, request: Request):
-        Token.objects.get(user=request.user).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # @action(['DELETE'], detail=False, permission_classes=[IsAuthenticated])
+    # def logout(self, request: Request):
+    #     Token.objects.get(user=request.user).delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        token = RefreshToken(request.data.get('refresh'))
+        token.blacklist()
+        if not token.blacklist():
+            return Response("Ошибка")
+        else:
+            return Response({"status": "Успешно"})
 
 
 class UserProfile(APIView):

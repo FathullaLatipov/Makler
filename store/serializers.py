@@ -14,16 +14,16 @@ class StoreAmenitiesSerializer(serializers.ModelSerializer):
 
 class StoreModelSerializer(serializers.ModelSerializer):
     # store_amenitites = StoreAmenitiesSerializer(many=True)
-    uploaded_image = serializers.FileField(
-        max_length=10000,
-        allow_empty_file=False,
-        write_only=True
-    )
+    # uploaded_image = serializers.FileField(
+    #     max_length=10000,
+    #     allow_empty_file=False,
+    #     write_only=True
+    # )
 
     class Meta:
         model = StoreModel
         fields = ['id', 'name', 'description', 'brand', 'price', 'use_for',
-                  'phoneNumber', 'address', 'email', 'uploaded_image', 'creator']
+                  'phoneNumber', 'address', 'email', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
         # read_only_fields = ['creator', ]
 

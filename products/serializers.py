@@ -65,12 +65,6 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class APPHomeCreateSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True
-    )
-
     # address = AddressSerializer()
 
     class Meta:
@@ -78,11 +72,10 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent', 'typeOfHouse',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
-                  'images', 'uploaded_images',]
+                  ]
         # extra_kwargs = {"user": {"read_only": True}}
 
     def create(self, validated_data):
-        uploaded_data = validated_data.pop('uploaded_images')
         title = validated_data.get('title')
         descriptions = validated_data.get('descriptions')
         price = validated_data.get('price')
@@ -129,8 +122,6 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
             product_status=product_status,
         )
         new_product.amenities.add(*amenities_titles)
-        for uploaded_item in uploaded_data:
-            new_product_image = NewHouseImages.objects.create(product=new_product, images=uploaded_item)
         return new_product
 
     def get_img_url(self, obj):
