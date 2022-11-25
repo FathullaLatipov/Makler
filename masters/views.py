@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, mixins, status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser
@@ -11,7 +12,7 @@ from rest_framework.authentication import TokenAuthentication
 
 from products.utils import get_wishlist_data
 from .models import MasterModel
-from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer, PostSerializer
+from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer
 
 
 class MasterListAPIView(generics.ListAPIView):
@@ -39,6 +40,10 @@ def add_to_wishlist(request, pk):
 
 
 class MasterDetailAPIView(APIView):
+    @swagger_auto_schema(
+        operation_summary="Получения Мастера(ID)",
+        operation_description="Метод получения данных мастера. Помимо типа данных и токен авторизации, передаётся только ID мастера.",
+    )
     def get(self, request, pk):
         products = MasterModel.objects.get(id=pk)
         serializer = MasterDetailSerializer(products, context={'request': request})
@@ -92,6 +97,10 @@ class MasterUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
 
+    @swagger_auto_schema(
+        operation_summary="Обновления мастера(ID)",
+        operation_description="Метод обновления данных мастера. Помимо типа данных и токен авторизации, передаётся только ID мастера.",
+    )
     def update(self, request, *args, **kwargs):
         user_profile = self.get_object()
         serializer = self.get_serializer(user_profile, data=request.data, partial=True)
@@ -104,20 +113,9 @@ class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
 
+    @swagger_auto_schema(
+        operation_summary="Удаления мастера(ID)",
+        operation_description="Метод для удаления данных мастера. Помимо типа данных и токен авторизации, передаётся только ID мастера.",
+    )
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
-
-
-class PostList(generics.ListCreateAPIView):
-    queryset = MasterModel.objects.all()
-    serializer_class = PostSerializer
-    authentication_classes = [TokenAuthentication]
-    # def perform_create(self, serializer):
-    #     print(serializer)
-    #     print('+++==+++++', self.request.user.is_authenticated)
-    #     serializer.save(owner=self.request.user)
-
-
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = MasterModel.objects.all()
-    serializer_class = PostSerializer
