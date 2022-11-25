@@ -1,9 +1,10 @@
+from django.contrib.auth import logout
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
@@ -71,17 +72,8 @@ class LoginView(GenericViewSet):
         token, created = CustomUser.objects.get_or_create(phone_number=phone_number)
         return Response({'token': token.tokens()})
 
-    #
-    # @action(['DELETE'], detail=False, permission_classes=[IsAuthenticated])
-    # def logout(self, request: Request):
-    #     Token.objects.get(user=request.user).delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request):
+    @action(['POST'], detail=False, permission_classes=[permissions.IsAuthenticated])
+    def logout(self, request):
         token = RefreshToken(request.data.get('refresh'))
         token.blacklist()
         if not token.blacklist():
