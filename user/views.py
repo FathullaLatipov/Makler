@@ -1,4 +1,5 @@
 from django.contrib.auth import logout
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -20,7 +21,8 @@ from products.serializers import HomeSerializer
 from masters.serializers import MasterSerializer
 from store.serializers import StoreModelSerializer
 
-from .serializers import RegistrationSerializer, MyTokenObtainPairSerializer, UserSerializer, LoginSerializer
+from .serializers import RegistrationSerializer, UserSerializer, LoginSerializer, UserALLSerializer, \
+    UpdateUserSerializer
 
 
 class UserViewSet(GenericViewSet):
@@ -118,3 +120,22 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+
+
+class UserDetailAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        operation_summary="Получения данных пользователья(ЛК)",
+        operation_description="Метод получения данных пользователья. Помимо типа данных и токен авторизации, передаётся только ID пользователья.",
+    )
+    def get(self, request, pk):
+        users = CustomUser.objects.get(id=pk)
+        serializer = UserALLSerializer(users, context={'request': request})
+        return Response(serializer.data)
+
+
+class UpdateProfileView(generics.UpdateAPIView):
+    queryset = CustomUser.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = UpdateUserSerializer

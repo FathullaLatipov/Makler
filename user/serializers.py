@@ -81,6 +81,11 @@ class UserDataSerializer(serializers.ModelSerializer):
         return attrs
 
 
+class UserALLSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        exclude = ['user_permissions', 'groups', 'password']
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -110,3 +115,39 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = '__all__'
 
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    # email = serializers.EmailField(required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'first_name', 'last_name', 'date_birth', 'avatar_image', 'phone_number',)
+        extra_kwargs = {
+            'first_name': {'required': False},
+            'username': {'required': False},
+            'password': {'required': False},
+        }
+
+    def validate_username(self, value):
+        user = self.context['request'].user
+        if CustomUser.objects.exclude(pk=user.pk).filter(username=value).exists():
+            raise serializers.ValidationError({"username": "This username is already in use."})
+        return value
+
+    def update(self, instance, validated_data):
+        # user = self.context['request'].user
+        #
+        # if user.pk != instance.pk:
+        #     raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+
+        instance.username = validated_data['username']
+        instance.first_name = validated_data['first_name']
+        instance.last_name = validated_data['last_name']
+        instance.date_birth = validated_data['date_birth']
+        instance.avatar_image = validated_data['avatar_image']
+        instance.phone_number = validated_data['phone_number']
+        instance.set_password(validated_data['password'])
+
+        instance.save()
+
+        return instance
