@@ -123,7 +123,7 @@ class WebHomeListAPIView(ListAPIView):
     serializer_class = NewAllWebHomeCreateSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['product_status']
+    filterset_fields = ['product_status', 'object', 'building_type', 'type', 'rental_type']
 
 
 
