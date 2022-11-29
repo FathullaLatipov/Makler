@@ -90,6 +90,9 @@ class HouseListAPIView(generics.ListAPIView):
     ''' Products (Houses)'''
     queryset = HouseModel.objects.filter(draft=False)
     serializer_class = HomeSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['number_of_rooms', 'price']
+    search_fields = ['title']
 
 
 def add_to_wishlist(request, pk):
