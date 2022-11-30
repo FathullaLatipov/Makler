@@ -303,6 +303,9 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         web_address_title = validated_data.get('web_address_title')
         web_address_latitude = validated_data.get('web_address_latitude')
         web_address_longtitude = validated_data.get('web_address_longtitude')
+        web_type = validated_data.get('web_type')
+        web_rental_type = validated_data.get('web_rental_type')
+        web_object = validated_data.get('web_object')
         uploaded_data = validated_data.pop('uploaded_images')
         pm_general = validated_data.get('pm_general')
         pm_residential = validated_data.get('pm_residential')
@@ -325,6 +328,9 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                                                 phone_number=phone_number,
                                                 web_address_latitude=web_address_latitude,
                                                 web_address_longtitude=web_address_longtitude,
+                                                web_type=web_type,
+                                                web_rental_type=web_rental_type,
+                                                web_object=web_object,
                                                 descriptions=descriptions,
                                                 type=type,
                                                 rental_type=rental_type,
