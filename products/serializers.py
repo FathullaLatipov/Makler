@@ -279,11 +279,11 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
 
 
 class NewWebHomeCreateSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True
-    )
+    # images = ImageSerializer(many=True, read_only=True)
+    # uploaded_images = serializers.ListField(
+    #     child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+    #     write_only=True
+    # )
 
     # address = AddressSerializer()
 
@@ -291,7 +291,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         model = HouseModel
         fields = ['id', 'creator', 'title', 'descriptions', 'price', 'price_type',
                   'type', 'rental_type', 'property_type', 'object',
-                  'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'images', 'uploaded_images',
+                  'web_address_title', 'web_address_latitude', 'web_address_longtitude',
                   'pm_general', 'pm_residential', 'pm_kitchen',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
@@ -315,7 +315,6 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         web_type = validated_data.get('web_type')
         web_rental_type = validated_data.get('web_rental_type')
         web_object = validated_data.get('web_object')
-        uploaded_data = validated_data.pop('uploaded_images')
         pm_general = validated_data.get('pm_general')
         pm_residential = validated_data.get('pm_residential')
         pm_kitchen = validated_data.get('pm_kitchen')
@@ -358,8 +357,8 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                                                 creator=creator
                                                 )
         target_objs.amenities.add(*amenities_titles)
-        for uploaded_item in uploaded_data:
-            new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
+        # for uploaded_item in uploaded_data:
+        #     new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
         return target_objs
 
     def get_img_url(self, obj):
