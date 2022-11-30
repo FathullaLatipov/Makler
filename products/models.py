@@ -80,6 +80,7 @@ class HouseModel(models.Model):
     typeOfObject = models.CharField(max_length=90, null=True)
     app_ipoteka = models.BooleanField(default=False, null=True)
     app_mebel = models.BooleanField(default=False, null=True)
+    app_new_building = models.BooleanField(default=False, null=True)
     price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types', null=True)
     ADD_TYPE = (
         ('rent', 'Rent'),
@@ -94,10 +95,10 @@ class HouseModel(models.Model):
     )
     web_address_title = models.CharField(max_length=400, verbose_name=_('web_address_title'), null=True)
     web_address_latitude = models.FloatField(verbose_name=_('web_address_latitude'), null=True)
-    web_address_longtitude = models.FloatField(verbose_name=_('web_address_longtitude'), null=True)
-    web_type = models.CharField(max_length=400, verbose_name=_('web_type'), null=True)
-    web_rental_type = models.CharField(max_length=500, verbose_name=_('web_rental_type'), null=True)
-    web_object = models.CharField(max_length=300, verbose_name=_('web_object'), null=True)
+    web_address_longtitude = models.FloatField(verbose_name=_('pm_general'), null=True)
+    pm_general = models.CharField(max_length=400, verbose_name=_('pm_residential'), null=True)
+    pm_residential = models.CharField(max_length=500, verbose_name=_('pm_kitchen'), null=True)
+    pm_kitchen = models.CharField(max_length=300, verbose_name=_('web_object'), null=True)
     web_building_type = models.CharField(max_length=600, verbose_name=_('web_building_type'), null=True)
     RENTAL_TYPE = (
         ('long_time', 'Long_time'),
@@ -132,6 +133,12 @@ class HouseModel(models.Model):
         blank=True,
     )
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
+    property_type = models.CharField(
+        max_length=100,
+        choices=PROPERTY_TYPE,
+        default=PROPERTY_TYPE[1],
+        null=True
+    )
     # images = models.ManyToManyField(ImagesModel, null=True, blank=True)
     general = models.CharField(max_length=90, verbose_name=_('general'))
     residential = models.CharField(max_length=90, verbose_name=_('residential'))
