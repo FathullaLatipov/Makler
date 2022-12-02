@@ -301,38 +301,39 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         extra_kwargs = {"creator": {"read_only": True}}
 
     def create(self, validated_data):
-        if 'creator' in validated_data:
-            creator = self.context['request'].user
-        else:
-            title = validated_data.get('title')
-            descriptions = validated_data.get('descriptions')
-            price = validated_data.get('price')
-            price_types = validated_data.pop('price_type')
-            type = validated_data.get('type')
-            rental_type = validated_data.get('rental_type')
-            property_type = validated_data.get('property_type')
-            object = validated_data.get('object')
-            web_address_title = validated_data.get('web_address_title')
-            web_address_latitude = validated_data.get('web_address_latitude')
-            web_address_longtitude = validated_data.get('web_address_longtitude')
-            web_type = validated_data.get('web_type')
-            web_rental_type = validated_data.get('web_rental_type')
-            web_object = validated_data.get('web_object')
-            pm_general = validated_data.get('pm_general')
-            pm_residential = validated_data.get('pm_residential')
-            pm_kitchen = validated_data.get('pm_kitchen')
-            number_of_rooms = validated_data.get('number_of_rooms')
-            floor = validated_data.get('floor')
-            floor_from = validated_data.get('floor_from')
-            building_type = validated_data.get('building_type')
-            app_ipoteka = validated_data.get('app_ipoteka')
-            app_mebel = validated_data.get('app_mebel')
-            app_new_building = validated_data.get('app_new_building')
-            amenities = validated_data.get('amenities')
-            phone_number = validated_data.get('phone_number')
-            titles = [i.title for i in amenities]
-            amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
-            price_t = PriceListModel.objects.get(price_t=price_types)
+        title = validated_data.get('title')
+        descriptions = validated_data.get('descriptions')
+        price = validated_data.get('price')
+        price_types = validated_data.pop('price_type')
+        type = validated_data.get('type')
+        rental_type = validated_data.get('rental_type')
+        property_type = validated_data.get('property_type')
+        object = validated_data.get('object')
+        web_address_title = validated_data.get('web_address_title')
+        web_address_latitude = validated_data.get('web_address_latitude')
+        web_address_longtitude = validated_data.get('web_address_longtitude')
+        web_type = validated_data.get('web_type')
+        web_rental_type = validated_data.get('web_rental_type')
+        web_object = validated_data.get('web_object')
+        pm_general = validated_data.get('pm_general')
+        pm_residential = validated_data.get('pm_residential')
+        pm_kitchen = validated_data.get('pm_kitchen')
+        number_of_rooms = validated_data.get('number_of_rooms')
+        floor = validated_data.get('floor')
+        floor_from = validated_data.get('floor_from')
+        building_type = validated_data.get('building_type')
+        app_ipoteka = validated_data.get('app_ipoteka')
+        app_mebel = validated_data.get('app_mebel')
+        app_new_building = validated_data.get('app_new_building')
+        amenities = validated_data.get('amenities')
+        phone_number = validated_data.get('phone_number')
+        creator = self.context['request'].user
+        print(creator, 'this is creator')
+        titles = [i.title for i in amenities]
+        amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
+        price_t = PriceListModel.objects.get(price_t=price_types)
+        if creator == None:
+            print(validated_data, 'dont user')
             target_objs = HouseModel.objects.create(price_type=price_t,
                                                     title=title, price=price,
                                                     web_address_title=web_address_title,
@@ -358,10 +359,39 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                                                     app_mebel=app_mebel,
                                                     app_new_building=app_new_building,
                                                     )
-            target_objs.amenities.add(*amenities_titles)
-            # for uploaded_item in uploaded_data:
-            #     new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
-            return target_objs
+        else:
+            print(validated_data, 'this user')
+            target_objs = HouseModel.objects.create(price_type=price_t, creator=creator,
+                                                    title=title, price=price,
+                                                    web_address_title=web_address_title,
+                                                    phone_number=phone_number,
+                                                    web_address_latitude=web_address_latitude,
+                                                    web_address_longtitude=web_address_longtitude,
+                                                    web_type=web_type,
+                                                    web_rental_type=web_rental_type,
+                                                    web_object=web_object,
+                                                    descriptions=descriptions,
+                                                    type=type,
+                                                    rental_type=rental_type,
+                                                    property_type=property_type,
+                                                    object=object,
+                                                    pm_general=pm_general,
+                                                    pm_residential=pm_residential,
+                                                    pm_kitchen=pm_kitchen,
+                                                    number_of_rooms=number_of_rooms,
+                                                    floor=floor,
+                                                    floor_from=floor_from,
+                                                    building_type=building_type,
+                                                    app_ipoteka=app_ipoteka,
+                                                    app_mebel=app_mebel,
+                                                    app_new_building=app_new_building,
+                                                    )
+        target_objs.amenities.add(*amenities_titles)
+        # if creator in validated_data:
+        # target_objs.creator.add(*creator)
+        # for uploaded_item in uploaded_data:
+        #     new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
+        return target_objs
 
     def get_img_url(self, obj):
         urls = []

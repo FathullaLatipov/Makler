@@ -26,8 +26,11 @@ class MasterModel(models.Model):
     email = models.EmailField(verbose_name=_('email'))
     phone = models.PositiveIntegerField(verbose_name=_('phone'))
     password = models.CharField(verbose_name=_('password'), max_length=100)
-    address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'),
-                                related_name='address', null=True)
+    # address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'),
+    #                             related_name='address', null=True)
+    address_title = models.CharField(max_length=300, verbose_name=_('address_title'), null=True)
+    address_latitude = models.FloatField(max_length=90, verbose_name=_('address_latitude'), null=True)
+    address_longitude = models.FloatField(max_length=90, verbose_name=_('address_longitude'), null=True)
     avatar = models.FileField(upload_to='master_avatar', verbose_name=_('avatar'))
     profession = models.ManyToManyField(MasterProfessionModel, verbose_name=_('profession'),
                                         related_name='profession', blank=True

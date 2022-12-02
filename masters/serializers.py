@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from django.contrib.auth.password_validation import validate_password
 from products.models import MapModel
 from user.models import CustomUser
 from .models import MasterModel, MasterProfessionModel, MasterImagesModel
@@ -42,11 +42,13 @@ class MasterSerializer(serializers.ModelSerializer):
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
     # profession = MasterProfessionModelSerializer(many=True)
+    password = serializers.CharField(write_only=True, required=False,)
     # address = AddressModelSerializer()
 
     class Meta:
         model = MasterModel
-        fields = ['name', 'email', 'image', 'phone', 'address', 'avatar', 'profession',
+        fields = ['name', 'email', 'image', 'phone', 'address_title', 'address_latitude', 'address_longitude',
+                  'password', 'avatar', 'profession',
                   'descriptions', 'experience', 'owner',
                   ]
         extra_kwargs = {"owner": {"read_only": True}}
@@ -55,9 +57,12 @@ class MasterCreateSerializer(serializers.ModelSerializer):
         mastermodel = MasterModel.objects.create(
                                                  image=validated_data['image'],
                                                  name=validated_data['name'],
+                                                 password=validated_data['password'],
                                                  email=validated_data['email'],
                                                  phone=validated_data['phone'],
-                                                 address=validated_data['address'],
+                                                 address_title=validated_data['address_title'],
+                                                 address_latitude=validated_data['address_latitude'],
+                                                 address_longitude=validated_data['address_longitude'],
                                                  avatar=validated_data['avatar'],
                                                  descriptions=validated_data['descriptions'],
                                                  experience=validated_data['experience']
