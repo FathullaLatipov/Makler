@@ -47,7 +47,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MasterModel
-        fields = ['name', 'email', 'phone', 'address_title', 'address_latitude', 'address_longitude',
+        fields = ['name', 'email', 'phone', 'image', 'avatar', 'address_title', 'address_latitude', 'address_longitude',
                   'password', 'profession',
                   'descriptions', 'experience', 'owner',
                   ]
@@ -55,6 +55,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         mastermodel = MasterModel.objects.create(
+                                                 owner=validated_data['owner'],
                                                  image=validated_data['image'],
                                                  name=validated_data['name'],
                                                  password=validated_data['password'],
@@ -65,7 +66,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
                                                  address_longitude=validated_data['address_longitude'],
                                                  avatar=validated_data['avatar'],
                                                  descriptions=validated_data['descriptions'],
-                                                 experience=validated_data['experience']
+                                                 experience=validated_data['experience'],
                                                  )
         for i in validated_data['profession']:
             mastermodel.profession.add(i.id)

@@ -14,6 +14,7 @@ class StoreAmenitiesSerializer(serializers.ModelSerializer):
 
 class StoreModelSerializer(serializers.ModelSerializer):
     # store_amenitites = StoreAmenitiesSerializer(many=True)
+    # creator = serializers.CharField(source='creator')
     # uploaded_image = serializers.FileField(
     #     max_length=10000,
     #     allow_empty_file=False,

@@ -53,12 +53,11 @@ class StoreAddCreateAPIView(generics.CreateAPIView, GenericViewSet):
     parser_classes = [MultiPartParser]
     queryset = StoreModel.objects.all()
 
-
-    # def create(self, request):
-    #     serializer = self.serializer_class(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.create(validated_data=serializer.validated_data, creator=request.user)
-    #     return Response(serializer.data)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.create(validated_data=serializer.validated_data, creator=request.user)
+        return Response(serializer.data)
     # def get_object(self):
     #     return StoreModel.objects.all()
     #
