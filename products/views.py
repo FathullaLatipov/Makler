@@ -6,6 +6,7 @@ from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -134,6 +135,7 @@ class WebHomeCreateView(mixins.CreateModelMixin, GenericViewSet):
     queryset = HouseModel.objects.all()
     serializer_class = NewWebHomeCreateSerializer
     pagination_class = StandardResultsSetPagination
+    permission_classes = [IsAuthenticated,]
 
     # def create(self, validated_data):
     #     targetDef = validated_data.pop(targetDefn)

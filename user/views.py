@@ -123,7 +123,7 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 class UserDetailAPIView(APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     @swagger_auto_schema(
         operation_summary="Получения данных пользователья(ЛК)",
