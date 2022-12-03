@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, mixins
 from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
@@ -48,16 +49,17 @@ class StoreDetailAPIView(APIView):
 #     def get_serializer_context(self):
 #         return {'request': self.request}
 
-class StoreAddCreateAPIView(generics.CreateAPIView, GenericViewSet):
+class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = StoreModelSerializer
     parser_classes = [MultiPartParser]
     queryset = StoreModel.objects.all()
+    permission_classes = [IsAuthenticated,]
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.create(validated_data=serializer.validated_data, creator=request.user)
-        return Response(serializer.data)
+    # def post(self, request, *args, **kwargs):
+    #     serializer = self.serializer_class(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.create(validated_data=serializer.validated_data, creator=request.user)
+    #     return Response(serializer.data)
     # def get_object(self):
     #     return StoreModel.objects.all()
     #

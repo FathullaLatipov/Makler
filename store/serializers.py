@@ -23,23 +23,26 @@ class StoreModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StoreModel
-        fields = ['id', 'name', 'description', 'brand', 'price', 'use_for',
+        fields = ['id', 'name', 'image', 'brand_image', 'description', 'brand', 'price', 'use_for',
                   'phoneNumber', 'address', 'email', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
         # read_only_fields = ['creator', ]
 
-        # storemodel = StoreModel.objects.create(creator=creator,
-        #                                        name=validated_data['name'],
-        #                                        description=validated_data['description'],
-        #                                        image=validated_data['image'],
-        #                                        brand_image=validated_data['brand_image'],
-        #                                        brand=validated_data['brand'],
-        #                                        price=validated_data['price'],
-        #                                        use_for=validated_data['use_for'],
-        #                                        phoneNumber=validated_data['phoneNumber'],
-        #                                        address=validated_data['address'],
-        #                                        email=validated_data['email']
-        #                                        )
+    def create(self, validated_data):
+        creator = self.context['request'].user
+        storemodel = StoreModel.objects.create(creator=creator,
+                                               name=validated_data['name'],
+                                               description=validated_data['description'],
+                                               image=validated_data['image'],
+                                               brand_image=validated_data['brand_image'],
+                                               brand=validated_data['brand'],
+                                               price=validated_data['price'],
+                                               use_for=validated_data['use_for'],
+                                               phoneNumber=validated_data['phoneNumber'],
+                                               address=validated_data['address'],
+                                               email=validated_data['email']
+                                               )
+        return storemodel
 
     def get_img_url(self, obj):
         return self.context['request'].build_absolute_uri(obj.image.url)

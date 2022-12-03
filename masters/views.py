@@ -62,6 +62,7 @@ class MasterDetailAPIView(APIView):
 class MasterCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
+    permission_classes = [IsAuthenticated,]
 
 
 @api_view(['GET', 'POST'])

@@ -54,8 +54,9 @@ class MasterCreateSerializer(serializers.ModelSerializer):
         extra_kwargs = {"owner": {"read_only": True}}
 
     def create(self, validated_data):
+        owner = self.context['request'].user
         mastermodel = MasterModel.objects.create(
-                                                 owner=validated_data['owner'],
+                                                 owner=owner,
                                                  image=validated_data['image'],
                                                  name=validated_data['name'],
                                                  password=validated_data['password'],
