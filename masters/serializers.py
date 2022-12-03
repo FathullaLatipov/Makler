@@ -88,7 +88,6 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
 class MasterDetailSerializer(serializers.ModelSerializer):
     profession = MasterProfessionModelSerializer(many=True)
-    address = AddressModelSerializer()
     images = ImageModelSerializer(many=True)
 
     class Meta:
