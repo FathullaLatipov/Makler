@@ -112,9 +112,13 @@ class UserProfile(APIView):
         return Response(data, status=200)
 
 
-class UserList(generics.ListAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+class UserList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk):
+        users = CustomUser.objects.get(id=pk)
+        serializer = UserSerializer(users, context={'request': request})
+        return Response(serializer.data)
 
 
 class UserDetail(generics.RetrieveAPIView):

@@ -9,9 +9,9 @@ from user.views import UserProfile, UserList, UserDetailAPIView, UpdateProfileVi
 
 urlpatterns = [
         # path('api/v1/users/', include('user.urls')),
-        path('api/v1/all-users/', UserList.as_view()),
+        path('api/v1/profile/<int:pk>/', UserList.as_view()),
         path('api/v1/get-user/<int:pk>/', UserDetailAPIView.as_view()),
         path('api/v1/update-user/<int:pk>/', UpdateProfileView.as_view()),
         path('api/v1/delete-user/<int:pk>/', UserDetailAPIView.as_view()),
-        path('profile/', UserProfile.as_view(), name='user-profile'),
+        # path('profile/', UserProfile.as_view(), name='user-profile'),
 ]
