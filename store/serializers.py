@@ -23,7 +23,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StoreModel
-        fields = ['id', 'name', 'image', 'brand_image', 'description', 'brand', 'price', 'use_for',
+        fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price', 'use_for',
                   'phoneNumber', 'address', 'email', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
         # read_only_fields = ['creator', ]
@@ -42,6 +42,9 @@ class StoreModelSerializer(serializers.ModelSerializer):
                                                address=validated_data['address'],
                                                email=validated_data['email']
                                                )
+        for u in validated_data['store_amenitites']:
+            storemodel.store_amenitites.add(u.id)
+            storemodel.save()
         return storemodel
 
     def get_img_url(self, obj):

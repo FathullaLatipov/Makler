@@ -213,7 +213,7 @@ class HouseFavListAPIView(generics.ListAPIView):
 class HouseDetailAPIView(APIView):
     def get(self, request, pk):
         houses = HouseModel.objects.get(id=pk)
-        serializer = HomeDetailSerializer(houses, context={'request': request})
+        serializer = NewWebHomeCreateSerializer(houses, context={'request': request})
         return Response(serializer.data)
 
 

@@ -143,6 +143,7 @@ class HouseModel(models.Model):
         null=True
     )
     # images = models.ManyToManyField(ImagesModel, null=True, blank=True)
+    image = models.ImageField(upload_to='Product/APi', null=True)
     general = models.CharField(max_length=90, verbose_name=_('general'))
     residential = models.CharField(max_length=90, verbose_name=_('residential'))
     number_of_rooms = models.CharField(max_length=30, verbose_name=_('number_of_rooms'))
