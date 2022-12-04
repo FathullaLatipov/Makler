@@ -21,7 +21,6 @@ class MasterProfessionModel(models.Model):
 
 class MasterModel(models.Model):
     owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='maklers', null=True)
-    image = models.FileField(upload_to='master_image')
     name = models.CharField(max_length=100, verbose_name=_('name'))
     email = models.EmailField(verbose_name=_('email'))
     phone = models.PositiveIntegerField(verbose_name=_('phone'))

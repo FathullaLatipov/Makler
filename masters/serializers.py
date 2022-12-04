@@ -36,7 +36,8 @@ class MasterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MasterModel
-        fields = ['pk', 'name', 'address_title', 'address_latitude', 'address_longitude', 'avatar', 'profession', 'images', 'experience', 'isBookmarked', 'owner']
+        fields = ['pk', 'name', 'address_title', 'address_latitude', 'address_longitude', 'avatar', 'profession',
+                  'experience', 'isBookmarked', 'owner']
 
 
 # create master POST
@@ -87,7 +88,6 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
 class MasterDetailSerializer(serializers.ModelSerializer):
     profession = MasterProfessionModelSerializer(many=True)
-    images = ImageModelSerializer(many=True)
 
     class Meta:
         model = MasterModel
