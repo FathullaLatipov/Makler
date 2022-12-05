@@ -125,7 +125,6 @@ class WebHouseListAPIView(generics.ListAPIView):
 class WebHomeListAPIView(ListAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewAllWebHomeCreateSerializer
-    pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['product_status', 'object', 'building_type', 'type', 'rental_type']
 
