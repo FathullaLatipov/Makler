@@ -244,7 +244,7 @@ class HomeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
+        fields = ['id', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
                   'typeOfHouse',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
