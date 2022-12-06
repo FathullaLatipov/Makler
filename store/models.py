@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from products.models import PriceListModel
 from user.models import CustomUser
 
 
@@ -24,6 +25,7 @@ class StoreModel(models.Model):
     brand_image = models.ImageField(upload_to='avatar_image', verbose_name=_('brand_image'), null=True)
     brand = models.CharField(max_length=200, verbose_name=_('brand'), null=True)
     price = models.PositiveIntegerField(verbose_name=_('price'), null=True)
+    price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='store_price_type', null=True)
     use_for = models.CharField(max_length=400, verbose_name=_('use_for'), null=True)
     phoneNumber = models.PositiveIntegerField(verbose_name=_('phoneNumber'))
     address = models.CharField(max_length=400, verbose_name=_('address'), null=True)
