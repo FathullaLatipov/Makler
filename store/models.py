@@ -33,17 +33,16 @@ class StoreModel(models.Model):
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     draft = models.BooleanField(default=False)
-    PRODUCT_STATUS = (
-        ('InProgress', 'InProgress'),
-        ('PUBLISH', 'PUBLISH'),
-        ('DELETED', 'DELETED'),
-        ('ARCHIVED', 'ARCHIVED'),
-        ('REJECTED', 'REJECTED')
-    )
-    product_status = models.CharField(
+    PRODUCT_STATUS = [
+        (0, 'InProgress'),
+        (1, 'PUBLISH'),
+        (2, 'DELETED'),
+        (3, 'ARCHIVED'),
+        (4, 'REJECTED')
+    ]
+    product_status = models.IntegerField(
         choices=PRODUCT_STATUS,
-        default=PRODUCT_STATUS[0],
-        max_length=30,
+        default=0,
         null=True
     )
     store_amenitites = models.ManyToManyField(StoreAmenities, verbose_name=_('store_amenities'))

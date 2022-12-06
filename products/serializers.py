@@ -403,16 +403,6 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         return urls
 
 
-class HomeArchiveSerializer(serializers.ModelSerializer):
-    product_status = serializers.PrimaryKeyRelatedField(
-        queryset=HouseModel.objects.filter(product_status='ARCHIVED')
-    )
-
-    class Meta:
-        model = HouseModel
-        fields = '__all__'
-
-
 class HomeFavSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
 
