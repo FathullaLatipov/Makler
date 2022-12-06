@@ -274,7 +274,8 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'price', 'price_type', 'amenities', 'phone_number',
                   'web_type', 'web_rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
                   'web_rental_type', 'web_object', 'web_building_type',
-                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images', 'creator'
+                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images', 'product_status',
+                  'created_at', 'creator'
                   ]
 
 

@@ -24,7 +24,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreModel
         fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price', 'price_type', 'use_for',
-                  'phoneNumber', 'address', 'email', 'creator']
+                  'phoneNumber', 'address', 'email', 'created_at', 'product_status', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
         # read_only_fields = ['creator', ]
 
