@@ -48,7 +48,7 @@ class MasterModel(models.Model):
     ]
     product_status = models.IntegerField(
         choices=PRODUCT_STATUS,
-        default=PRODUCT_STATUS[0],
+        default=0,
         null=True
     )
 
