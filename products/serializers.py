@@ -274,7 +274,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'price', 'price_type', 'amenities', 'phone_number',
                   'web_type', 'web_rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
                   'web_rental_type', 'web_object', 'web_building_type',
-                  'isBookmarked', 'created_at', 'product_status', 'images', 'uploaded_images', 'product_status',
+                  'isBookmarked', 'draft', 'created_at', 'product_status', 'images', 'uploaded_images', 'product_status',
                   'created_at', 'creator'
                   ]
 
@@ -297,7 +297,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
                   'amenities', 'phone_number', 'images', 'uploaded_images',
-                  'isBookmarked', 'created_at',
+                  'isBookmarked', 'draft', 'created_at',
                   ]
         extra_kwargs = {"creator": {"read_only": True}}
 
