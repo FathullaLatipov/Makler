@@ -281,11 +281,11 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
 
 
 class NewWebHomeCreateSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True
-    )
+    # images = ImageSerializer(many=True, read_only=True)
+    # uploaded_images = serializers.ListField(
+    #     child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+    #     write_only=True
+    # )
 
     # address = AddressSerializer()
 
@@ -297,7 +297,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                   'pm_general', 'pm_residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
-                  'amenities', 'phone_number', 'images', 'uploaded_images',
+                  'amenities', 'phone_number',
                   'isBookmarked', 'draft', 'created_at',
                   ]
         extra_kwargs = {"creator": {"read_only": True}}
@@ -326,7 +326,9 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         app_new_building = validated_data.get('app_new_building')
         amenities = validated_data.get('amenities')
         phone_number = validated_data.get('phone_number')
-        uploaded_data = validated_data.pop('uploaded_images')
+        draft = validated_data.get('draft')
+        isBookmarked = validated_data.get('isBookmarked')
+        # uploaded_data = validated_data.pop('uploaded_images')
         creator = self.context['request'].user
         print(creator, 'this is creator')
         titles = [i.title for i in amenities]
@@ -339,6 +341,8 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                                                 web_address_latitude=web_address_latitude,
                                                 web_address_longtitude=web_address_longtitude,
                                                 type=type,
+                                                draft=draft,
+                                                isBookmarked=isBookmarked,
                                                 rental_type=rental_type,
                                                 object=object,
                                                 descriptions=descriptions,
@@ -357,8 +361,8 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         target_objs.amenities.add(*amenities_titles)
         # if creator in validated_data:
         # target_objs.creator.add(*creator)
-        for uploaded_item in uploaded_data:
-            new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
+        # for uploaded_item in uploaded_data:
+        #     new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
         return target_objs
 
     def get_img_url(self, obj):

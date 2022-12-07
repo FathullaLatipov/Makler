@@ -167,7 +167,7 @@ class HouseModel(models.Model):
     amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), related_name=_('pr_amenities'), blank=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
-    draft = models.BooleanField(default=False)
+    draft = models.BooleanField(default=False, null=True)
     PRODUCT_STATUS = [
         (0, 'InProgress'),
         (1, 'PUBLISH'),
