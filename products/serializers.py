@@ -281,11 +281,11 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
 
 
 class NewWebHomeCreateSerializer(serializers.ModelSerializer):
-    # images = ImageSerializer(many=True, read_only=True)
-    # uploaded_images = serializers.ListField(
-    #     child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-    #     write_only=True
-    # )
+    images = ImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
 
     # address = AddressSerializer()
 
@@ -294,7 +294,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'creator', 'title', 'descriptions', 'price', 'price_type',
                   'type', 'rental_type', 'property_type', 'object',
                   'web_address_title', 'web_address_latitude', 'web_address_longtitude',
-                  'pm_general', 'pm_residential',
+                  'pm_general', 'pm_residential', 'images', 'uploaded_images',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
                   'amenities', 'phone_number',
@@ -328,7 +328,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         phone_number = validated_data.get('phone_number')
         draft = validated_data.get('draft')
         isBookmarked = validated_data.get('isBookmarked')
-        # uploaded_data = validated_data.pop('uploaded_images')
+        uploaded_data = validated_data.pop('uploaded_images')
         creator = self.context['request'].user
         print(creator, 'this is creator')
         titles = [i.title for i in amenities]
