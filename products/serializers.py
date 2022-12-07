@@ -159,7 +159,7 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ('title', 'descriptions', 'price', 'residential', 'number_of_rooms', 'phone_number',
-                  'floor', 'floor_from', 'general', 'web_type', 'web_rental_type', 'web_object', 'web_building_type',
+                  'floor', 'floor_from', 'general', 'web_type', 'web_rental_type', 'object', 'web_building_type',
                   'isBookmarked',
                   'images', 'uploaded_images',)
         # extra_kwargs = {"user": {"read_only": True}}
@@ -272,9 +272,10 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ['id', 'title', 'price', 'price_type', 'amenities', 'phone_number',
-                  'web_type', 'web_rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
-                  'web_rental_type', 'web_object', 'web_building_type',
-                  'isBookmarked', 'draft', 'created_at', 'product_status', 'images', 'uploaded_images', 'product_status',
+                  'type', 'rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
+                  'object', 'building_type',
+                  'isBookmarked', 'draft', 'created_at', 'product_status', 'images', 'uploaded_images',
+                  'product_status',
                   'created_at', 'creator'
                   ]
 
@@ -293,7 +294,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'creator', 'title', 'descriptions', 'price', 'price_type',
                   'type', 'rental_type', 'property_type', 'object',
                   'web_address_title', 'web_address_latitude', 'web_address_longtitude',
-                  'pm_general', 'pm_residential', 'pm_kitchen',
+                  'pm_general', 'pm_residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
                   'amenities', 'phone_number', 'images', 'uploaded_images',
@@ -313,9 +314,6 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         web_address_title = validated_data.get('web_address_title')
         web_address_latitude = validated_data.get('web_address_latitude')
         web_address_longtitude = validated_data.get('web_address_longtitude')
-        web_type = validated_data.get('web_type')
-        web_rental_type = validated_data.get('web_rental_type')
-        web_object = validated_data.get('web_object')
         pm_general = validated_data.get('pm_general')
         pm_residential = validated_data.get('pm_residential')
         pm_kitchen = validated_data.get('pm_kitchen')
@@ -334,60 +332,28 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         titles = [i.title for i in amenities]
         amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
         price_t = PriceListModel.objects.get(price_t=price_types)
-        if creator == None:
-            print(validated_data, 'dont user')
-            target_objs = HouseModel.objects.create(price_type=price_t,
-                                                    title=title, price=price,
-                                                    web_address_title=web_address_title,
-                                                    phone_number=phone_number,
-                                                    web_address_latitude=web_address_latitude,
-                                                    web_address_longtitude=web_address_longtitude,
-                                                    web_type=web_type,
-                                                    web_rental_type=web_rental_type,
-                                                    web_object=web_object,
-                                                    descriptions=descriptions,
-                                                    type=type,
-                                                    rental_type=rental_type,
-                                                    property_type=property_type,
-                                                    object=object,
-                                                    pm_general=pm_general,
-                                                    pm_residential=pm_residential,
-                                                    pm_kitchen=pm_kitchen,
-                                                    number_of_rooms=number_of_rooms,
-                                                    floor=floor,
-                                                    floor_from=floor_from,
-                                                    building_type=building_type,
-                                                    app_ipoteka=app_ipoteka,
-                                                    app_mebel=app_mebel,
-                                                    app_new_building=app_new_building,
-                                                    )
-        else:
-            print(validated_data, 'this user')
-            target_objs = HouseModel.objects.create(price_type=price_t, creator=creator,
-                                                    title=title, price=price,
-                                                    web_address_title=web_address_title,
-                                                    phone_number=phone_number,
-                                                    web_address_latitude=web_address_latitude,
-                                                    web_address_longtitude=web_address_longtitude,
-                                                    web_type=web_type,
-                                                    web_rental_type=web_rental_type,
-                                                    web_object=web_object,
-                                                    descriptions=descriptions,
-                                                    type=type,
-                                                    rental_type=rental_type,
-                                                    property_type=property_type,
-                                                    object=object,
-                                                    pm_general=pm_general,
-                                                    pm_residential=pm_residential,
-                                                    pm_kitchen=pm_kitchen,
-                                                    number_of_rooms=number_of_rooms,
-                                                    floor=floor,
-                                                    floor_from=floor_from,
-                                                    building_type=building_type,
-                                                    app_ipoteka=app_ipoteka,
-                                                    app_mebel=app_mebel,
-                                                    app_new_building=app_new_building,
-                                                    )
+        target_objs = HouseModel.objects.create(price_type=price_t, creator=creator,
+                                                title=title, price=price,
+                                                web_address_title=web_address_title,
+                                                phone_number=phone_number,
+                                                web_address_latitude=web_address_latitude,
+                                                web_address_longtitude=web_address_longtitude,
+                                                type=type,
+                                                rental_type=rental_type,
+                                                object=object,
+                                                descriptions=descriptions,
+                                                property_type=property_type,
+                                                pm_general=pm_general,
+                                                pm_residential=pm_residential,
+                                                pm_kitchen=pm_kitchen,
+                                                number_of_rooms=number_of_rooms,
+                                                floor=floor,
+                                                floor_from=floor_from,
+                                                building_type=building_type,
+                                                app_ipoteka=app_ipoteka,
+                                                app_mebel=app_mebel,
+                                                app_new_building=app_new_building,
+                                                )
         target_objs.amenities.add(*amenities_titles)
         # if creator in validated_data:
         # target_objs.creator.add(*creator)

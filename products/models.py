@@ -99,9 +99,8 @@ class HouseModel(models.Model):
     pm_general = models.CharField(max_length=400, verbose_name=_('pm_residential'), null=True)
     web_type = models.CharField(max_length=400, verbose_name=_('web_type'), null=True)
     web_rental_type = models.CharField(max_length=400, verbose_name=_('web_rental_type'), null=True)
-    web_object = models.CharField(max_length=400, verbose_name=_('web_object'), null=True)
     pm_residential = models.CharField(max_length=500, verbose_name=_('pm_kitchen'), null=True)
-    pm_kitchen = models.CharField(max_length=300, verbose_name=_('web_object'), null=True)
+    pm_kitchen = models.CharField(max_length=300, verbose_name=_('pm_kitchen2'), null=True)
     web_building_type = models.CharField(max_length=600, verbose_name=_('web_building_type'), null=True)
     RENTAL_TYPE = (
         ('long_time', 'Long_time'),
