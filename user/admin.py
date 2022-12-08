@@ -5,7 +5,7 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ['id', 'phone_number', 'created_at', 'is_superuser', 'is_staff', 'is_active']
+    list_display = ['id', 'first_name', 'phone_number', 'created_at', 'is_superuser', 'is_staff', 'is_active']
     ordering = ['id']
     add_fieldsets = (
         (None, {
@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {
             "fields": (
-                ('phone_number', 'is_superuser', 'is_staff'),
+                ('first_name', 'phone_number', 'is_superuser', 'is_staff'),
             ),
         }),
     )

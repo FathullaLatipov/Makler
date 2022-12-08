@@ -361,8 +361,8 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         target_objs.amenities.add(*amenities_titles)
         # if creator in validated_data:
         # target_objs.creator.add(*creator)
-        # for uploaded_item in uploaded_data:
-        #     new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
+        for uploaded_item in uploaded_data:
+            new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
         return target_objs
 
     def get_img_url(self, obj):
