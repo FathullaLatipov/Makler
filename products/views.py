@@ -11,10 +11,6 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-
-from masters.models import MasterModel
-from store.models import StoreModel
-from user.models import CustomUser
 from .models import ImagesModel, MapModel, PriceListModel
 from rest_framework.decorators import parser_classes, api_view
 
@@ -126,10 +122,11 @@ class WebHouseListAPIView(generics.ListAPIView):
 class WebHomeListAPIView(ListAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewAllWebHomeCreateSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['product_status', 'object', 'building_type', 'number_of_rooms', 'type', 'rental_type']
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['product_status', 'object', 'building_type', 'number_of_rooms',
+                        'type', 'rental_type']
 
-
+    search_fields = ['web_address_title']
 
 class WebHomeCreateView(mixins.CreateModelMixin, GenericViewSet):
     queryset = HouseModel.objects.all()

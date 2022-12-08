@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, mixins, status
 from rest_framework.decorators import api_view
@@ -19,7 +20,8 @@ class MasterListAPIView(generics.ListAPIView):
     ''' Masters '''
     queryset = MasterModel.objects.order_by('pk')
     serializer_class = MasterSerializer
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['address_title', 'profession']
 
 def add_to_wishlist(request, pk):
     try:
