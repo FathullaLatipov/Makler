@@ -1,9 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from products.models import MapModel
-from user.models import CustomUser
-
 
 class MasterProfessionModel(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('title'))

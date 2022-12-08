@@ -127,7 +127,7 @@ class WebHomeListAPIView(ListAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewAllWebHomeCreateSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['product_status', 'object', 'building_type', 'type', 'rental_type']
+    filterset_fields = ['product_status', 'object', 'building_type', 'number_of_rooms', 'type', 'rental_type']
 
 
 

@@ -214,7 +214,6 @@ class HouseImageModel(models.Model):
         verbose_name = _('Изображения маклер (квартиры и т.д)')
         verbose_name_plural = _('Изображения маклер (квартиры и т.д)')
 
-#
 # class HouseOptionsModel(models.Model):
 #     product = models.ForeignKey(HouseModel, on_delete=models.PROTECT, related_name='products_options',
 #                                 verbose_name=_('product'), null=True, blank=True)

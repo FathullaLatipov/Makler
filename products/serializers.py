@@ -3,9 +3,12 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
 from rest_framework.decorators import action
 
+from masters.serializers import MasterSerializer
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel, \
     NewHouseImages, PriceListModel
+from store.serializers import StoreModelSerializer
+from user.models import CustomUser
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -271,12 +274,14 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'price', 'price_type', 'amenities', 'phone_number',
-                  'type', 'rental_type', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
-                  'object', 'building_type',
-                  'isBookmarked', 'draft', 'created_at', 'product_status', 'images', 'uploaded_images',
-                  'product_status',
-                  'created_at', 'creator'
+        fields = ['id', 'creator', 'title', 'descriptions', 'price', 'price_type',
+                  'type', 'rental_type', 'property_type', 'object',
+                  'web_address_title', 'web_address_latitude', 'web_address_longtitude',
+                  'pm_general', 'pm_residential', 'images', 'uploaded_images',
+                  'number_of_rooms', 'floor', 'floor_from', 'building_type',
+                  'app_ipoteka', 'app_mebel', 'app_new_building',
+                  'amenities', 'phone_number',
+                  'isBookmarked', 'draft', 'created_at',
                   ]
 
 
