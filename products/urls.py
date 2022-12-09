@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from products.views import HouseListAPIView, HouseDetailAPIView, HouseAddCreateAPIView, \
     APPHouseAddCreateAPIView, HouseUpdateAPIView, HouseDestroyAPIView, WebHomeCreateView, WebHomeListAPIView, \
-    WebAmenitiesListAPIView
+    WebAmenitiesListAPIView, SearchWebHomeListAPIView
 
 router = DefaultRouter()
 # router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/v1/houses/app-create', APPHouseAddCreateAPIView.as_view()),
     # path('api/v1/houses/create', HouseAddCreateAPIView.as_view()),
     path('web/api/v1/all-web-houses/', WebHomeListAPIView.as_view()),
+    path('web/api/v1/web-houses/search/', SearchWebHomeListAPIView.as_view()),
     path('web/api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/web-houses/amenities/', WebAmenitiesListAPIView.as_view()),
     # path('api/v1/houses/image/', HouseImageAPIView.as_view()),

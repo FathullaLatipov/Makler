@@ -128,6 +128,14 @@ class WebHomeListAPIView(ListAPIView):
 
     search_fields = ['web_address_title']
 
+
+class SearchWebHomeListAPIView(ListAPIView):
+    queryset = HouseModel.objects.all()
+    serializer_class = NewAllWebHomeCreateSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['web_address_title']
+
+
 class WebHomeCreateView(mixins.CreateModelMixin, GenericViewSet):
     queryset = HouseModel.objects.all()
     serializer_class = NewWebHomeCreateSerializer
