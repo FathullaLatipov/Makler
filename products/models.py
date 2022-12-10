@@ -7,6 +7,7 @@ from user.models import CustomUser
 
 class CategoryModel(models.Model):
     title = models.CharField(max_length=500, verbose_name=_('title'))
+    subtitle = models.TextField(verbose_name=_('subtitle'), null=True)
     image = models.FileField(upload_to='category_image')
     created_at = models.DateTimeField(auto_now_add=True)
 

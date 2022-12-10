@@ -14,7 +14,7 @@ from user.models import CustomUser
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryModel
-        fields = ['id', 'title', 'image', 'created_at']
+        fields = ['id', 'title', 'subtitle', 'image', 'created_at']
 
 
 class AmenitiesSerializer(serializers.ModelSerializer):
