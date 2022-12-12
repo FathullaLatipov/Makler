@@ -4,6 +4,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, mixins, status
 from rest_framework.decorators import api_view
+from rest_framework.filters import SearchFilter
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
@@ -21,7 +22,14 @@ class MasterListAPIView(generics.ListAPIView):
     queryset = MasterModel.objects.order_by('pk')
     serializer_class = MasterSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['address_title', 'profession']
+    filterset_fields = ['profession']
+
+class SearchMasterListAPIView(generics.ListAPIView):
+    ''' Masters '''
+    queryset = MasterModel.objects.order_by('pk')
+    serializer_class = MasterSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['address_title']
 
 def add_to_wishlist(request, pk):
     try:

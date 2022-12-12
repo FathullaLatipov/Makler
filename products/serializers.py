@@ -305,7 +305,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                   'amenities', 'phone_number',
                   'isBookmarked', 'draft', 'created_at',
                   ]
-        extra_kwargs = {"creator": {"read_only": True}}
+        extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only":True}}
 
     def create(self, validated_data):
         title = validated_data.get('title')

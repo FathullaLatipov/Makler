@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins
+from rest_framework.filters import SearchFilter
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -15,6 +17,15 @@ from .serializers import StoreModelSerializer
 class StoreModelAPIView(generics.ListAPIView):
     queryset = StoreModel.objects.order_by('pk')
     serializer_class = StoreModelSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['use_for']
+
+
+class SearchStoreModelAPIView(generics.ListAPIView):
+    queryset = StoreModel.objects.order_by('pk')
+    serializer_class = StoreModelSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['address']
 
 
 def add_to_wishlist(request, pk):

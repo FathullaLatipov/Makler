@@ -2,12 +2,13 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from products.views import HouseListAPIView, HouseDetailAPIView, HouseAddCreateAPIView, \
     APPHouseAddCreateAPIView, HouseUpdateAPIView, HouseDestroyAPIView, WebHomeCreateView, WebHomeListAPIView, \
-    WebAmenitiesListAPIView, SearchWebHomeListAPIView
+    WebAmenitiesListAPIView, SearchWebHomeListAPIView, WishlistHouseDetailAPIView
 
 router = DefaultRouter()
 # router.register(r'api/v1/houses/create', HouseAddCreateAPIView)
 # router.register(r'api/v1/houses/app-create', APPHouseAddCreateAPIView)
 router.register(r'api/v1/houses/update', HouseUpdateAPIView)
+router.register(r'api/v1/houses/wishlist-houses', WishlistHouseDetailAPIView)
 router.register(r'api/v1/houses/delete', HouseDestroyAPIView)
 router.register(r'web/api/v1/web-houses/create', WebHomeCreateView)
 

@@ -88,7 +88,7 @@ class HouseListAPIView(generics.ListAPIView):
     queryset = HouseModel.objects.filter(draft=False)
     serializer_class = HomeSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['number_of_rooms', 'price']
+    filterset_fields = ['number_of_rooms', 'price', 'address']
     pagination_class = StandardResultsSetPagination
     search_fields = ['title']
 
@@ -214,6 +214,18 @@ class HouseDetailAPIView(APIView):
     def get(self, request, pk):
         houses = HouseModel.objects.get(id=pk)
         serializer = NewWebHomeCreateSerializer(houses, context={'request': request})
+        return Response(serializer.data)
+
+
+class WishlistHouseDetailAPIView(mixins.UpdateModelMixin, GenericViewSet):
+    queryset = HouseModel.objects.all()
+    serializer_class = NewWebHomeCreateSerializer
+
+    def update(self, request, *args, **kwargs):
+        user_profile = self.get_object()
+        serializer = self.get_serializer(user_profile, data=request.data, partial=True)
+        serializer.is_valid()
+        self.perform_update(serializer)
         return Response(serializer.data)
 
 

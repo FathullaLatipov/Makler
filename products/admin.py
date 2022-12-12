@@ -19,6 +19,7 @@ class AmenitiesModelAdmin(admin.ModelAdmin):
     list_filter = ['created_at']
     save_as = True
 
+
 @admin.register(PriceListModel)
 class PriceListModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'price_t', 'created_at']
