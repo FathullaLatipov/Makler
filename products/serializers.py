@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from masters.serializers import MasterSerializer
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel, \
-    NewHouseImages, PriceListModel
+    NewHouseImages, PriceListModel, HowSaleModel
 from store.serializers import StoreModelSerializer
 from user.models import CustomUser
 
@@ -260,6 +260,12 @@ class PriceListSerializer(serializers.ModelSerializer):
         fields = ['price_t']
 
 
+class NewWebHowSaleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HowSaleModel
+        fields = ['title']
+
+
 # web
 class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
@@ -269,7 +275,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     )
     amenities = WebAmenitiesSerializer(many=True)
     price_type = PriceListSerializer()
-
+    how_sale = NewWebHowSaleSerializer()
     # address = AddressSerializer()
 
     class Meta:
@@ -280,7 +286,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
                   'pm_general', 'pm_residential', 'images', 'uploaded_images',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
-                  'amenities', 'phone_number',
+                  'amenities', 'phone_number', 'how_sale',
                   'isBookmarked', 'draft', 'created_at',
                   ]
 
@@ -291,6 +297,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
+    how_sale = NewWebHowSaleSerializer()
 
     # address = AddressSerializer()
 
@@ -302,10 +309,10 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                   'pm_general', 'pm_residential', 'images', 'uploaded_images',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
-                  'amenities', 'phone_number',
+                  'amenities', 'phone_number', 'how_sale',
                   'isBookmarked', 'draft', 'created_at',
                   ]
-        extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only":True}}
+        extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only": True}}
 
     def create(self, validated_data):
         title = validated_data.get('title')
@@ -313,6 +320,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         price = validated_data.get('price')
         price_types = validated_data.pop('price_type')
         type = validated_data.get('type')
+        how_sale = validated_data.get('how_sale')
         rental_type = validated_data.get('rental_type')
         property_type = validated_data.get('property_type')
         object = validated_data.get('object')
@@ -341,6 +349,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         price_t = PriceListModel.objects.get(price_t=price_types)
         target_objs = HouseModel.objects.create(price_type=price_t, creator=creator,
                                                 title=title, price=price,
+                                                how_sale=how_sale,
                                                 web_address_title=web_address_title,
                                                 phone_number=phone_number,
                                                 web_address_latitude=web_address_latitude,

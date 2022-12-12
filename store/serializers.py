@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
 from user.models import CustomUser
-from .models import StoreModel, StoreAmenities
+from .models import StoreModel, StoreAmenities, UseForModel
 
 
 # bu store niki
@@ -10,6 +10,12 @@ class StoreAmenitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreAmenities
         fields = ['title', ]
+
+
+class UseForModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UseForModel
+        fields = ['title']
 
 
 class StoreModelSerializer(serializers.ModelSerializer):
@@ -20,6 +26,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
     #     allow_empty_file=False,
     #     write_only=True
     # )
+    use_for = UseForModelSerializer
 
     class Meta:
         model = StoreModel

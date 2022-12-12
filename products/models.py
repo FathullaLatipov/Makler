@@ -65,6 +65,18 @@ class PriceListModel(models.Model):
         verbose_name_plural = _('Цены')
 
 
+class HowSaleModel(models.Model):
+    title = models.CharField(max_length=300, null=True, verbose_name=_('Как продавать'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Как продавать')
+        verbose_name_plural = _('Как продавать')
+
+
 class HouseModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True,
                                 blank=True)
@@ -97,6 +109,7 @@ class HouseModel(models.Model):
     web_address_title = models.CharField(max_length=400, verbose_name=_('web_address_title'), null=True)
     web_address_latitude = models.FloatField(verbose_name=_('web_address_latitude'), null=True)
     web_address_longtitude = models.FloatField(verbose_name=_('pm_general'), null=True)
+    how_sale = models.ForeignKey(HowSaleModel, on_delete=models.CASCADE, null=True, blank=True)
     pm_general = models.CharField(max_length=400, verbose_name=_('pm_residential'), null=True)
     web_type = models.CharField(max_length=400, verbose_name=_('web_type'), null=True)
     web_rental_type = models.CharField(max_length=400, verbose_name=_('web_rental_type'), null=True)
@@ -165,7 +178,8 @@ class HouseModel(models.Model):
     )
 
     phone_number = models.CharField(max_length=19, verbose_name=_('phone_number'), null=True)
-    amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), related_name=_('pr_amenities'), blank=True)
+    amenities = models.ManyToManyField(AmenitiesModel, verbose_name=_('amenities'), related_name=_('pr_amenities'),
+                                       blank=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     draft = models.BooleanField(default=False, null=True)

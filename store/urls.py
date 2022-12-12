@@ -13,7 +13,6 @@ router.register(r'api/v1/store/delete', StoreDestroyAPIView)
 urlpatterns = [
     path('api/v1/store/', StoreModelAPIView.as_view()),
     path('api/v1/store/search', SearchStoreModelAPIView.as_view()),
-    path('api/v1/store/search', SearchStoreModelAPIView.as_view()),
     path('api/v1/store/<int:pk>', StoreDetailAPIView.as_view()),
 ]
 
