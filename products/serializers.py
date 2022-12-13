@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from masters.serializers import MasterSerializer
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel, \
-    NewHouseImages, PriceListModel, HowSaleModel
+    NewHouseImages, PriceListModel, HowSaleModel, UserWishlistModel
 from store.serializers import StoreModelSerializer
 from user.models import CustomUser
 
@@ -411,4 +411,10 @@ class HomeDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
+        fields = '__all__'
+
+
+class UserWishlistModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserWishlistModel
         fields = '__all__'

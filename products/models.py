@@ -229,6 +229,19 @@ class HouseImageModel(models.Model):
         verbose_name = _('Изображения маклер (квартиры и т.д)')
         verbose_name_plural = _('Изображения маклер (квартиры и т.д)')
 
+
+class UserWishlistModel(models.Model):
+    user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.product.title
+
+    class Meta:
+        verbose_name = _('Wishlist')
+        verbose_name_plural = _('Wishlist')
+
 # class HouseOptionsModel(models.Model):
 #     product = models.ForeignKey(HouseModel, on_delete=models.PROTECT, related_name='products_options',
 #                                 verbose_name=_('product'), null=True, blank=True)

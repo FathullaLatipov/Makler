@@ -11,7 +11,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from .models import ImagesModel, MapModel, PriceListModel
+from .models import ImagesModel, MapModel, PriceListModel, UserWishlistModel
 from rest_framework.decorators import parser_classes, api_view
 
 from products.helpers import modify_input_for_multiple_files
@@ -19,7 +19,7 @@ from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImag
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, \
     WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, \
-    PriceListSerializer, NewAllWebHomeCreateSerializer, APPHomeCreateSerializer
+    PriceListSerializer, NewAllWebHomeCreateSerializer, APPHomeCreateSerializer, UserWishlistModelSerializer
 from products.utils import get_wishlist_data
 
 
@@ -224,7 +224,7 @@ class WishlistHouseDetailAPIView(mixins.UpdateModelMixin, GenericViewSet):
     def update(self, request, *args, **kwargs):
         user_profile = self.get_object()
         serializer = self.get_serializer(user_profile, data=request.data, partial=True)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
 
@@ -366,3 +366,16 @@ class HouseDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
+                            mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet):
+
+    queryset = UserWishlistModel.objects.all()
+    serializer_class = UserWishlistModelSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
+
+    # def get_queryset(self):
+    #
+    #     return UserWishlistModel.objects.filter(user=pk)
