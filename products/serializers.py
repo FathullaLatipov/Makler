@@ -20,7 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class AmenitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AmenitiesModel
-        fields = ['title', 'image', 'created_at']
+        fields = ['id', 'title', 'image', 'created_at']
 
 
 # web
@@ -108,7 +108,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         floor = validated_data.get('floor')
         floor_from = validated_data.get('floor_from')
         building_type = validated_data.get('building_type')
-        uploaded_data = validated_data.pop('uploaded_images')
+        uploaded_datas = validated_data.pop('uploaded_images')
         product_status = validated_data.get('product_status')
         amenities = validated_data.get('amenities')
         titles = [i.title for i in amenities]
@@ -138,8 +138,8 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
             product_status=product_status,
         )
         new_product.amenities.add(*amenities_titles)
-        for uploaded_item in uploaded_data:
-            new_product_image = NewHouseImages.objects.create(product=new_product, images=uploaded_item)
+        for q in uploaded_datas:
+            new_product_image = NewHouseImages.objects.create(product=new_product, images=q)
         return new_product
 
     def get_img_url(self, obj):
@@ -166,15 +166,6 @@ class NewHomeCreateSerializer(serializers.ModelSerializer):
                   'isBookmarked',
                   'images', 'uploaded_images',)
         # extra_kwargs = {"user": {"read_only": True}}
-
-    @swagger_auto_schema(operation_description='Upload file...', )
-    @action(detail=False, methods=['post'])
-    def create(self, validated_data):
-        uploaded_data = validated_data.pop('uploaded_images')
-        new_product = HouseModel.objects.create(**validated_data)
-        for uploaded_item in uploaded_data:
-            new_product_image = NewHouseImages.objects.create(product=new_product, images=uploaded_item)
-        return new_product
 
     def get_img_url(self, obj):
         urls = []
