@@ -42,7 +42,7 @@ class MasterSerializer(serializers.ModelSerializer):
 
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
-    # profession = MasterProfessionModelSerializer(many=True)
+    profession = MasterProfessionModelSerializer(many=True)
     password = serializers.CharField(write_only=True, required=False,)
     # address = AddressModelSerializer()
 
