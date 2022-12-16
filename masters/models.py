@@ -14,6 +14,18 @@ class MasterProfessionModel(models.Model):
         verbose_name_plural = _('Профессии')
 
 
+class HowServiceModel(models.Model):
+    title = models.CharField(max_length=300, null=True, verbose_name=_('Какая услуга'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Как продавать')
+        verbose_name_plural = _('Как продавать')
+
+
 class MasterModel(models.Model):
     owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='maklers', null=True)
     name = models.CharField(max_length=100, verbose_name=_('name'))
@@ -29,6 +41,7 @@ class MasterModel(models.Model):
     profession = models.ManyToManyField(MasterProfessionModel, verbose_name=_('profession'),
                                         related_name='profession', blank=True
                                         )
+    how_service = models.ForeignKey(HowServiceModel, on_delete=models.CASCADE, null=True)
     descriptions = models.TextField(verbose_name=_('descriptions'))
     experience = models.IntegerField(verbose_name=_('experience'), null=True)
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))

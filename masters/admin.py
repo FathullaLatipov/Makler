@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import MasterModel, MasterImagesModel, MasterProfessionModel
+from .models import MasterModel, MasterImagesModel, MasterProfessionModel, HowServiceModel
 
 
 @admin.register(MasterProfessionModel)
@@ -10,6 +10,14 @@ class MasterProfessionModelAdmin(admin.ModelAdmin):
     list_filter = ['title']
     save_on_top = True
     save_as = True
+
+
+@admin.register(HowServiceModel)
+class HowServiceModelAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'title', 'created_at']
+    search_fields = ['title']
+    save_as = True
+
 
 #         for i in validated_data['profession']:
 #             profession = MasterProfessionModel.objects.get(id=i)

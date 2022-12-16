@@ -22,7 +22,7 @@ class MasterListAPIView(generics.ListAPIView):
     queryset = MasterModel.objects.order_by('pk')
     serializer_class = MasterSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['profession']
+    filterset_fields = ['profession', 'how_service']
 
 class SearchMasterListAPIView(generics.ListAPIView):
     ''' Masters '''

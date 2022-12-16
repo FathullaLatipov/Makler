@@ -49,7 +49,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
         fields = ['name', 'email', 'phone', 'avatar', 'address_title', 'address_latitude', 'address_longitude',
-                  'password', 'profession',
+                  'password', 'profession', 'how_service',
                   'descriptions', 'experience', 'owner',
                   ]
         extra_kwargs = {"owner": {"read_only": True}}
@@ -62,6 +62,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
                                                  name=validated_data['name'],
                                                  owner=owner,
                                                  password=validated_data['password'],
+                                                 how_service=validated_data['how_service'],
                                                  email=validated_data['email'],
                                                  phone=validated_data['phone'],
                                                  avatar=validated_data['avatar'],
