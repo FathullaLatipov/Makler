@@ -129,6 +129,11 @@ class WebHomeListAPIView(ListAPIView):
     search_fields = ['web_address_title']
 
 
+class RandomWebHomeListAPIView(ListAPIView):
+    queryset = HouseModel.objects.order_by('?')
+    serializer_class = NewAllWebHomeCreateSerializer
+
+
 class SearchWebHomeListAPIView(ListAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewAllWebHomeCreateSerializer
@@ -140,7 +145,7 @@ class WebHomeCreateView(mixins.CreateModelMixin, GenericViewSet):
     queryset = HouseModel.objects.all()
     serializer_class = NewWebHomeCreateSerializer
     pagination_class = StandardResultsSetPagination
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
 
     # def create(self, validated_data):
     #     targetDef = validated_data.pop(targetDefn)
@@ -247,6 +252,7 @@ class APPHouseAddCreateAPIView(generics.CreateAPIView):
 
     def get_serializer_context(self):
         return {'request': self.request}
+
 
 #
 
@@ -370,7 +376,6 @@ class HouseDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
 
 class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
                             mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet):
-
     queryset = UserWishlistModel.objects.all()
     serializer_class = UserWishlistModelSerializer
     filter_backends = [DjangoFilterBackend]
