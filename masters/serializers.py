@@ -48,7 +48,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MasterModel
-        fields = ['name', 'email', 'phone', 'address_title', 'address_latitude', 'address_longitude',
+        fields = ['name', 'email', 'phone', 'avatar', 'address_title', 'address_latitude', 'address_longitude',
                   'password', 'profession',
                   'descriptions', 'experience', 'owner',
                   ]
@@ -64,6 +64,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
                                                  password=validated_data['password'],
                                                  email=validated_data['email'],
                                                  phone=validated_data['phone'],
+                                                 avatar=validated_data['avatar'],
                                                  address_title=validated_data['address_title'],
                                                  address_latitude=validated_data['address_latitude'],
                                                  address_longitude=validated_data['address_longitude'],
