@@ -14,8 +14,6 @@ class MasterProfessionModel(models.Model):
         verbose_name_plural = _('Профессии')
 
 
-
-
 class MasterModel(models.Model):
     owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='maklers', null=True)
     name = models.CharField(max_length=100, verbose_name=_('name'))

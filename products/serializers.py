@@ -288,7 +288,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
-    how_sale = NewWebHowSaleSerializer()
+    how_sale = NewWebHowSaleSerializer
 
     # address = AddressSerializer()
 
