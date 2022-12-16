@@ -56,9 +56,11 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profession = validated_data.get('profession')
-        print(profession)
+        owner = self.context['request'].user
+        print(owner, 'this is owner')
         mastermodel = MasterModel.objects.create(
                                                  name=validated_data['name'],
+                                                 owner=owner,
                                                  password=validated_data['password'],
                                                  email=validated_data['email'],
                                                  phone=validated_data['phone'],
