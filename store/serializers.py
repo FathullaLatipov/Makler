@@ -31,7 +31,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreModel
         fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
-                  'price_type', 'use_for',
+                  'price_type', 'use_for', 'how_store_service',
                   'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
         # read_only_fields = ['creator', ]
@@ -45,6 +45,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
                                                brand_image=validated_data['brand_image'],
                                                brand=validated_data['brand'],
                                                price=validated_data['price'],
+                                               how_store_service=validated_data['how_store_service'],
                                                price_type=validated_data['price_type'],
                                                use_for=validated_data['use_for'],
                                                phoneNumber=validated_data['phoneNumber'],

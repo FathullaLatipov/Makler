@@ -29,6 +29,18 @@ class UseForModel(models.Model):
         verbose_name_plural = _('Для')
 
 
+class HowStoreServiceModel(models.Model):
+    title = models.CharField(max_length=300, null=True, verbose_name=_('Какая услуга'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Как продавать')
+        verbose_name_plural = _('Как продавать')
+
+
 class StoreModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='stores', null=True,
                                 blank=True)
@@ -37,6 +49,7 @@ class StoreModel(models.Model):
     image = models.ImageField(upload_to='store_images', max_length=100, verbose_name=_('image'), null=True)
     brand_image = models.ImageField(upload_to='avatar_image', verbose_name=_('brand_image'), null=True)
     brand = models.CharField(max_length=200, verbose_name=_('brand'), null=True)
+    how_store_service = models.ForeignKey(HowStoreServiceModel, on_delete=models.CASCADE, null=True)
     price = models.PositiveIntegerField(verbose_name=_('price'), null=True)
     price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='store_price_type', null=True)
     use_for = models.ForeignKey(UseForModel, on_delete=models.CASCADE, null=True)

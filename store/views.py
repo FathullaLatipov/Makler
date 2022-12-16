@@ -18,7 +18,7 @@ class StoreModelAPIView(generics.ListAPIView):
     queryset = StoreModel.objects.order_by('pk')
     serializer_class = StoreModelSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['use_for']
+    filterset_fields = ['use_for', 'how_store_service']
 
 
 class SearchStoreModelAPIView(generics.ListAPIView):

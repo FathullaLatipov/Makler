@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from store.models import StoreModel, StoreAmenities, UseForModel
+from store.models import StoreModel, StoreAmenities, UseForModel, HowStoreServiceModel
 
 
 @admin.register(StoreAmenities)
@@ -10,6 +10,11 @@ class StoreAmenities(admin.ModelAdmin):
 
 @admin.register(UseForModel)
 class UseForModelAdmin(admin.ModelAdmin):
+    list_display = ['title', 'created_at']
+
+
+@admin.register(HowStoreServiceModel)
+class HowStoreServiceModelAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_at']
 
 
