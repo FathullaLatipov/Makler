@@ -24,12 +24,20 @@ class MasterListAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['profession', 'how_service']
 
+
+class RandomMasterListAPIView(generics.ListAPIView):
+    ''' Masters '''
+    queryset = MasterModel.objects.order_by('?')
+    serializer_class = MasterSerializer
+
+
 class SearchMasterListAPIView(generics.ListAPIView):
     ''' Masters '''
     queryset = MasterModel.objects.order_by('pk')
     serializer_class = MasterSerializer
     filter_backends = [SearchFilter]
     search_fields = ['address_title']
+
 
 def add_to_wishlist(request, pk):
     try:
@@ -72,7 +80,7 @@ class MasterDetailAPIView(APIView):
 class MasterCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
 
 
 @api_view(['GET', 'POST'])

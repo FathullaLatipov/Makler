@@ -129,11 +129,6 @@ class WebHomeListAPIView(ListAPIView):
     search_fields = ['web_address_title']
 
 
-class RandomWebHomeListAPIView(ListAPIView):
-    queryset = HouseModel.objects.order_by('?')
-    serializer_class = NewAllWebHomeCreateSerializer
-
-
 class SearchWebHomeListAPIView(ListAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewAllWebHomeCreateSerializer

@@ -21,6 +21,11 @@ class StoreModelAPIView(generics.ListAPIView):
     filterset_fields = ['use_for', 'how_store_service']
 
 
+class RandomStoreModelAPIView(generics.ListAPIView):
+    queryset = StoreModel.objects.order_by('?')
+    serializer_class = StoreModelSerializer
+
+
 class SearchStoreModelAPIView(generics.ListAPIView):
     queryset = StoreModel.objects.order_by('pk')
     serializer_class = StoreModelSerializer
@@ -64,7 +69,7 @@ class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = StoreModelSerializer
     parser_classes = [MultiPartParser]
     queryset = StoreModel.objects.all()
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
 
     # def post(self, request, *args, **kwargs):
     #     serializer = self.serializer_class(data=request.data)
@@ -79,8 +84,6 @@ class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     #     return Response(serailizer.data, status=200)
 
     # def post(self, request):
-
-
 
 
 class StoreUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
