@@ -386,4 +386,10 @@ class GetHouseFavListAPIView(generics.ListAPIView):
     ''' Fav (Houses)'''
     queryset = UserWishlistModel.objects.order_by('pk')
     serializer_class = GetUserWishlistModelSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
 
+
+class RandomHouseModelAPIView(generics.ListAPIView):
+    queryset = HouseModel.objects.order_by('?')
+    serializer_class = NewWebHomeCreateSerializer
