@@ -81,3 +81,16 @@ class MasterImagesModel(models.Model):
     class Meta:
         verbose_name = _('Изображения для мастера')
         verbose_name_plural = _('Изображения для мастеров')
+
+
+class MasterUserWishlistModel(models.Model):
+    user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, null=True)
+    master = models.ForeignKey(MasterModel, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
+
+    def __str__(self):
+        return self.master.name
+
+    class Meta:
+        verbose_name = _('Wishlist')
+        verbose_name_plural = _('Wishlist')

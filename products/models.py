@@ -238,6 +238,7 @@ class UserWishlistModel(models.Model):
 
     def __str__(self):
         return self.product.title
+
     class Meta:
         verbose_name = _('Wishlist')
         verbose_name_plural = _('Wishlist')

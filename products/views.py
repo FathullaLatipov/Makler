@@ -377,10 +377,6 @@ class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user']
 
-    # def get_queryset(self):
-    #
-    #     return UserWishlistModel.objects.filter(user=pk)
-
 
 class GetHouseFavListAPIView(generics.ListAPIView):
     ''' Fav (Houses)'''

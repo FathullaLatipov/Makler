@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from products.models import MapModel
 from user.models import CustomUser
-from .models import MasterModel, MasterProfessionModel, MasterImagesModel
+from .models import MasterModel, MasterProfessionModel, MasterImagesModel, MasterUserWishlistModel
 
 
 # master profiessions
@@ -108,3 +108,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'posts']
+
+
+class MasterUserWishlistModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterUserWishlistModel
+        fields = '__all__'
+
+
+class MasterGetUserWishlistModelSerializer(serializers.ModelSerializer):
+    user = CustomUser()
+    master = MasterSerializer()
+
+    class Meta:
+        model = MasterUserWishlistModel
+        fields = '__all__'

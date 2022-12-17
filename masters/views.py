@@ -13,8 +13,9 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.authentication import TokenAuthentication
 
 from products.utils import get_wishlist_data
-from .models import MasterModel
-from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer
+from .models import MasterModel, MasterUserWishlistModel
+from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer, \
+    MasterGetUserWishlistModelSerializer, MasterUserWishlistModelSerializer
 
 
 class MasterListAPIView(generics.ListAPIView):
@@ -138,3 +139,19 @@ class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
     )
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class MasterUserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
+                                  mixins.DestroyModelMixin, GenericViewSet):
+    queryset = MasterUserWishlistModel.objects.all()
+    serializer_class = MasterUserWishlistModelSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
+
+
+class GetMasterFavListAPIView(generics.ListAPIView):
+    ''' Fav (Houses)'''
+    queryset = MasterUserWishlistModel.objects.order_by('pk')
+    serializer_class = MasterGetUserWishlistModelSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
