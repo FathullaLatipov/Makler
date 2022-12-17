@@ -213,7 +213,7 @@ class HouseFavListAPIView(generics.ListAPIView):
 class HouseDetailAPIView(APIView):
     def get(self, request, pk):
         houses = HouseModel.objects.get(id=pk)
-        serializer = NewWebHomeCreateSerializer(houses, context={'request': request})
+        serializer = NewAllWebHomeCreateSerializer(houses, context={'request': request})
         return Response(serializer.data)
 
 
@@ -351,7 +351,7 @@ class APPHouseAddCreateAPIView(generics.CreateAPIView):
 
 class HouseUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
     queryset = HouseModel.objects.all()
-    serializer_class = HomeCreateSerializer
+    serializer_class = NewWebHomeCreateSerializer
 
     def update(self, request, *args, **kwargs):
         user_profile = self.get_object()
@@ -370,12 +370,16 @@ class HouseDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
 
 
 class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
-                            mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet):
+                            mixins.DestroyModelMixin, GenericViewSet):
     queryset = UserWishlistModel.objects.all()
     serializer_class = UserWishlistModelSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user']
 
+    def list(self, request):
+        query_set = UserWishlistModel.objects.order_by('-pk')
+        return Response(self.serializer_class(query_set, many=True).data,
+                        status=status.HTTP_200_OK)
     # def get_queryset(self):
     #
     #     return UserWishlistModel.objects.filter(user=pk)
