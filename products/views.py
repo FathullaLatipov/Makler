@@ -19,7 +19,8 @@ from products.models import CategoryModel, HouseModel, AmenitiesModel, HouseImag
 from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSerializer, \
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, \
     WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, \
-    PriceListSerializer, NewAllWebHomeCreateSerializer, APPHomeCreateSerializer, UserWishlistModelSerializer
+    PriceListSerializer, NewAllWebHomeCreateSerializer, APPHomeCreateSerializer, UserWishlistModelSerializer, \
+    GetUserWishlistModelSerializer
 from products.utils import get_wishlist_data
 
 
@@ -376,10 +377,13 @@ class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user']
 
-    def list(self, request):
-        query_set = UserWishlistModel.objects.order_by('-pk')
-        return Response(self.serializer_class(query_set, many=True).data,
-                        status=status.HTTP_200_OK)
     # def get_queryset(self):
     #
     #     return UserWishlistModel.objects.filter(user=pk)
+
+
+class GetHouseFavListAPIView(generics.ListAPIView):
+    ''' Fav (Houses)'''
+    queryset = UserWishlistModel.objects.order_by('pk')
+    serializer_class = GetUserWishlistModelSerializer
+

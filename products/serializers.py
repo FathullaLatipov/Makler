@@ -239,7 +239,7 @@ class HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ['id', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
-                  'typeOfHouse',  'web_address_title', 'web_address_latitude', 'web_address_longtitude',
+                  'typeOfHouse', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
                   'images', 'uploaded_images', 'creator']
@@ -267,6 +267,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     amenities = WebAmenitiesSerializer(many=True)
     price_type = PriceListSerializer()
     how_sale = NewWebHowSaleSerializer()
+
     # address = AddressSerializer()
 
     class Meta:
@@ -406,6 +407,15 @@ class HomeDetailSerializer(serializers.ModelSerializer):
 
 
 class UserWishlistModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserWishlistModel
+        fields = '__all__'
+
+
+class GetUserWishlistModelSerializer(serializers.ModelSerializer):
+    user = CustomUser()
+    product = NewAllWebHomeCreateSerializer()
+
     class Meta:
         model = UserWishlistModel
         fields = '__all__'
