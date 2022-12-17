@@ -108,7 +108,7 @@ class HouseModel(models.Model):
     )
     web_address_title = models.CharField(max_length=400, verbose_name=_('web_address_title'), null=True)
     web_address_latitude = models.FloatField(verbose_name=_('web_address_latitude'), null=True)
-    web_address_longtitude = models.FloatField(verbose_name=_('pm_general'), null=True)
+    web_address_longtitude = models.FloatField(verbose_name=_('web_address_longtitude'), null=True)
     how_sale = models.ForeignKey(HowSaleModel, on_delete=models.CASCADE, null=True, blank=True)
     pm_general = models.CharField(max_length=400, verbose_name=_('pm_residential'), null=True)
     web_type = models.CharField(max_length=400, verbose_name=_('web_type'), null=True)
