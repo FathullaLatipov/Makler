@@ -18,6 +18,23 @@ class UseForModelSerializer(serializers.ModelSerializer):
         fields = ['title']
 
 
+class UpdateStoreModelSerializer(serializers.ModelSerializer):
+    # store_amenitites = StoreAmenitiesSerializer(many=True)
+    # creator = serializers.CharField(source='creator')
+    # uploaded_image = serializers.FileField(
+    #     max_length=10000,
+    #     allow_empty_file=False,
+    #     write_only=True
+    # )
+    use_for = UseForModelSerializer
+
+    class Meta:
+        model = StoreModel
+        fields = ['id', 'name','description', 'store_amenitites', 'brand', 'price',
+                  'price_type', 'use_for', 'how_store_service',
+                  'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status', 'creator']
+        extra_kwargs = {"creator": {"read_only": True}}
+
 class StoreModelSerializer(serializers.ModelSerializer):
     # store_amenitites = StoreAmenitiesSerializer(many=True)
     # creator = serializers.CharField(source='creator')

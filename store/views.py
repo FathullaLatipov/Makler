@@ -11,7 +11,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from products.utils import get_wishlist_data
 from .models import StoreModel
 from rest_framework.response import Response
-from .serializers import StoreModelSerializer
+from .serializers import StoreModelSerializer, UpdateStoreModelSerializer
 
 
 class StoreModelAPIView(generics.ListAPIView):
@@ -86,16 +86,10 @@ class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     # def post(self, request):
 
 
-class StoreUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
+class StoreUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = StoreModel.objects.all()
-    serializer_class = StoreModelSerializer
+    serializer_class = UpdateStoreModelSerializer
 
-    def update(self, request, *args, **kwargs):
-        user_profile = self.get_object()
-        serializer = self.get_serializer(user_profile, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
 
 
 class StoreDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):

@@ -37,7 +37,7 @@ class MasterModel(models.Model):
     address_title = models.CharField(max_length=300, verbose_name=_('address_title'), null=True)
     address_latitude = models.FloatField(max_length=90, verbose_name=_('address_latitude'), null=True)
     address_longitude = models.FloatField(max_length=90, verbose_name=_('address_longitude'), null=True)
-    avatar = models.FileField(upload_to='master_avatar', verbose_name=_('avatar'), null=True)
+    avatar = models.FileField(upload_to='master_avatar', verbose_name=_('avatar'), null=True, blank=True)
     profession = models.ManyToManyField(MasterProfessionModel, verbose_name=_('profession'),
                                         related_name='profession', blank=True
                                         )
