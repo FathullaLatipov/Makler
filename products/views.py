@@ -350,7 +350,7 @@ class APPHouseAddCreateAPIView(generics.CreateAPIView):
 #     return {'request': self.request}
 
 
-class HouseUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
+class HouseUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewWebHomeCreateSerializer
 
