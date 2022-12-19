@@ -113,20 +113,9 @@ def snippet_list(request):
 #     return Response(serializer.data)
 
 
-class MasterUpdateAPIView(mixins.UpdateModelMixin, GenericViewSet):
+class MasterUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
-
-    @swagger_auto_schema(
-        operation_summary="Обновления мастера(ID)",
-        operation_description="Метод обновления данных мастера. Помимо типа данных и токен авторизации, передаётся только ID мастера.",
-    )
-    def update(self, request, *args, **kwargs):
-        user_profile = self.get_object()
-        serializer = self.get_serializer(user_profile, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
 
 
 class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
