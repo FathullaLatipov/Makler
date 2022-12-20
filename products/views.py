@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins, status
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.pagination import PageNumberPagination
@@ -123,11 +123,12 @@ class WebHouseListAPIView(generics.ListAPIView):
 class WebHomeListAPIView(ListAPIView):
     queryset = HouseModel.objects.all()
     serializer_class = NewAllWebHomeCreateSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['product_status', 'object', 'building_type', 'number_of_rooms',
                         'type', 'rental_type']
 
     search_fields = ['web_address_title']
+    ordering_fields = ['price', 'created_at']
 
 
 class SearchWebHomeListAPIView(ListAPIView):
@@ -248,106 +249,6 @@ class APPHouseAddCreateAPIView(generics.CreateAPIView):
 
     def get_serializer_context(self):
         return {'request': self.request}
-
-
-#
-
-# @parser_classes([MultiPartParser, FormParser])
-# class HouseAddCreateAPIView(APIView):
-#     serializer_class = HomeCreateSerializer
-#     parser_classes = [MultiPartParser]
-#
-#     def get_object(self, pk=None):
-#         if pk:
-#             pass
-#         house = HouseModel.objects.all()
-#         return house
-#
-#     def get(self, request, **kwargs):
-#         if 'pk' in kwargs:
-#             pass
-#         house = self.get_object()
-#         serializer = self.serializer_class(house, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-# MANA ESKISI IWLAGANI OLDINGISI
-#     def post(self, request):
-#         # serializer = self.serializer_class(data=request.data)
-#         print(request.FILES.getlist('images'))
-#         # category = CategoryModel.objects.get(id=int(request.data['category']))
-#         address = MapModel.objects.get(id=int(request.data['address']))
-#         house = HouseModel.objects.create(
-#             title=request.data['title'],
-#             # category=category,
-#             descriptions=request.data['descriptions'],
-#             price=request.data['price'],
-#             # type=request.data['type'],
-#             # rental_type=request.data['rental_type'],
-#             # object=request.data['object'],
-#             address=address,
-#             general=request.data['general'],
-#             residential=request.data['residential'],
-#         )
-#         image = request.FILES.getlist('images')
-#         for img_name in image:
-#             img = ImagesModel.objects.create(image=img_name)
-#             house.images.add(img)
-#             # for i in request.data['amenities']:
-#             #     house.amenities.add(int(i))
-#             house.save()
-#
-#         return Response(self.serializer_class(house).data, status=status.HTTP_201_CREATED)
-
-
-# class NewHouseCreateAPIView(APIView):
-#     serializer_class = HomeCreateSerializer
-#
-#     def get_object(self):
-#         return HouseModel.objects.all()
-#
-#     def get(self, request):
-#         serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
-#         return Response(serailizer.data, status=200)
-#
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-#         if serializer.is_valid():
-#             serializer.create(validated_data=serializer.validated_data, creator=request.user)
-#         return Response(serializer.data)
-
-# class HouseAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
-#     queryset = HouseModel.objects.all()
-#     serializer_class = HomeCreateSerializer
-#     super(GenericViewSet, self).()
-#     image = dict((validated_data).lists())['images']
-#     print('++++++++++++++++++++++++', image)
-#     for img_name in image:
-#         modified_data = modify_input_for_multiple_files(img_name)
-#
-#     def crate(self, request):
-#         pas
-
-#
-#         form_serializers = HomeCreateSerializer(data=request.data)
-#         if form_serializers.is_valid(raise_exception=True):
-#             # print('hello2')
-#             # form_serializers.save()
-#             # print('hello3')
-#             # arr.append(form_serializers.data)
-#             # print('hello4')
-#             form_serializers.save()
-#             form_serializers.instance.images = modified_data
-#         else:
-#             flag = 0
-#             print('hello5')
-#
-#     if flag == 1:
-#         return Response(arr, status=status.HTTP_201_CREATED)
-#     else:
-#         return Response(arr, status=status.HTTP_400_BAD_REQUEST)
-
-#
-# def get_serializer_context(self):
-#     return {'request': self.request}
 
 
 class HouseUpdateAPIView(generics.RetrieveUpdateAPIView):
