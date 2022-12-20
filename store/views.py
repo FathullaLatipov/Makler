@@ -58,32 +58,12 @@ class StoreDetailAPIView(APIView):
         return Response(serializer.data)
 
 
-# class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
-#     queryset = StoreModel.objects.all()
-#     serializer_class = StoreModelSerializer
-#
-#     def get_serializer_context(self):
-#         return {'request': self.request}
-
 class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     serializer_class = StoreModelSerializer
     parser_classes = [MultiPartParser]
     queryset = StoreModel.objects.all()
     permission_classes = [IsAuthenticated, ]
 
-    # def post(self, request, *args, **kwargs):
-    #     serializer = self.serializer_class(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.create(validated_data=serializer.validated_data, creator=request.user)
-    #     return Response(serializer.data)
-    # def get_object(self):
-    #     return StoreModel.objects.all()
-    #
-    # def get(self, request):
-    #     serailizer = self.serializer_class(self.get_object(), context={'request': request}, many=True)
-    #     return Response(serailizer.data, status=200)
-
-    # def post(self, request):
 
 
 class StoreUpdateAPIView(generics.RetrieveUpdateAPIView):
