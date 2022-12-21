@@ -184,8 +184,8 @@ class HouseFavListAPIView(generics.ListAPIView):
 
 
 class HouseDetailAPIView(APIView):
-    def get(self, request, slug):
-        houses = HouseModel.objects.get(slug=slug)
+    def get(self, request, pk):
+        houses = HouseModel.objects.get(id=pk)
         serializer = NewAllWebHomeCreateSerializer(houses, context={'request': request})
         return Response(serializer.data)
 

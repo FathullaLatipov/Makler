@@ -83,7 +83,6 @@ class HouseModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True,
                                 blank=True)
     title = models.CharField(max_length=600, verbose_name=_('title'))
-    slug = models.SlugField(null=False, unique=True)
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
                                  related_name=_('category'), null=True, blank=True
                                  )

@@ -51,7 +51,6 @@ class HouseImageModelAdmin(admin.ModelAdmin):
 class HouseModelAdmin(admin.ModelAdmin):
     list_display = ['pk', 'title', 'price', 'category', 'type', 'created_at']
     search_fields = ['title', 'type']
-    prepopulated_fields = {"slug": ("title",)}
     list_filter = ['created_at']
     save_as = True
     save_on_top = True
