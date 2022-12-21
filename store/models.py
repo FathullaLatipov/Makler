@@ -45,6 +45,7 @@ class StoreModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='stores', null=True,
                                 blank=True)
     name = models.CharField(max_length=200, verbose_name=_('name'))
+    slug = models.SlugField(null=True)
     description = models.TextField()
     image = models.ImageField(upload_to='store_images', max_length=100, verbose_name=_('image'), null=True)
     brand_image = models.ImageField(upload_to='avatar_image', verbose_name=_('brand_image'), null=True)

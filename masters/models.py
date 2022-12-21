@@ -29,6 +29,7 @@ class HowServiceModel(models.Model):
 class MasterModel(models.Model):
     owner = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='maklers', null=True)
     name = models.CharField(max_length=100, verbose_name=_('name'))
+    slug = models.SlugField(null=True)
     email = models.EmailField(verbose_name=_('email'))
     phone = models.PositiveIntegerField(verbose_name=_('phone'))
     password = models.CharField(verbose_name=_('password'), max_length=100)

@@ -1,7 +1,8 @@
 from django.db import models
+from django.template.defaultfilters import slugify
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from multiselectfield import MultiSelectField
-
 
 from user.models import CustomUser
 
@@ -82,6 +83,7 @@ class HouseModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True,
                                 blank=True)
     title = models.CharField(max_length=600, verbose_name=_('title'))
+    slug = models.SlugField(null=False, unique=True)
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
                                  related_name=_('category'), null=True, blank=True
                                  )
@@ -204,6 +206,14 @@ class HouseModel(models.Model):
     def get_from_wishlist(request):
         wishlist = request.session.get('wishlist', [])
         return HouseModel.objects.filter(pk__in=wishlist)
+
+    def get_absolute_url(self):
+        return reverse("product_detail", kwargs={"slug": self.slug})
+
+    def save(self, *args, **kwargs):  # new
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
     # @property
     # def choices(self):

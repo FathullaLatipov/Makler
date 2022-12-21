@@ -21,7 +21,7 @@ urlpatterns = [
     path('web/api/v1/all-web-houses/popular', RandomHouseModelAPIView.as_view()),
     path('web/api/v1/web-houses/search/', SearchWebHomeListAPIView.as_view()),
     path('api/v1/houses/get-wishlist-houses', GetHouseFavListAPIView.as_view()),
-    path('web/api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
+    path('web/api/v1/houses/<slug:slug>', HouseDetailAPIView.as_view(), name='product_detail'),
     path('api/v1/web-houses/amenities/', WebAmenitiesListAPIView.as_view()),
     # path('api/v1/houses/image/', HouseImageAPIView.as_view()),
 ]
