@@ -279,7 +279,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
                   'amenities', 'phone_number', 'how_sale',
-                  'isBookmarked', 'draft', 'created_at',
+                  'isBookmarked', 'draft', 'product_status', 'view_count', 'created_at',
                   ]
 
 

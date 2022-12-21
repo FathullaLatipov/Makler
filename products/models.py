@@ -86,6 +86,7 @@ class HouseModel(models.Model):
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name=_('category'),
                                  related_name=_('category'), null=True, blank=True
                                  )
+    view_count = models.PositiveIntegerField(default=0, null=True)
     descriptions = models.TextField(verbose_name=_('descriptions'))
     price = models.CharField(max_length=100, verbose_name=_('price'))
     app_currency = models.CharField(max_length=10, verbose_name=_('app_currency'), null=True)
@@ -205,14 +206,6 @@ class HouseModel(models.Model):
     def get_from_wishlist(request):
         wishlist = request.session.get('wishlist', [])
         return HouseModel.objects.filter(pk__in=wishlist)
-
-    def get_absolute_url(self):
-        return reverse("product_detail", kwargs={"slug": self.slug})
-
-    def save(self, *args, **kwargs):  # new
-        if not self.slug:
-            self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
 
     # @property
     # def choices(self):

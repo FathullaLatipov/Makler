@@ -65,6 +65,8 @@ class MasterDetailAPIView(APIView):
     )
     def get(self, request, pk):
         products = MasterModel.objects.get(id=pk)
+        products.view_count += 1
+        products.save()
         serializer = MasterDetailSerializer(products, context={'request': request})
         return Response(serializer.data)
 

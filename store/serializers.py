@@ -42,7 +42,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
         model = StoreModel
         fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
                   'price_type', 'use_for', 'how_store_service',
-                  'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status', 'creator']
+                  'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status', 'view_count', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
         # read_only_fields = ['creator', ]
 
