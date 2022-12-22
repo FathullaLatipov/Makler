@@ -419,3 +419,9 @@ class GetUserWishlistModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserWishlistModel
         fields = '__all__'
+
+
+# class HouseTypeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = HouseModel
+#         fields = ['ADD_TYPE', 'ADD_TYPE_id']

@@ -32,18 +32,22 @@ class ImageModelSerializer(serializers.ModelSerializer):
 # all masters
 class MasterSerializer(serializers.ModelSerializer):
     profession = MasterProfessionModelSerializer(many=True)
+
     # address = AddressModelSerializer()
 
     class Meta:
         model = MasterModel
-        fields = ['pk', 'name', 'phone', 'address_title', 'address_latitude', 'address_longitude', 'avatar', 'profession',
-                  'experience', 'isBookmarked', 'draft', 'product_status', 'how_service', 'view_count', 'created_at', 'owner']
+        fields = ['pk', 'name', 'phone', 'address_title', 'address_latitude', 'address_longitude', 'avatar',
+                  'profession',
+                  'experience', 'isBookmarked', 'draft', 'product_status', 'how_service', 'view_count', 'created_at',
+                  'owner']
 
 
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
     # profession = MasterProfessionModelSerializer(many=True)
-    password = serializers.CharField(write_only=True, required=False,)
+    password = serializers.CharField(write_only=True, required=False, )
+
     # address = AddressModelSerializer()
 
     class Meta:
@@ -59,19 +63,19 @@ class MasterCreateSerializer(serializers.ModelSerializer):
         owner = self.context['request'].user
         print(owner, 'this is owner')
         mastermodel = MasterModel.objects.create(
-                                                 name=validated_data['name'],
-                                                 owner=owner,
-                                                 password=validated_data['password'],
-                                                 how_service=validated_data['how_service'],
-                                                 email=validated_data['email'],
-                                                 phone=validated_data['phone'],
-                                                 avatar=validated_data['avatar'],
-                                                 address_title=validated_data['address_title'],
-                                                 address_latitude=validated_data['address_latitude'],
-                                                 address_longitude=validated_data['address_longitude'],
-                                                 descriptions=validated_data['descriptions'],
-                                                 experience=validated_data['experience'],
-                                                 )
+            name=validated_data['name'],
+            owner=owner,
+            password=validated_data['password'],
+            how_service=validated_data['how_service'],
+            email=validated_data['email'],
+            phone=validated_data['phone'],
+            avatar=validated_data['avatar'],
+            address_title=validated_data['address_title'],
+            address_latitude=validated_data['address_latitude'],
+            address_longitude=validated_data['address_longitude'],
+            descriptions=validated_data['descriptions'],
+            experience=validated_data['experience'],
+        )
         for i in validated_data['profession']:
             mastermodel.profession.add(i.id)
             mastermodel.save()
@@ -123,3 +127,9 @@ class MasterGetUserWishlistModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterUserWishlistModel
         fields = '__all__'
+
+
+class MasterProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterProfessionModel
+        fields = ['id', 'title']

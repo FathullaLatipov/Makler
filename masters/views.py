@@ -13,9 +13,9 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.authentication import TokenAuthentication
 
 from products.utils import get_wishlist_data
-from .models import MasterModel, MasterUserWishlistModel
+from .models import MasterModel, MasterUserWishlistModel, MasterProfessionModel
 from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer, \
-    MasterGetUserWishlistModelSerializer, MasterUserWishlistModelSerializer
+    MasterGetUserWishlistModelSerializer, MasterUserWishlistModelSerializer, MasterProfessionSerializer
 
 
 class MasterListAPIView(generics.ListAPIView):
@@ -146,3 +146,8 @@ class GetMasterFavListAPIView(generics.ListAPIView):
     serializer_class = MasterGetUserWishlistModelSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user']
+
+
+class MasterProfessionListAPIView(generics.ListAPIView):
+    queryset = MasterProfessionModel.objects.all()
+    serializer_class = MasterProfessionSerializer

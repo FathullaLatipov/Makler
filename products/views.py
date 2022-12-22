@@ -263,3 +263,8 @@ class GetHouseFavListAPIView(generics.ListAPIView):
 class RandomHouseModelAPIView(generics.ListAPIView):
     queryset = HouseModel.objects.order_by('?')
     serializer_class = NewWebHomeCreateSerializer
+
+#
+# class HouseTypeListAPIView(generics.ListAPIView):
+#     queryset = HouseModel.objects.all()
+#     serializer_class = HouseTypeSerializer
