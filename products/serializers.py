@@ -279,8 +279,8 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     amenities = WebAmenitiesSerializer(many=True)
     price_type = PriceListSerializer()
     how_sale = NewWebHowSaleSerializer()
-    type = HouseTypeSerializer()
-    rental_type = HouseRentalTypeSerializer()
+    type = HouseTypeSerializer
+    rental_type = HouseRentalTypeSerializer
 
     # address = AddressSerializer()
 
@@ -298,11 +298,11 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
 
 
 class NewWebHomeCreateSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True
-    )
+    # images = ImageSerializer(many=True, read_only=True)
+    # uploaded_images = serializers.ListField(
+    #     child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+    #     write_only=True
+    # )
     how_sale = NewWebHowSaleSerializer
 
     # address = AddressSerializer()
@@ -312,7 +312,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'creator', 'title', 'descriptions', 'price', 'price_type',
                   'type', 'rental_type', 'property_type', 'object',
                   'web_address_title', 'web_address_latitude', 'web_address_longtitude',
-                  'pm_general', 'pm_residential', 'images', 'uploaded_images',
+                  'pm_general', 'pm_residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
                   'amenities', 'phone_number', 'how_sale',
@@ -347,7 +347,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         phone_number = validated_data.get('phone_number')
         draft = validated_data.get('draft')
         isBookmarked = validated_data.get('isBookmarked')
-        uploaded_data = validated_data.pop('uploaded_images')
+        # uploaded_data = validated_data.pop('uploaded_images')
         creator = self.context['request'].user
         print(creator, 'this is creator')
         titles = [i.title for i in amenities]
@@ -381,8 +381,8 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         target_objs.amenities.add(*amenities_titles)
         # if creator in validated_data:
         # target_objs.creator.add(*creator)
-        for uploaded_item in uploaded_data:
-            new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
+        # for uploaded_item in uploaded_data:
+        #     new_product_image = NewHouseImages.objects.create(product=target_objs, images=uploaded_item)
         return target_objs
 
     def get_img_url(self, obj):

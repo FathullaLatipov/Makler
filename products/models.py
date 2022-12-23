@@ -167,7 +167,6 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
-    # rental_type = models.ForeignKey(HouseRentalTypeModel, on_delete=models.CASCADE, null=True)
     PROPERTY_TYPE = (
         ('residential', 'Residential'),
         ('commercial', 'Commercial')
@@ -188,7 +187,6 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
-    # object = models.ForeignKey(HouseObjectModel, on_delete=models.CASCADE, null=True)
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
     property_type = models.CharField(
         max_length=100,
