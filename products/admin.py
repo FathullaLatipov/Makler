@@ -53,6 +53,7 @@ class HouseTypeModelAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
+
 @admin.register(HouseRentalTypeModel)
 class HouseRentalTypeModelAdmin(admin.ModelAdmin):
     list_display = ['pk', 'title', 'created_at']
