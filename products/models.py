@@ -79,6 +79,14 @@ class HowSaleModel(models.Model):
         verbose_name_plural = _('Как продавать')
 
 
+class HouseTypeModel(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('title'))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
 class HouseModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True,
                                 blank=True)
@@ -98,17 +106,18 @@ class HouseModel(models.Model):
     app_mebel = models.BooleanField(default=False, null=True)
     app_new_building = models.BooleanField(default=False, null=True)
     price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types', null=True)
-    ADD_TYPE = (
-        ('rent', 'Rent'),
-        ('for_sale', 'For_sale'),
-    )
-    type = models.CharField(
-        max_length=200,
-        choices=ADD_TYPE,
-        default=ADD_TYPE[1],
-        null=True,
-        blank=True,
-    )
+    # ADD_TYPE = (
+    #     ('rent', 'Rent'),
+    #     ('for_sale', 'For_sale'),
+    # )
+    # type = models.CharField(
+    #     max_length=200,
+    #     choices=ADD_TYPE,
+    #     default=ADD_TYPE[1],
+    #     null=True,
+    #     blank=True,
+    # )
+    type = models.ForeignKey(HouseTypeModel, on_delete=models.CASCADE, null=True)
     web_address_title = models.CharField(max_length=400, verbose_name=_('web_address_title'), null=True)
     web_address_latitude = models.FloatField(verbose_name=_('web_address_latitude'), null=True)
     web_address_longtitude = models.FloatField(verbose_name=_('web_address_longtitude'), null=True)
