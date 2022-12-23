@@ -135,8 +135,9 @@ class HouseModel(models.Model):
     app_new_building = models.BooleanField(default=False, null=True)
     price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types', null=True)
     ADD_TYPE = (
-        ('rent', 'Rent'),
-        ('for_sale', 'For_sale'),
+        ('купить', 'Купить'),
+        ('продать', 'Продать'),
+        ('аденда', 'Аренда'),
     )
     type = models.CharField(
         max_length=200,
@@ -172,7 +173,7 @@ class HouseModel(models.Model):
         ('commercial', 'Commercial')
     )
     OBJECT = (
-        ('квартиру', 'квартиру'),
+        ('квартира', 'квартиру'),
         ('комната', 'комната'),
         ('дача', 'дача'),
         ('дома', 'дома'),
