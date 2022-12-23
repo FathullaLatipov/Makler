@@ -161,22 +161,23 @@ class HouseModel(models.Model):
         ('residential', 'Residential'),
         ('commercial', 'Commercial')
     )
-    OBJECT = (
-        ('flat', 'Flat'),
-        ('room', 'Room'),
-        ('summer_cottage', 'Summer_cottage'),
-        ('house', 'House'),
-        ('part_house', 'Part_house'),
-        ('townhouse', 'Townhouse'),
-        ('bed_space', 'Bed_space')
-    )
-    object = models.CharField(
-        max_length=200,
-        choices=OBJECT,
-        default=None,
-        null=True,
-        blank=True,
-    )
+    # OBJECT = (
+    #     ('flat', 'Flat'),
+    #     ('room', 'Room'),
+    #     ('summer_cottage', 'Summer_cottage'),
+    #     ('house', 'House'),
+    #     ('part_house', 'Part_house'),
+    #     ('townhouse', 'Townhouse'),
+    #     ('bed_space', 'Bed_space')
+    # )
+    # object = models.CharField(
+    #     max_length=200,
+    #     choices=OBJECT,
+    #     default=None,
+    #     null=True,
+    #     blank=True,
+    # )
+
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
     property_type = models.CharField(
         max_length=100,
