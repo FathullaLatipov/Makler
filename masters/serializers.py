@@ -29,8 +29,22 @@ class ImageModelSerializer(serializers.ModelSerializer):
         return self.context['request'].build_absolute_url(obj.image.url)
 
 
+class MasterImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterImagesModel
+        fields = ['images']
+
+    def get_img_url(self, obj):
+        return self.context['request'].build_absolute_url(obj.image.url)
+
+
 # all masters
 class MasterSerializer(serializers.ModelSerializer):
+    images = MasterImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
     profession = MasterProfessionModelSerializer(many=True)
 
     # address = AddressModelSerializer()
@@ -38,7 +52,7 @@ class MasterSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
         fields = ['pk', 'name', 'phone', 'address_title', 'address_latitude', 'address_longitude', 'avatar',
-                  'profession',
+                  'profession', 'images', 'uploaded_images',
                   'experience', 'isBookmarked', 'draft', 'product_status', 'how_service', 'view_count', 'created_at',
                   'owner']
 
@@ -133,15 +147,6 @@ class MasterProfessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterProfessionModel
         fields = ['id', 'title']
-
-
-class MasterImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MasterImagesModel
-        fields = ['images']
-
-    def get_img_url(self, obj):
-        return self.context['request'].build_absolute_url(obj.image.url)
 
 
 # APP Master create

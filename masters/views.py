@@ -27,6 +27,13 @@ class MasterListAPIView(generics.ListAPIView):
     filterset_fields = ['profession', 'how_service']
 
 
+class APPMasterListAPIView(generics.ListAPIView):
+    ''' Masters '''
+    queryset = MasterModel.objects.order_by('pk')
+    serializer_class = MasterSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['profession', 'how_service']
+
 class RandomMasterListAPIView(generics.ListAPIView):
     ''' Masters '''
     queryset = MasterModel.objects.order_by('?')
