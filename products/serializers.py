@@ -6,8 +6,7 @@ from rest_framework.decorators import action
 from masters.serializers import MasterSerializer
 from products.helpers import modify_input_for_multiple_files
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, HouseImageModel, ImagesModel, \
-    NewHouseImages, PriceListModel, HowSaleModel, UserWishlistModel, HouseTypeModel, HouseRentalTypeModel, \
-    HouseObjectModel
+    NewHouseImages, PriceListModel, HowSaleModel, UserWishlistModel
 from store.serializers import StoreModelSerializer
 from user.models import CustomUser
 
@@ -257,24 +256,6 @@ class NewWebHowSaleSerializer(serializers.ModelSerializer):
         model = HowSaleModel
         fields = ['title']
 
-
-class HouseTypeModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = HouseTypeModel
-        fields = ['id', 'title']
-
-
-class HouseRentalTypeModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = HouseRentalTypeModel
-        fields = ['id', 'title']
-
-
-class HouseObjectModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = HouseObjectModel
-        fields = ['id', 'title']
-
 # web
 class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
@@ -285,9 +266,6 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     amenities = WebAmenitiesSerializer(many=True)
     price_type = PriceListSerializer()
     how_sale = NewWebHowSaleSerializer()
-    type = HouseTypeModelSerializer()
-    rental_type = HouseRentalTypeModelSerializer()
-    object = HouseObjectModelSerializer()
 
     # address = AddressSerializer()
 

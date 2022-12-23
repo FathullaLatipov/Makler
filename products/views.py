@@ -11,8 +11,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from .models import ImagesModel, MapModel, PriceListModel, UserWishlistModel, HouseTypeModel, HouseRentalTypeModel, \
-    HouseObjectModel
+from .models import ImagesModel, MapModel, PriceListModel, UserWishlistModel
 from rest_framework.decorators import parser_classes, api_view
 
 from products.helpers import modify_input_for_multiple_files
@@ -21,7 +20,7 @@ from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSe
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, \
     WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, \
     PriceListSerializer, NewAllWebHomeCreateSerializer, APPHomeCreateSerializer, UserWishlistModelSerializer, \
-    GetUserWishlistModelSerializer, HouseTypeModelSerializer, HouseRentalTypeModelSerializer, HouseObjectModelSerializer
+    GetUserWishlistModelSerializer
 from products.utils import get_wishlist_data
 
 
@@ -265,19 +264,3 @@ class RandomHouseModelAPIView(generics.ListAPIView):
     queryset = HouseModel.objects.order_by('?')
     serializer_class = NewWebHomeCreateSerializer
 
-
-#
-class HouseTypeListAPIView(generics.ListAPIView):
-    queryset = HouseTypeModel.objects.all()
-    serializer_class = HouseTypeModelSerializer
-
-
-#
-class HouseRentalTypeModelSerializerAPIView(generics.ListAPIView):
-    queryset = HouseRentalTypeModel.objects.all()
-    serializer_class = HouseRentalTypeModelSerializer
-
-
-class HouseObjectModelSerializerAPIView(generics.ListAPIView):
-    queryset = HouseObjectModel.objects.all()
-    serializer_class = HouseObjectModelSerializer

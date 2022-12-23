@@ -77,42 +77,42 @@ class HowSaleModel(models.Model):
     class Meta:
         verbose_name = _('Как продавать')
         verbose_name_plural = _('Как продавать')
+#
+#
+# class HouseTypeModel(models.Model):
+#     title = models.CharField(max_length=200, verbose_name=_('title'))
+#     created_at = models.DateTimeField(auto_now_add=True)
+#
+#     def __str__(self):
+#         return self.title
+#
+#     class Meta:
+#         verbose_name = _('Тип')
+#         verbose_name_plural = _('Типы')
+#
+#
+# class HouseRentalTypeModel(models.Model):
+#     title = models.CharField(max_length=200, verbose_name=_('title'))
+#     created_at = models.DateTimeField(auto_now_add=True)
+#
+#     def __str__(self):
+#         return self.title
+#
+#     class Meta:
+#         verbose_name = _('Тип маклера - rental type')
+#         verbose_name_plural = _('Тип маклера - rental type')
 
 
-class HouseTypeModel(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('title'))
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _('Тип')
-        verbose_name_plural = _('Типы')
-
-
-class HouseRentalTypeModel(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('title'))
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _('Тип маклера')
-        verbose_name_plural = _('Тип маклера')
-
-
-class HouseObjectModel(models.Model):
-    title = models.CharField(max_length=200, verbose_name=_('title'))
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _('Обьект')
-        verbose_name_plural = _('Обьекты')
+# class HouseObjectModel(models.Model):
+#     title = models.CharField(max_length=200, verbose_name=_('title'))
+#     created_at = models.DateTimeField(auto_now_add=True)
+#
+#     def __str__(self):
+#         return self.title
+#
+#     class Meta:
+#         verbose_name = _('Обьект')
+#         verbose_name_plural = _('Обьекты')
 
 
 class HouseModel(models.Model):
@@ -134,18 +134,17 @@ class HouseModel(models.Model):
     app_mebel = models.BooleanField(default=False, null=True)
     app_new_building = models.BooleanField(default=False, null=True)
     price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types', null=True)
-    # ADD_TYPE = (
-    #     ('rent', 'Rent'),
-    #     ('for_sale', 'For_sale'),
-    # )
-    # type = models.CharField(
-    #     max_length=200,
-    #     choices=ADD_TYPE,
-    #     default=ADD_TYPE[1],
-    #     null=True,
-    #     blank=True,
-    # )
-    type = models.ForeignKey(HouseTypeModel, on_delete=models.CASCADE, null=True)
+    ADD_TYPE = (
+        ('rent', 'Rent'),
+        ('for_sale', 'For_sale'),
+    )
+    type = models.CharField(
+        max_length=200,
+        choices=ADD_TYPE,
+        default=ADD_TYPE[1],
+        null=True,
+        blank=True,
+    )
     web_address_title = models.CharField(max_length=400, verbose_name=_('web_address_title'), null=True)
     web_address_latitude = models.FloatField(verbose_name=_('web_address_latitude'), null=True)
     web_address_longtitude = models.FloatField(verbose_name=_('web_address_longtitude'), null=True)
@@ -156,40 +155,40 @@ class HouseModel(models.Model):
     pm_residential = models.CharField(max_length=500, verbose_name=_('pm_kitchen'), null=True)
     pm_kitchen = models.CharField(max_length=300, verbose_name=_('pm_kitchen2'), null=True)
     web_building_type = models.CharField(max_length=600, verbose_name=_('web_building_type'), null=True)
-    # RENTAL_TYPE = (
-    #     ('long_time', 'Long_time'),
-    #     ('several_months', 'Several_months'),
-    #     ('daily', 'Daily')
-    # )
-    # rental_type = models.CharField(
-    #     max_length=200,
-    #     choices=RENTAL_TYPE,
-    #     default=RENTAL_TYPE[1],
-    #     null=True,
-    #     blank=True,
-    # )
-    rental_type = models.ForeignKey(HouseRentalTypeModel, on_delete=models.CASCADE, null=True)
+    RENTAL_TYPE = (
+        ('long_time', 'Long_time'),
+        ('several_months', 'Several_months'),
+        ('daily', 'Daily')
+    )
+    rental_type = models.CharField(
+        max_length=200,
+        choices=RENTAL_TYPE,
+        default=RENTAL_TYPE[1],
+        null=True,
+        blank=True,
+    )
+    # rental_type = models.ForeignKey(HouseRentalTypeModel, on_delete=models.CASCADE, null=True)
     PROPERTY_TYPE = (
         ('residential', 'Residential'),
         ('commercial', 'Commercial')
     )
-    # OBJECT = (
-    #     ('flat', 'Flat'),
-    #     ('room', 'Room'),
-    #     ('summer_cottage', 'Summer_cottage'),
-    #     ('house', 'House'),
-    #     ('part_house', 'Part_house'),
-    #     ('townhouse', 'Townhouse'),
-    #     ('bed_space', 'Bed_space')
-    # )
-    # object = models.CharField(
-    #     max_length=200,
-    #     choices=OBJECT,
-    #     default=None,
-    #     null=True,
-    #     blank=True,
-    # )
-    object = models.ForeignKey(HouseObjectModel, on_delete=models.CASCADE, null=True)
+    OBJECT = (
+        ('flat', 'Flat'),
+        ('room', 'Room'),
+        ('summer_cottage', 'Summer_cottage'),
+        ('house', 'House'),
+        ('part_house', 'Part_house'),
+        ('townhouse', 'Townhouse'),
+        ('bed_space', 'Bed_space')
+    )
+    object = models.CharField(
+        max_length=200,
+        choices=OBJECT,
+        default=None,
+        null=True,
+        blank=True,
+    )
+    # object = models.ForeignKey(HouseObjectModel, on_delete=models.CASCADE, null=True)
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
     property_type = models.CharField(
         max_length=100,
