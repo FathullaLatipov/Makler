@@ -15,7 +15,8 @@ from rest_framework.authentication import TokenAuthentication
 from products.utils import get_wishlist_data
 from .models import MasterModel, MasterUserWishlistModel, MasterProfessionModel
 from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer, \
-    MasterGetUserWishlistModelSerializer, MasterUserWishlistModelSerializer, MasterProfessionSerializer
+    MasterGetUserWishlistModelSerializer, MasterUserWishlistModelSerializer, MasterProfessionSerializer, \
+    APPMasterCreateSerializer
 
 
 class MasterListAPIView(generics.ListAPIView):
@@ -83,6 +84,13 @@ class MasterDetailAPIView(APIView):
 class MasterCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
+    permission_classes = [IsAuthenticated, ]
+
+
+# APPMasterCreateSerializer
+class APPMasterCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
+    queryset = MasterModel.objects.all()
+    serializer_class = APPMasterCreateSerializer
     permission_classes = [IsAuthenticated, ]
 
 

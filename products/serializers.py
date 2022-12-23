@@ -77,14 +77,14 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
+        fields = ['id', 'creator', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
                   'typeOfHouse',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'web_address_title', 'web_address_latitude',
                   'web_address_longtitude', 'general', 'residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
                   'images', 'uploaded_images',
                   ]
-        # extra_kwargs = {"user": {"read_only": True}}
+        extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only": True}}
 
     def create(self, validated_data):
         title = validated_data.get('title')
@@ -110,11 +110,13 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         building_type = validated_data.get('building_type')
         uploaded_datas = validated_data.pop('uploaded_images')
         product_status = validated_data.get('product_status')
+        creator = self.context['request'].user
         amenities = validated_data.get('amenities')
         titles = [i.title for i in amenities]
         amenities_titles = AmenitiesModel.objects.filter(title__in=titles)
         new_product = HouseModel.objects.create(
             title=title,
+            creator=creator,
             descriptions=descriptions,
             price=price,
             phone_number=phone_number,
@@ -234,11 +236,11 @@ class HomeSerializer(serializers.ModelSerializer):
 
     # address = AddressSerializer()
     # image = HomeImageSerializer(many=True)
-    # category = CategorySerializer()
+    category = CategorySerializer()
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
+        fields = ['id', 'title', 'category', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
                   'typeOfHouse', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',

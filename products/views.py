@@ -60,7 +60,7 @@ class HouseListAPIView(generics.ListAPIView):
     queryset = HouseModel.objects.filter(draft=False)
     serializer_class = HomeSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['number_of_rooms', 'price', 'address']
+    filterset_fields = ['number_of_rooms', 'price', 'address', 'category']
     pagination_class = StandardResultsSetPagination
     search_fields = ['title']
 

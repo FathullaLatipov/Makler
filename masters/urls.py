@@ -4,12 +4,13 @@ from products.views import GetHouseFavListAPIView
 from . import views
 from .views import MasterListAPIView, MasterDetailAPIView, MasterUpdateAPIView, MasterDestroyAPIView, \
     MasterCreateAPIView, SearchMasterListAPIView, RandomMasterListAPIView, MasterUserWishlistModelView, \
-    GetMasterFavListAPIView, MasterProfessionListAPIView
+    GetMasterFavListAPIView, MasterProfessionListAPIView, APPMasterCreateAPIView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'api/v1/maklers/delete', MasterDestroyAPIView)
 router.register(r'api/v1/maklers/create', MasterCreateAPIView)
+router.register(r'api/v1/maklers/app-create', APPMasterCreateAPIView)
 router.register(r'api/v1/maklers/wishlist-maklers', MasterUserWishlistModelView)
 
 urlpatterns = [
