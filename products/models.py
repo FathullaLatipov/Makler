@@ -172,11 +172,11 @@ class HouseModel(models.Model):
         ('commercial', 'Commercial')
     )
     OBJECT = (
-        ('flat', 'Flat'),
-        ('room', 'Room'),
-        ('summer_cottage', 'Summer_cottage'),
-        ('house', 'House'),
-        ('part_house', 'Part_house'),
+        ('квартиру', 'квартиру'),
+        ('комната', 'комната'),
+        ('дача', 'дача'),
+        ('дома', 'дома'),
+        ('участка', 'участка'),
         ('townhouse', 'Townhouse'),
         ('bed_space', 'Bed_space')
     )
