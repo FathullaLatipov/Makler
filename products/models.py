@@ -157,9 +157,9 @@ class HouseModel(models.Model):
     pm_kitchen = models.CharField(max_length=300, verbose_name=_('pm_kitchen2'), null=True)
     web_building_type = models.CharField(max_length=600, verbose_name=_('web_building_type'), null=True)
     RENTAL_TYPE = (
-        ('long_time', 'Long_time'),
-        ('several_months', 'Several_months'),
-        ('daily', 'Daily')
+        ('длительно', 'Длительно'),
+        ('несколько месяцев', 'несколько месяцев'),
+        ('посуточно', 'посуточно')
     )
     rental_type = models.CharField(
         max_length=200,
@@ -169,8 +169,8 @@ class HouseModel(models.Model):
         blank=True,
     )
     PROPERTY_TYPE = (
-        ('residential', 'Residential'),
-        ('commercial', 'Commercial')
+        ('жилая', 'жилая'),
+        ('коммерческая', 'коммерческая')
     )
     OBJECT = (
         ('квартира', 'квартиру'),
@@ -203,10 +203,10 @@ class HouseModel(models.Model):
     floor = models.CharField(max_length=30, verbose_name=_('floor'))
     floor_from = models.CharField(max_length=30, verbose_name=_('floor_from'))
     BUILDING_TYPE = (
-        ('brick', 'Brick'),
-        ('monolith', 'Monolith'),
-        ('panel', 'Panel'),
-        ('blocky', 'Blocky')
+        ('кирпич', 'кирпич'),
+        ('монолит', 'монолит'),
+        ('панель', 'панель'),
+        ('блочный', 'блочный')
     )
     building_type = models.CharField(
         max_length=50,
