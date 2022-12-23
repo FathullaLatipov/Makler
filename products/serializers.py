@@ -256,6 +256,19 @@ class NewWebHowSaleSerializer(serializers.ModelSerializer):
         model = HowSaleModel
         fields = ['title']
 
+
+class HouseTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HouseModel
+        fields = ['type']
+
+
+class HouseRentalTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HouseModel
+        fields = ['rental_type']
+
+
 # web
 class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
@@ -266,6 +279,8 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     amenities = WebAmenitiesSerializer(many=True)
     price_type = PriceListSerializer()
     how_sale = NewWebHowSaleSerializer()
+    type = HouseTypeSerializer()
+    rental_type = HouseRentalTypeSerializer()
 
     # address = AddressSerializer()
 
