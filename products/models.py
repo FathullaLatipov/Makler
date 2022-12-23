@@ -177,8 +177,8 @@ class HouseModel(models.Model):
         ('дача', 'дача'),
         ('дома', 'дома'),
         ('участка', 'участка'),
-        ('townhouse', 'Townhouse'),
-        ('bed_space', 'Bed_space')
+        ('таунхаус', 'Townhouse'),
+        ('спальное', 'Bed_space')
     )
     object = models.CharField(
         max_length=200,
