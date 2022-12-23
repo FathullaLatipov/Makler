@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, \
-    HouseImageModel, PriceListModel, HowSaleModel, HouseTypeModel, HouseRentalTypeModel
+    HouseImageModel, PriceListModel, HowSaleModel, HouseTypeModel, HouseRentalTypeModel, HouseObjectModel
 
 
 @admin.register(CategoryModel)
@@ -53,11 +53,17 @@ class HouseTypeModelAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
-
 @admin.register(HouseRentalTypeModel)
 class HouseRentalTypeModelAdmin(admin.ModelAdmin):
     list_display = ['pk', 'title', 'created_at']
     search_fields = ['title']
+
+
+@admin.register(HouseObjectModel)
+class HouseObjectModelAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'title']
+    search_fields = ['title']
+
 
 @admin.register(HouseModel)
 class HouseModelAdmin(admin.ModelAdmin):

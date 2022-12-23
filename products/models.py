@@ -103,6 +103,18 @@ class HouseRentalTypeModel(models.Model):
         verbose_name_plural = _('Тип маклера')
 
 
+class HouseObjectModel(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('title'))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Обьект')
+        verbose_name_plural = _('Обьекты')
+
+
 class HouseModel(models.Model):
     creator = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='houses', null=True,
                                 blank=True)
@@ -177,7 +189,7 @@ class HouseModel(models.Model):
     #     null=True,
     #     blank=True,
     # )
-
+    object = models.ForeignKey(HouseObjectModel, on_delete=models.CASCADE, null=True)
     address = models.ForeignKey(MapModel, on_delete=models.CASCADE, verbose_name=_('address'), null=True)
     property_type = models.CharField(
         max_length=100,
