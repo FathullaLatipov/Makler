@@ -37,6 +37,7 @@ class UpdateStoreModelSerializer(serializers.ModelSerializer):
 
 class ALLStoreModelSerializer(serializers.ModelSerializer):
     store_amenitites = StoreAmenitiesSerializer(many=True)
+    use_for = UseForModelSerializer()
 
     class Meta:
         model = StoreModel
