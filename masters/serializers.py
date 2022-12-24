@@ -47,6 +47,8 @@ class MasterSerializer(serializers.ModelSerializer):
     )
     profession = MasterProfessionModelSerializer(many=True)
 
+
+
     # address = AddressModelSerializer()
 
     class Meta:
