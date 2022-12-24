@@ -17,7 +17,7 @@ from .serializers import StoreModelSerializer, UpdateStoreModelSerializer, HowSt
 
 class StoreModelAPIView(generics.ListAPIView):
     queryset = StoreModel.objects.order_by('pk')
-    serializer_class = StoreModelSerializer
+    serializer_class = ALLStoreModelSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['use_for', 'how_store_service']
 
