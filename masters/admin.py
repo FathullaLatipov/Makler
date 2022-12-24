@@ -25,7 +25,7 @@ class HowServiceModelAdmin(admin.ModelAdmin):
 #        profession = MasterProfessionModel.objects.filter(profession=self.instance.id)
 @admin.register(MasterModel)
 class MasterModelAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'phone']
+    list_display = ['id', 'name', 'email', 'phone']
     search_fields = ['name', 'email', 'phone']
     list_filter = ['name', 'email', 'phone']
     save_on_top = True
