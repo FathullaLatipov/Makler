@@ -72,7 +72,7 @@ class StoreModel(models.Model):
         default=0,
         null=True
     )
-    store_amenitites = models.ManyToManyField(StoreAmenities, verbose_name=_('store_amenities'))
+    store_amenitites = models.ManyToManyField(StoreAmenities, verbose_name=_('store_amenities'), related_name='store_amenitites')
 
     def __str__(self):
         return self.name

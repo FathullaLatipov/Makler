@@ -9,7 +9,7 @@ from .models import StoreModel, StoreAmenities, UseForModel, HowStoreServiceMode
 class StoreAmenitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreAmenities
-        fields = ['title', ]
+        fields = ['id', 'title']
 
 
 class UseForModelSerializer(serializers.ModelSerializer):
@@ -35,8 +35,17 @@ class UpdateStoreModelSerializer(serializers.ModelSerializer):
         extra_kwargs = {"creator": {"read_only": True}}
 
 
+class ALLStoreModelSerializer(serializers.ModelSerializer):
+    store_amenitites = StoreAmenitiesSerializer(many=True)
+
+    class Meta:
+        model = StoreModel
+        fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
+                  'price_type', 'use_for', 'how_store_service',
+                  'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status',
+                  'view_count', 'creator']
+
 class StoreModelSerializer(serializers.ModelSerializer):
-    # store_amenitites = StoreAmenitiesSerializer(many=True)
     # creator = serializers.CharField(source='creator')
     # uploaded_image = serializers.FileField(
     #     max_length=10000,

@@ -12,7 +12,7 @@ from products.utils import get_wishlist_data
 from .models import StoreModel, HowStoreServiceModel, UseForModel
 from rest_framework.response import Response
 from .serializers import StoreModelSerializer, UpdateStoreModelSerializer, HowStoreServiceModelSerializer, \
-    UseForModelSerializer
+    UseForModelSerializer, ALLStoreModelSerializer
 
 
 class StoreModelAPIView(generics.ListAPIView):
@@ -57,7 +57,7 @@ class StoreDetailAPIView(APIView):
         houses = StoreModel.objects.get(id=pk)
         houses.view_count += 1
         houses.save()
-        serializer = StoreModelSerializer(houses, context={'request': request})
+        serializer = ALLStoreModelSerializer(houses, context={'request': request})
         return Response(serializer.data)
 
 
