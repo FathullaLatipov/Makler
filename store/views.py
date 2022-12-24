@@ -24,7 +24,7 @@ class StoreModelAPIView(generics.ListAPIView):
 
 class RandomStoreModelAPIView(generics.ListAPIView):
     queryset = StoreModel.objects.order_by('?')
-    serializer_class = StoreModelSerializer
+    serializer_class = ALLStoreModelSerializer
 
 
 class SearchStoreModelAPIView(generics.ListAPIView):
