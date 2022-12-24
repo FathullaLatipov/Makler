@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
 from user.models import CustomUser
-from .models import StoreModel, StoreAmenities, UseForModel
+from .models import StoreModel, StoreAmenities, UseForModel, HowStoreServiceModel
 
 
 # bu store niki
@@ -15,7 +15,13 @@ class StoreAmenitiesSerializer(serializers.ModelSerializer):
 class UseForModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = UseForModel
-        fields = ['title']
+        fields = ['id', 'title']
+
+
+class HowStoreServiceModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HowStoreServiceModel
+        fields = ['id', 'title']
 
 
 class UpdateStoreModelSerializer(serializers.ModelSerializer):
@@ -23,10 +29,11 @@ class UpdateStoreModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StoreModel
-        fields = ['id', 'name','description', 'store_amenitites', 'brand', 'price',
+        fields = ['id', 'name', 'description', 'store_amenitites', 'brand', 'price',
                   'price_type', 'use_for', 'how_store_service',
                   'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
+
 
 class StoreModelSerializer(serializers.ModelSerializer):
     # store_amenitites = StoreAmenitiesSerializer(many=True)
@@ -42,7 +49,8 @@ class StoreModelSerializer(serializers.ModelSerializer):
         model = StoreModel
         fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
                   'price_type', 'use_for', 'how_store_service',
-                  'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status', 'view_count', 'creator']
+                  'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status',
+                  'view_count', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
         # read_only_fields = ['creator', ]
 

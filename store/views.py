@@ -9,9 +9,10 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from products.utils import get_wishlist_data
-from .models import StoreModel
+from .models import StoreModel, HowStoreServiceModel, UseForModel
 from rest_framework.response import Response
-from .serializers import StoreModelSerializer, UpdateStoreModelSerializer
+from .serializers import StoreModelSerializer, UpdateStoreModelSerializer, HowStoreServiceModelSerializer, \
+    UseForModelSerializer
 
 
 class StoreModelAPIView(generics.ListAPIView):
@@ -67,11 +68,9 @@ class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     permission_classes = [IsAuthenticated, ]
 
 
-
 class StoreUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = StoreModel.objects.all()
     serializer_class = UpdateStoreModelSerializer
-
 
 
 class StoreDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
@@ -80,3 +79,13 @@ class StoreDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class UseForModelSerializerAPIView(generics.ListAPIView):
+    queryset = UseForModel.objects.all()
+    serializer_class = UseForModelSerializer
+
+
+class HowStoreServiceModelSerializerAPIView(generics.ListAPIView):
+    queryset = HowStoreServiceModel.objects.all()
+    serializer_class = HowStoreServiceModelSerializer
