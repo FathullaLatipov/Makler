@@ -112,6 +112,11 @@ class MasterCreateSerializer(serializers.ModelSerializer):
 
 
 class MasterDetailSerializer(serializers.ModelSerializer):
+    images = MasterImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
     profession = MasterProfessionModelSerializer(many=True)
 
     class Meta:
