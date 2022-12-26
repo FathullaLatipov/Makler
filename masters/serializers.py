@@ -62,6 +62,11 @@ class MasterSerializer(serializers.ModelSerializer):
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
     # profession = MasterProfessionModelSerializer(many=True)
+    images = MasterImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
     password = serializers.CharField(write_only=True, required=False, )
 
     # address = AddressModelSerializer()
@@ -69,13 +74,14 @@ class MasterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
         fields = ['name', 'email', 'phone', 'avatar', 'address_title', 'address_latitude', 'address_longitude',
-                  'password', 'profession', 'how_service',
+                  'password', 'profession', 'how_service', 'images', 'uploaded_images',
                   'descriptions', 'experience', 'owner',
                   ]
         extra_kwargs = {"owner": {"read_only": True}}
 
     def create(self, validated_data):
         profession = validated_data.get('profession')
+        mw_uploaded_images = validated_data.pop('uploaded_images')
         owner = self.context['request'].user
         print(owner, 'this is owner')
         mastermodel = MasterModel.objects.create(
@@ -95,6 +101,8 @@ class MasterCreateSerializer(serializers.ModelSerializer):
         for i in validated_data['profession']:
             mastermodel.profession.add(i.id)
             mastermodel.save()
+        for mw_img in mw_uploaded_images:
+            mw_up = MasterImagesModel.objects.create(master=mastermodel, images=mw_img)
         return mastermodel
 
     def get_img_url(self, obj):
@@ -103,12 +111,6 @@ class MasterCreateSerializer(serializers.ModelSerializer):
             myurl = self.context['request'].build_absolute_uri(i.image.url)
             urls.append(myurl)
         return urls
-
-    def to_representation(self, instance):
-        context = super().to_representation(instance)
-        # context['profession'] = MasterProfessionModelSerializer(instance.profession, many=True).data
-        # context['images'] = ImageModelSerializer(instance.images, many=True).data
-        return context
 
 
 class MasterDetailSerializer(serializers.ModelSerializer):
