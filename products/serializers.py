@@ -423,9 +423,11 @@ class HomeDetailSerializer(serializers.ModelSerializer):
 
 
 class UserWishlistModelSerializer(serializers.ModelSerializer):
+    product = HomeSerializer()
+
     class Meta:
         model = UserWishlistModel
-        fields = '__all__'
+        fields = ['product']
 
 
 class GetUserWishlistModelSerializer(serializers.ModelSerializer):
