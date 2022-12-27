@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins, status
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -252,12 +252,25 @@ class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
     filterset_fields = ['user']
 
 
-class WishlistUserHouseDetailAPIView(APIView):
-    def get(self, request, pk):
-        # pk = self.kwargs.get("pk")
-        houses = UserWishlistModel.objects.filter(user_id=pk)
-        serializer = UserWishlistModelSerializer(houses, many=True)
-        return Response(serializer.data)
+class WishlistUserHouseDetailAPIView(ListAPIView):
+    queryset = UserWishlistModel.objects.all()
+    serializer_class = UserWishlistModelSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        return (
+            super()
+                .get_queryset(*args, **kwargs)
+                .filter(user_id=self.kwargs['pk'])
+        )
+
+    # def get(self, request, pk):
+    #     # pk = self.kwargs.get("pk")
+    #     houses = UserWishlistModel.objects.filter(user_id=pk)
+    #     serializer = UserWishlistModelSerializer(houses, many=True)
+    #     return Response(serializer.data)
+
+    # def delete(self, request, pk):
+
 
 class GetHouseFavListAPIView(generics.ListAPIView):
     ''' Fav (Houses)'''
@@ -270,4 +283,3 @@ class GetHouseFavListAPIView(generics.ListAPIView):
 class RandomHouseModelAPIView(generics.ListAPIView):
     queryset = HouseModel.objects.order_by('?')
     serializer_class = NewWebHomeCreateSerializer
-
