@@ -430,7 +430,7 @@ class UserWishlistModelSerializer(serializers.ModelSerializer):
 
 class GetUserWishlistModelSerializer(serializers.ModelSerializer):
     user = CustomUser()
-    product = NewAllWebHomeCreateSerializer()
+    product = NewAllWebHomeCreateSerializer(many=True)
 
     class Meta:
         model = UserWishlistModel

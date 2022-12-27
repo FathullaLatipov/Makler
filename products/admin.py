@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from products.models import CategoryModel, HouseModel, AmenitiesModel, MapModel, \
-    HouseImageModel, PriceListModel, HowSaleModel
+    HouseImageModel, PriceListModel, HowSaleModel, UserWishlistModel
 
 
 @admin.register(CategoryModel)
@@ -54,3 +54,8 @@ class HouseModelAdmin(admin.ModelAdmin):
     list_filter = ['created_at']
     save_as = True
     save_on_top = True
+
+
+@admin.register(UserWishlistModel)
+class UserWishlistModelAdmin(admin.ModelAdmin):
+    list_display = ['pk']

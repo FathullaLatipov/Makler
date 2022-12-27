@@ -104,7 +104,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class LoginSerializer(serializers.Serializer):
     phone_number = serializers.CharField(required=True)
-    password = serializers.CharField()
+    code = serializers.CharField()
 
 
 class UserSerializer(serializers.ModelSerializer):

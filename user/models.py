@@ -36,13 +36,16 @@ class MyUserManager(BaseUserManager):
         return self.create_user(phone_number, password, **extra_fields)
 
 
+import random
+
+
 class CustomUser(AbstractUser):
     username = None
     date_birth = models.DateField(null=True, blank=True)
     avatar_image = models.FileField(upload_to='custom_avatar_image', null=True, blank=True)
     phone_number = models.CharField(max_length=40, unique=True)
     created_at = models.DateField(auto_now_add=True, null=True)
-
+    mycode = models.IntegerField(null=True)
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = []
     objects = MyUserManager()
@@ -50,10 +53,21 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return f"{self.phone_number}"
 
+    @classmethod
+    def mycode2(self):
+        return random.randint(100000, 999999)
+
+    def save(self, *args, **kwargs):
+        self.mycode = self.mycode2()
+        super().save(*args, **kwargs)
+
     def tokens(self):
         refresh = RefreshToken.for_user(self)
         return {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'id': str(self.id)
+            'id': str(self.id),
+            'code': self.mycode
         }
+
+

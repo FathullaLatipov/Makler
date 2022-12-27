@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {
             "fields": (
-                ('first_name', 'phone_number', 'is_superuser', 'is_staff'),
+                ('first_name', 'phone_number', 'mycode', 'is_superuser', 'is_staff'),
             ),
         }),
     )

@@ -252,6 +252,13 @@ class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
     filterset_fields = ['user']
 
 
+class WishlistUserHouseDetailAPIView(APIView):
+    def get(self, request, pk):
+        # pk = self.kwargs.get("pk")
+        houses = UserWishlistModel.objects.filter(user_id=pk)
+        serializer = UserWishlistModelSerializer(houses, many=True)
+        return Response(serializer.data)
+
 class GetHouseFavListAPIView(generics.ListAPIView):
     ''' Fav (Houses)'''
     queryset = UserWishlistModel.objects.order_by('pk')
