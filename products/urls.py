@@ -21,6 +21,7 @@ urlpatterns = [
     path('web/api/v1/all-web-houses/popular', RandomHouseModelAPIView.as_view()),
     path('web/api/v1/web-houses/search/', SearchWebHomeListAPIView.as_view()),
     path('api/v1/houses/get-wishlist-houses', GetHouseFavListAPIView.as_view()),
+    # path('api/v1/houses/delete-wishlist-houses/<int:pk>', UserWishlistDeleteView.as_view()),
     path('api/v1/houses/user-wishlist/<int:pk>', WishlistUserHouseDetailAPIView.as_view()),
     path('web/api/v1/houses/<int:pk>', HouseDetailAPIView.as_view()),
     path('api/v1/web-houses/amenities/', WebAmenitiesListAPIView.as_view()),

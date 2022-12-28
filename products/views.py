@@ -252,6 +252,13 @@ class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
     filterset_fields = ['user']
 
 
+# class UserWishlistDeleteView(mixins.DestroyModelMixin, GenericViewSet):
+#     queryset = UserWishlistModel.objects.all()
+#     serializer_class = UserWishlistModelSerializer
+#
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
+
 class WishlistUserHouseDetailAPIView(ListAPIView):
     queryset = UserWishlistModel.objects.all()
     serializer_class = UserWishlistModelSerializer
@@ -260,7 +267,7 @@ class WishlistUserHouseDetailAPIView(ListAPIView):
         return (
             super()
                 .get_queryset(*args, **kwargs)
-                .filter(user_id=self.kwargs['pk'])
+                .filter(user_id=self.kwargs.get('pk'))
         )
 
     # def get(self, request, pk):
