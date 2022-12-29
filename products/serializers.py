@@ -78,7 +78,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ['id', 'creator', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
-                  'typeOfHouse',
+                  'typeOfHouse', 'rental_type', 'property_type',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'web_address_title', 'web_address_latitude',
                   'web_address_longtitude', 'general', 'residential', 'product_status',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities',
@@ -98,6 +98,8 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         typeOfObject = validated_data.get('typeOfObject')
         app_ipoteka = validated_data.get('app_ipoteka')
         app_mebel = validated_data.get('app_mebel')
+        rental_type = validated_data.get('rental_type')
+        property_type = validated_data.get('property_type')
         type = validated_data.get('type')
         web_address_title = validated_data.get('web_address_title')
         web_address_latitude = validated_data.get('web_address_latitude')
@@ -128,6 +130,8 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
             app_ipoteka=app_ipoteka,
             app_mebel=app_mebel,
             type=type,
+            rental_type=rental_type,
+            property_type=property_type,
             web_address_title=web_address_title,
             web_address_latitude=web_address_latitude,
             web_address_longtitude=web_address_longtitude,
