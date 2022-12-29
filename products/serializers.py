@@ -80,8 +80,8 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'creator', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
                   'typeOfHouse',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'web_address_title', 'web_address_latitude',
-                  'web_address_longtitude', 'general', 'residential',
-                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
+                  'web_address_longtitude', 'general', 'residential', 'product_status',
+                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities',
                   'images', 'uploaded_images',
                   ]
         extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only": True}}
@@ -241,9 +241,9 @@ class HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = HouseModel
         fields = ['id', 'title', 'category', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
-                  'typeOfHouse', 'web_address_title', 'web_address_latitude', 'web_address_longtitude',
+                  'typeOfHouse', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'rental_type',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
-                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
+                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status', 'isBookmarked',
                   'images', 'uploaded_images', 'creator']
 
 
@@ -282,7 +282,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     price_type = PriceListSerializer()
     how_sale = NewWebHowSaleSerializer()
     type = HouseTypeSerializer
-    rental_type = HouseRentalTypeSerializer
+    # rental_type = HouseRentalTypeSerializer
 
     # address = AddressSerializer()
 
@@ -430,8 +430,7 @@ class UserWishlistModelSerializer(serializers.ModelSerializer):
 
 
 class GetUserWishlistModelSerializer(serializers.ModelSerializer):
-    user = CustomUser()
-    product = NewAllWebHomeCreateSerializer(many=True)
+    product = NewAllWebHomeCreateSerializer()
 
     class Meta:
         model = UserWishlistModel

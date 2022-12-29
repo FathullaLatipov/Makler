@@ -261,7 +261,7 @@ class UserWishlistModelView(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
 
 class WishlistUserHouseDetailAPIView(ListAPIView):
     queryset = UserWishlistModel.objects.all()
-    serializer_class = UserWishlistModelSerializer
+    serializer_class = GetUserWishlistModelSerializer
 
     def get_queryset(self, *args, **kwargs):
         return (

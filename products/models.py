@@ -1,10 +1,5 @@
 from django.db import models
-from django.template.defaultfilters import slugify
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from multiselectfield import MultiSelectField
-
-from user.models import CustomUser
 
 
 class CategoryModel(models.Model):
@@ -77,42 +72,6 @@ class HowSaleModel(models.Model):
     class Meta:
         verbose_name = _('Как продавать')
         verbose_name_plural = _('Как продавать')
-#
-#
-# class HouseTypeModel(models.Model):
-#     title = models.CharField(max_length=200, verbose_name=_('title'))
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.title
-#
-#     class Meta:
-#         verbose_name = _('Тип')
-#         verbose_name_plural = _('Типы')
-#
-#
-# class HouseRentalTypeModel(models.Model):
-#     title = models.CharField(max_length=200, verbose_name=_('title'))
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.title
-#
-#     class Meta:
-#         verbose_name = _('Тип маклера - rental type')
-#         verbose_name_plural = _('Тип маклера - rental type')
-
-
-# class HouseObjectModel(models.Model):
-#     title = models.CharField(max_length=200, verbose_name=_('title'))
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.title
-#
-#     class Meta:
-#         verbose_name = _('Обьект')
-#         verbose_name_plural = _('Обьекты')
 
 
 class HouseModel(models.Model):
