@@ -80,9 +80,9 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'creator', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
                   'typeOfHouse', 'rental_type', 'property_type',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'web_address_title', 'web_address_latitude',
-                  'web_address_longtitude', 'general', 'residential', 'product_status',
+                  'web_address_longtitude', 'general', 'residential',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'youtube_link',
-                  'images', 'uploaded_images',
+                  'images', 'uploaded_images', 'isBookmarked', 'draft', 'created_at',
                   ]
         extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only": True}}
 
@@ -111,7 +111,6 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         floor_from = validated_data.get('floor_from')
         building_type = validated_data.get('building_type')
         uploaded_datas = validated_data.pop('uploaded_images')
-        product_status = validated_data.get('product_status')
         youtube_link = validated_data.get('youtube_link')
         creator = self.context['request'].user
         amenities = validated_data.get('amenities')
@@ -143,7 +142,6 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
             youtube_link=youtube_link,
             floor_from=floor_from,
             building_type=building_type,
-            product_status=product_status,
         )
         new_product.amenities.add(*amenities_titles)
         for q in uploaded_datas:
