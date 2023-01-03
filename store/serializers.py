@@ -79,7 +79,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
                                                phoneNumber=validated_data['phoneNumber'],
                                                address=validated_data['address'],
                                                youtube_link=validated_data['youtube_link'],
-                                               email=validated_data['email']
+                                               email=validated_data['email'],
                                                )
         for u in validated_data['store_amenitites']:
             storemodel.store_amenitites.add(u.id)

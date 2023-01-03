@@ -22,7 +22,7 @@ from masters.serializers import MasterSerializer
 from store.serializers import StoreModelSerializer
 
 from .serializers import RegistrationSerializer, UserSerializer, LoginSerializer, UserALLSerializer, \
-    UpdateUserSerializer
+    UpdateUserSerializer, UserProductsSerializer
 
 
 class UserViewSet(GenericViewSet):
@@ -125,6 +125,14 @@ class UserList(APIView):
         serializer = UserSerializer(users, context={'request': request})
         return Response(serializer.data)
 
+
+class UserProductsList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk):
+        users = CustomUser.objects.get(id=pk)
+        serializer = UserProductsSerializer(users, context={'request': request})
+        return Response(serializer.data)
 
 class UserDetail(generics.RetrieveAPIView):
     queryset = CustomUser.objects.all()

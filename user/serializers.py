@@ -86,6 +86,7 @@ class UserALLSerializer(serializers.ModelSerializer):
         model = CustomUser
         exclude = ['user_permissions', 'groups', 'password']
 
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -108,13 +109,19 @@ class LoginSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+
+
+class UserProductsSerializer(serializers.ModelSerializer):
     maklers = MasterSerializer(many=True)
     stores = StoreModelSerializer(many=True)
     houses = NewAllWebHomeCreateSerializer(many=True)
 
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ['id', 'maklers', 'stores', 'houses']
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):
