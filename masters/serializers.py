@@ -54,7 +54,7 @@ class MasterSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
         fields = ['pk', 'name', 'phone', 'address_title', 'address_latitude', 'address_longitude', 'avatar',
-                  'profession', 'images', 'uploaded_images', 'youtube_link',
+                  'profession', 'images', 'uploaded_images',
                   'experience', 'isBookmarked', 'draft', 'product_status', 'how_service', 'view_count', 'created_at',
                   'owner']
 
@@ -74,7 +74,7 @@ class MasterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
         fields = ['name', 'email', 'phone', 'avatar', 'address_title', 'address_latitude', 'address_longitude',
-                  'password', 'profession', 'how_service', 'images', 'uploaded_images', 'youtube_link',
+                  'password', 'profession', 'how_service', 'images', 'uploaded_images',
                   'descriptions', 'experience', 'owner',
                   ]
         extra_kwargs = {"owner": {"read_only": True}}
@@ -97,7 +97,6 @@ class MasterCreateSerializer(serializers.ModelSerializer):
             address_longitude=validated_data['address_longitude'],
             descriptions=validated_data['descriptions'],
             experience=validated_data['experience'],
-            youtube_link=validated_data['youtube_link'],
         )
         for i in validated_data['profession']:
             mastermodel.profession.add(i.id)
@@ -173,7 +172,7 @@ class APPMasterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
         fields = ['name', 'email', 'phone', 'avatar', 'address_title', 'address_latitude', 'address_longitude',
-                  'password', 'profession', 'how_service', 'images', 'uploaded_images', 'youtube_link',
+                  'password', 'profession', 'how_service', 'images', 'uploaded_images',
                   'descriptions', 'experience', 'owner',
                   ]
         extra_kwargs = {"owner": {"read_only": True}}

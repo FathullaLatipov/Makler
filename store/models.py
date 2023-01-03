@@ -60,7 +60,6 @@ class StoreModel(models.Model):
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     draft = models.BooleanField(default=False)
-    youtube_link = models.CharField(max_length=500, null=True, blank=True)
     view_count = models.PositiveIntegerField(default=0, null=True)
     PRODUCT_STATUS = [
         (0, 'InProgress'),
