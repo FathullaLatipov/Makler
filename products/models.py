@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from embed_video.fields import EmbedVideoField
+
 
 
 class CategoryModel(models.Model):
@@ -105,6 +107,7 @@ class HouseModel(models.Model):
         null=True,
         blank=True,
     )
+    youtube_link = models.CharField(max_length=500, null=True, blank=True)
     web_address_title = models.CharField(max_length=400, verbose_name=_('web_address_title'), null=True)
     web_address_latitude = models.FloatField(verbose_name=_('web_address_latitude'), null=True)
     web_address_longtitude = models.FloatField(verbose_name=_('web_address_longtitude'), null=True)

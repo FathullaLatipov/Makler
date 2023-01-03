@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from embed_video.fields import EmbedVideoField
 
 from products.models import PriceListModel
 from user.models import CustomUser
@@ -59,6 +60,7 @@ class StoreModel(models.Model):
     isBookmarked = models.BooleanField(default=False, verbose_name=_('isBookmarked'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
     draft = models.BooleanField(default=False)
+    youtube_link = models.CharField(max_length=500, null=True, blank=True)
     view_count = models.PositiveIntegerField(default=0, null=True)
     PRODUCT_STATUS = [
         (0, 'InProgress'),

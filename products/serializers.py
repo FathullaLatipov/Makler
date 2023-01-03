@@ -81,7 +81,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
                   'typeOfHouse', 'rental_type', 'property_type',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'web_address_title', 'web_address_latitude',
                   'web_address_longtitude', 'general', 'residential', 'product_status',
-                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities',
+                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'youtube_link',
                   'images', 'uploaded_images',
                   ]
         extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only": True}}
@@ -112,6 +112,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
         building_type = validated_data.get('building_type')
         uploaded_datas = validated_data.pop('uploaded_images')
         product_status = validated_data.get('product_status')
+        youtube_link = validated_data.get('youtube_link')
         creator = self.context['request'].user
         amenities = validated_data.get('amenities')
         titles = [i.title for i in amenities]
@@ -139,6 +140,7 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
             residential=residential,
             number_of_rooms=number_of_rooms,
             floor=floor,
+            youtube_link=youtube_link,
             floor_from=floor_from,
             building_type=building_type,
             product_status=product_status,
@@ -298,7 +300,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
                   'pm_general', 'pm_residential', 'images', 'uploaded_images',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
-                  'amenities', 'phone_number', 'how_sale',
+                  'amenities', 'phone_number', 'youtube_link', 'how_sale',
                   'isBookmarked', 'draft', 'product_status', 'view_count', 'created_at',
                   ]
 
@@ -321,7 +323,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                   'pm_general', 'pm_residential', 'images', 'uploaded_images',
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
-                  'amenities', 'phone_number', 'how_sale',
+                  'amenities', 'phone_number', 'how_sale', 'youtube_link',
                   'isBookmarked', 'draft', 'created_at',
                   ]
         extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only": True}}
@@ -353,6 +355,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
         phone_number = validated_data.get('phone_number')
         draft = validated_data.get('draft')
         isBookmarked = validated_data.get('isBookmarked')
+        youtube_link = validated_data.get('youtube_link')
         uploaded_data = validated_data.pop('uploaded_images')
         creator = self.context['request'].user
         print(creator, 'this is creator')
@@ -378,6 +381,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                                                 pm_kitchen=pm_kitchen,
                                                 number_of_rooms=number_of_rooms,
                                                 floor=floor,
+                                                youtube_link=youtube_link,
                                                 floor_from=floor_from,
                                                 building_type=building_type,
                                                 app_ipoteka=app_ipoteka,

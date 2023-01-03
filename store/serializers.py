@@ -42,7 +42,7 @@ class ALLStoreModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreModel
         fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
-                  'price_type', 'use_for', 'how_store_service',
+                  'price_type', 'use_for', 'how_store_service', 'youtube_link',
                   'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status',
                   'view_count', 'creator']
 
@@ -58,7 +58,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreModel
         fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
-                  'price_type', 'use_for', 'how_store_service',
+                  'price_type', 'youtube_link', 'use_for', 'how_store_service',
                   'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status',
                   'view_count', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
@@ -78,6 +78,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
                                                use_for=validated_data['use_for'],
                                                phoneNumber=validated_data['phoneNumber'],
                                                address=validated_data['address'],
+                                               youtube_link=validated_data['youtube_link'],
                                                email=validated_data['email']
                                                )
         for u in validated_data['store_amenitites']:
