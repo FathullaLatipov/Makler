@@ -34,6 +34,7 @@ urlpatterns = [
     path('users/', include('user.urls')),
     path('admin/', admin.site.urls),
     path('products/', include('products.urls'), name='products'),
+    path('mebel/', include('mebel.urls'), name='mebel'),
     path('authorization/', include('authorization.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),

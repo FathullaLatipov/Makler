@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from mebel.models import MebelCategoryModel, MebelModel
+
+
+@admin.register(MebelCategoryModel)
+class CategoryModelAdmin(admin.ModelAdmin):
+    list_display = ['pk']
+    search_fields = ['title']
+
+
+@admin.register(MebelModel)
+class MebelModelAdmin(admin.ModelAdmin):
+    list_display = ['pk']
+    search_fields = ['title']

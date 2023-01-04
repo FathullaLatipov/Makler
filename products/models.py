@@ -3,7 +3,6 @@ from django.utils.translation import gettext_lazy as _
 from embed_video.fields import EmbedVideoField
 
 
-
 class CategoryModel(models.Model):
     title = models.CharField(max_length=500, verbose_name=_('title'))
     subtitle = models.TextField(verbose_name=_('subtitle'), null=True)
@@ -236,7 +235,6 @@ class UserWishlistModel(models.Model):
     user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(HouseModel, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created_at'))
-
 
     class Meta:
         verbose_name = _('Избранное')
