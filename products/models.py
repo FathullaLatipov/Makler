@@ -239,8 +239,8 @@ class UserWishlistModel(models.Model):
 
 
     class Meta:
-        verbose_name = _('Wishlist')
-        verbose_name_plural = _('Wishlist')
+        verbose_name = _('Избранное')
+        verbose_name_plural = _('Избранные')
 
 # class HouseOptionsModel(models.Model):
 #     product = models.ForeignKey(HouseModel, on_delete=models.PROTECT, related_name='products_options',

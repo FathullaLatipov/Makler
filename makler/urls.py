@@ -29,11 +29,11 @@ router = DefaultRouter()
 
 
 urlpatterns = [
-    path('master/', include('masters.urls')),
-    path('store2/', include('store.urls')),
+    path('master/', include('masters.urls'), name='masters'),
+    path('store2/', include('store.urls'), name='store'),
     path('users/', include('user.urls')),
     path('admin/', admin.site.urls),
-    path('products/', include('products.urls')),
+    path('products/', include('products.urls'), name='products'),
     path('authorization/', include('authorization.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),

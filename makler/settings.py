@@ -3,6 +3,7 @@ from decouple import config
 from datetime import timedelta
 
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,7 +43,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     'embed_video',
 
-
     # django apps
     'products',
     'masters',
@@ -80,6 +80,29 @@ TEMPLATES = [
         },
     },
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Makleruz.uz", "site_header": "Makleruz.uz", "site_brand": "Makleruz.uz",
+    "login_logo": None, "login_logo_dark": None,
+    "site_icon": None, "welcome_sign": "Makleruz.uz", "copyright": "Makleruz.uz", "user_avatar": None,
+    "show_ui_builder": True, "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Главаня", "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "Маклер", "url": "/admin/products/housemodel/"},
+        {"name": "Мастер", "url": "/admin/masters/mastermodel/"},
+        {"name": "Обустройства", "url": "/admin/store/storemodel/"},
+
+    ], "usermenu_links": [
+        {"model": "auth.user"}
+    ], "show_sidebar": True, "navigation_expanded": True, "hide_apps": [], "hide_models": [],
+    "order_with_respect_to": ["masters", "products", "store", "blog", "works"],
+    "related_modal_active": False, "custom_css": None, "custom_js": None,
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"}
+}
 
 WSGI_APPLICATION = 'makler.wsgi.application'
 
@@ -126,7 +149,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
-
 STATICFILES_DIRS = BASE_DIR / 'assets',
 
 MEDIA_URL = '/media/'
@@ -139,9 +161,9 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # REST
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-      'rest_framework.authentication.TokenAuthentication',
-      'rest_framework_simplejwt.authentication.JWTAuthentication',
-      'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
@@ -155,7 +177,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100
 }
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=20),
@@ -179,7 +200,6 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
