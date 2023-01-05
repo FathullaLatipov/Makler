@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
 from user.models import CustomUser
-from .models import StoreModel, StoreAmenities, UseForModel, HowStoreServiceModel
+from .models import StoreModel, StoreAmenities, UseForModel, HowStoreServiceModel, StoreBrandModel
 
 
 # bu store niki
@@ -29,22 +29,30 @@ class UpdateStoreModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StoreModel
-        fields = ['id', 'name', 'description', 'store_amenitites', 'brand', 'price',
+        fields = ['id', 'name', 'description', 'store_amenitites', 'brand_title', 'price',
                   'price_type', 'use_for', 'how_store_service',
                   'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status', 'creator']
         extra_kwargs = {"creator": {"read_only": True}}
 
 
+class StoreBrandModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreBrandModel
+        fields = ['id', 'title']
+
+
 class ALLStoreModelSerializer(serializers.ModelSerializer):
     store_amenitites = StoreAmenitiesSerializer(many=True)
     use_for = UseForModelSerializer()
+    brand_title = StoreBrandModelSerializer()
 
     class Meta:
         model = StoreModel
-        fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
+        fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand_title', 'price',
                   'price_type', 'use_for', 'how_store_service',
                   'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status',
                   'view_count', 'creator']
+
 
 class StoreModelSerializer(serializers.ModelSerializer):
     # creator = serializers.CharField(source='creator')
@@ -57,7 +65,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StoreModel
-        fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand', 'price',
+        fields = ['id', 'name', 'image', 'brand_image', 'description', 'store_amenitites', 'brand_title', 'price',
                   'price_type', 'use_for', 'how_store_service',
                   'phoneNumber', 'address', 'email', 'created_at', 'isBookmarked', 'draft', 'product_status',
                   'view_count', 'creator']
@@ -71,7 +79,7 @@ class StoreModelSerializer(serializers.ModelSerializer):
                                                description=validated_data['description'],
                                                image=validated_data['image'],
                                                brand_image=validated_data['brand_image'],
-                                               brand=validated_data['brand'],
+                                               brand_title=validated_data['brand_title'],
                                                price=validated_data['price'],
                                                how_store_service=validated_data['how_store_service'],
                                                price_type=validated_data['price_type'],

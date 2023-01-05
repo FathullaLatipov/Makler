@@ -9,17 +9,22 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from products.utils import get_wishlist_data
-from .models import StoreModel, HowStoreServiceModel, UseForModel
+from .models import StoreModel, HowStoreServiceModel, UseForModel, StoreBrandModel
 from rest_framework.response import Response
 from .serializers import StoreModelSerializer, UpdateStoreModelSerializer, HowStoreServiceModelSerializer, \
-    UseForModelSerializer, ALLStoreModelSerializer
+    UseForModelSerializer, ALLStoreModelSerializer, StoreBrandModelSerializer
 
 
 class StoreModelAPIView(generics.ListAPIView):
-    queryset = StoreModel.objects.order_by('pk')
+    queryset = StoreModel.objects.order_by('-pk')
     serializer_class = ALLStoreModelSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['use_for', 'how_store_service']
+
+
+class StoreBrandAPIView(generics.ListAPIView):
+    queryset = StoreBrandModel.objects.order_by('-pk')
+    serializer_class = StoreBrandModelSerializer
 
 
 class RandomStoreModelAPIView(generics.ListAPIView):
