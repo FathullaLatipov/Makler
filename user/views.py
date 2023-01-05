@@ -152,7 +152,7 @@ class UserDetailAPIView(APIView):
         return Response(serializer.data)
 
 
-class UpdateProfileView(generics.UpdateAPIView):
+class UpdateProfileView(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = UpdateUserSerializer
