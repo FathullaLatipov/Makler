@@ -136,4 +136,3 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             'phone_number': {'required': False},
             'password': {'required': False},
         }
-
