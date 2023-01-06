@@ -22,3 +22,16 @@ class MebelCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     queryset = MebelModel.objects.all()
     serializer_class = MebelSerializer
     permission_classes = [IsAuthenticated, ]
+
+
+class MebelUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = MebelModel.objects.all()
+    serializer_class = MebelSerializer
+
+
+class MebelDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
+    queryset = MebelModel.objects.all()
+    serializer_class = MebelSerializer
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
