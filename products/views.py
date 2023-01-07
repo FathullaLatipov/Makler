@@ -235,6 +235,13 @@ class HouseUpdateAPIView(generics.RetrieveUpdateAPIView):
         self.perform_update(serializer)
         return Response(serializer.data)
 
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['isBookmarked'] = True
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
 
 class HouseDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
     queryset = HouseModel.objects.all()
