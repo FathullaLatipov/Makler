@@ -236,7 +236,7 @@ class HouseUpdateAPIView(generics.RetrieveUpdateAPIView):
         return Response(serializer.data)
 
     def partial_update(self, request, *args, **kwargs):
-        kwargs['isBookmarked'] = True
+        kwargs['draft'] = True
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
