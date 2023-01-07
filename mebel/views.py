@@ -7,7 +7,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
 
 from mebel.models import MebelCategoryModel, MebelModel
-from mebel.serializers import MebelCategorySerializer, MebelSerializer, AllMebelSerializer
+from mebel.serializers import MebelCategorySerializer, MebelSerializer, AllMebelSerializer, UpdateAllMebelSerializer
 
 
 class MebelCategoryListAPIView(generics.ListAPIView):
@@ -33,7 +33,7 @@ class MebelCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
 
 class MebelUpdateView(generics.RetrieveUpdateAPIView):
     queryset = MebelModel.objects.all()
-    serializer_class = MebelSerializer
+    serializer_class = UpdateAllMebelSerializer
 
 
 class MebelDetailAPIView(APIView):

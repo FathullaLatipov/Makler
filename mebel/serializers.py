@@ -34,6 +34,19 @@ class AllMebelSerializer(serializers.ModelSerializer):
         extra_kwargs = {"creator": {"read_only": True}}
 
 
+class UpdateAllMebelSerializer(serializers.ModelSerializer):
+    # images = MebelImageSerializer(many=True, read_only=True)
+    # uploaded_images = serializers.ListField(
+    #     child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+    #     write_only=True
+    # )
+
+    class Meta:
+        model = MebelModel
+        fields = '__all__'
+        extra_kwargs = {"creator": {"read_only": True},}
+
+
 class MebelSerializer(serializers.ModelSerializer):
     images = MebelImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
