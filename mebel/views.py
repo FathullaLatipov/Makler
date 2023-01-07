@@ -2,7 +2,9 @@ from django.shortcuts import render
 from rest_framework import generics, mixins
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.response import Response
 
 from mebel.models import MebelCategoryModel, MebelModel
 from mebel.serializers import MebelCategorySerializer, MebelSerializer, AllMebelSerializer
@@ -18,6 +20,11 @@ class MebelListAPIView(generics.ListAPIView):
     serializer_class = AllMebelSerializer
 
 
+class RandomMebelListAPIView(generics.ListAPIView):
+    queryset = MebelModel.objects.order_by('?')
+    serializer_class = AllMebelSerializer
+
+
 class MebelCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
     queryset = MebelModel.objects.all()
     serializer_class = MebelSerializer
@@ -27,6 +34,13 @@ class MebelCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
 class MebelUpdateView(generics.RetrieveUpdateAPIView):
     queryset = MebelModel.objects.all()
     serializer_class = MebelSerializer
+
+
+class MebelDetailAPIView(APIView):
+    def get(self, request, pk):
+        products = MebelModel.objects.get(id=pk)
+        serializer = AllMebelSerializer(products, context={'request': request})
+        return Response(serializer.data)
 
 
 class MebelDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):

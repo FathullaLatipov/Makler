@@ -56,6 +56,10 @@ class MebelSerializer(serializers.ModelSerializer):
             price_type=validated_data['price_type'],
             short_descriptions=validated_data['short_descriptions'],
             long_descriptions=validated_data['long_descriptions'],
+            phone_number=validated_data['phone_number'],
+            web_address_title=validated_data['web_address_title'],
+            web_address_latitude=validated_data['web_address_latitude'],
+            web_address_longtitude=validated_data['web_address_longtitude'],
             creator=creator,
         )
         for mbl_img in mbl_uploaded_images:
