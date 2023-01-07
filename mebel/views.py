@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, mixins
+from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -19,8 +20,9 @@ class MebelCategoryListAPIView(generics.ListAPIView):
 class MebelListAPIView(generics.ListAPIView):
     queryset = MebelModel.objects.order_by('pk')
     serializer_class = AllMebelSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['category', 'web_address_title']
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['category']
+    search_fields = ['web_address_title']
 
 
 class RandomMebelListAPIView(generics.ListAPIView):
