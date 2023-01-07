@@ -1,6 +1,6 @@
 from pathlib import Path
 from decouple import config
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 import os
 
@@ -180,8 +180,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=20),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=20),
+    'ACCESS_TOKEN_LIFETIME': timedelta(weeks=60),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
 
