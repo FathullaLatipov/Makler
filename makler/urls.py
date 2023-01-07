@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from carousel.views import CarouselModelAPIView
 from .yasg import urlpatterns as doc_urls
 from rest_framework.routers import DefaultRouter
 
@@ -38,6 +40,7 @@ urlpatterns = [
     path('authorization/', include('authorization.urls')),
     path('api/v1/categories/', CategoryListAPIView.as_view()),
     path('api/v1/amenities/', AmenitiesListAPIView.as_view()),
+    path('api/v1/carousels/', CarouselModelAPIView.as_view()),
     path('web/api/v1/web-amenities/', WebAmenitiesListAPIView.as_view()),
     path('web/api/v1/web-prices/', WebPriceListAPIView.as_view()),
     path('api/v1/fav/', HouseFavListAPIView.as_view()),
