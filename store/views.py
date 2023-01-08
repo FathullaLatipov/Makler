@@ -77,6 +77,13 @@ class StoreUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = StoreModel.objects.all()
     serializer_class = UpdateStoreModelSerializer
 
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['draft'] = True
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
 
 class StoreDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
     queryset = StoreModel.objects.all()

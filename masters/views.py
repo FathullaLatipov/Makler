@@ -134,6 +134,13 @@ class MasterUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = MasterModel.objects.all()
     serializer_class = MasterCreateSerializer
 
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['draft'] = True
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
 
 class MasterDestroyAPIView(mixins.DestroyModelMixin, GenericViewSet):
     queryset = MasterModel.objects.all()

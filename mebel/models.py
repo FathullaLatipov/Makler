@@ -28,6 +28,7 @@ class MebelModel(models.Model):
     price_type = models.ForeignKey(PriceListModel, on_delete=models.CASCADE, related_name='price_types_mebel', null=True)
     short_descriptions = models.TextField(verbose_name=_('short_descriptions'), null=True)
     long_descriptions = models.TextField(verbose_name=_('descriptions'), null=True)
+    draft = models.BooleanField(default=False, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
