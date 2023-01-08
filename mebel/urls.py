@@ -4,7 +4,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from mebel.views import MebelCategoryListAPIView, MebelListAPIView, MebelCreateAPIView, MebelUpdateView, \
-    MebelDestroyAPIView, MebelDetailAPIView, RandomMebelListAPIView
+    MebelDestroyAPIView, MebelDetailAPIView, RandomMebelListAPIView, PatchMebelUpdateView
 
 router = DefaultRouter()
 router.register(r'api/v1/mebels/create', MebelCreateAPIView)
@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/v1/mebels/popular', RandomMebelListAPIView.as_view()),
     path('api/v1/mebels/<int:pk>', MebelDetailAPIView.as_view()),
     path('api/v1/mebels/update/<int:pk>', MebelUpdateView.as_view()),
+    path('api/v1/mebels/patch-update/<int:pk>', PatchMebelUpdateView.as_view()),
 ]
 
 urlpatterns += router.urls

@@ -47,6 +47,12 @@ class UpdateAllMebelSerializer(serializers.ModelSerializer):
         extra_kwargs = {"creator": {"read_only": True},}
 
 
+class PatchUpdateAllMebelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MebelModel
+        fields = ['id', 'draft']
+
+
 class MebelSerializer(serializers.ModelSerializer):
     images = MebelImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(

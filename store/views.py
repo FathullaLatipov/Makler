@@ -12,7 +12,7 @@ from products.utils import get_wishlist_data
 from .models import StoreModel, HowStoreServiceModel, UseForModel, StoreBrandModel
 from rest_framework.response import Response
 from .serializers import StoreModelSerializer, UpdateStoreModelSerializer, HowStoreServiceModelSerializer, \
-    UseForModelSerializer, ALLStoreModelSerializer, StoreBrandModelSerializer
+    UseForModelSerializer, ALLStoreModelSerializer, StoreBrandModelSerializer, PatchStoreUpdateModelSerializer
 
 
 class StoreModelAPIView(generics.ListAPIView):
@@ -76,6 +76,11 @@ class StoreAddCreateAPIView(mixins.CreateModelMixin, GenericViewSet):
 class StoreUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = StoreModel.objects.all()
     serializer_class = UpdateStoreModelSerializer
+
+
+class StorePatchUpdateAPIView(generics.UpdateAPIView):
+    queryset = StoreModel.objects.all()
+    serializer_class = PatchStoreUpdateModelSerializer
 
     def partial_update(self, request, *args, **kwargs):
         kwargs['draft'] = True

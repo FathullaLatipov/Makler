@@ -35,6 +35,12 @@ class UpdateStoreModelSerializer(serializers.ModelSerializer):
         extra_kwargs = {"creator": {"read_only": True}}
 
 
+class PatchStoreUpdateModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreModel
+        fields = ['id', 'draft']
+
+
 class StoreBrandModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreBrandModel
