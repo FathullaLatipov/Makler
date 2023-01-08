@@ -59,6 +59,11 @@ class MasterSerializer(serializers.ModelSerializer):
                   'owner']
 
 
+class UpdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterModel
+        fields = ['id', 'draft']
+
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
     # profession = MasterProfessionModelSerializer(many=True)
