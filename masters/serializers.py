@@ -64,6 +64,26 @@ class UpdSerializer(serializers.ModelSerializer):
         model = MasterModel
         fields = ['id', 'draft']
 
+
+class UpdMasterCreateSerializer(serializers.ModelSerializer):
+    # profession = MasterProfessionModelSerializer(many=True)
+    # images = MasterImageSerializer(many=True, read_only=True)
+    # uploaded_images = serializers.ListField(
+    #     child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+    #     write_only=True
+    # )
+    password = serializers.CharField(write_only=True, required=False, )
+
+    # address = AddressModelSerializer()
+
+    class Meta:
+        model = MasterModel
+        fields = ['name', 'email', 'phone', 'avatar', 'address_title', 'address_latitude', 'address_longitude',
+                  'password', 'profession', 'how_service',
+                  'descriptions', 'experience', 'owner',
+                  ]
+        extra_kwargs = {"owner": {"read_only": True}}
+
 # create master POST
 class MasterCreateSerializer(serializers.ModelSerializer):
     # profession = MasterProfessionModelSerializer(many=True)

@@ -16,7 +16,7 @@ from products.utils import get_wishlist_data
 from .models import MasterModel, MasterUserWishlistModel, MasterProfessionModel
 from .serializers import MasterSerializer, MasterDetailSerializer, MasterCreateSerializer, \
     MasterGetUserWishlistModelSerializer, MasterUserWishlistModelSerializer, MasterProfessionSerializer, \
-    APPMasterCreateSerializer, UpdSerializer
+    APPMasterCreateSerializer, UpdSerializer, UpdMasterCreateSerializer
 
 
 class MasterListAPIView(generics.ListAPIView):
@@ -133,14 +133,7 @@ def snippet_list(request):
 
 class MasterUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = MasterModel.objects.all()
-    serializer_class = MasterCreateSerializer
-
-    def partial_update(self, request, *args, **kwargs):
-        kwargs['draft'] = True
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+    serializer_class = UpdMasterCreateSerializer
 
 
 class MasterPatchUpdateAPIView(generics.UpdateAPIView):
