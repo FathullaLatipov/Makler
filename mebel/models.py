@@ -29,6 +29,19 @@ class MebelModel(models.Model):
     short_descriptions = models.TextField(verbose_name=_('short_descriptions'), null=True)
     long_descriptions = models.TextField(verbose_name=_('descriptions'), null=True)
     draft = models.BooleanField(default=False, null=True)
+    view_count = models.PositiveIntegerField(default=0, null=True)
+    PRODUCT_STATUS = [
+        (0, 'InProgress'),
+        (1, 'PUBLISH'),
+        (2, 'DELETED'),
+        (3, 'ARCHIVED'),
+        (4, 'REJECTED'),
+    ]
+    product_status = models.IntegerField(
+        choices=PRODUCT_STATUS,
+        default=0,
+        null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):

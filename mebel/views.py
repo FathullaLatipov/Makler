@@ -57,6 +57,8 @@ class PatchMebelUpdateView(generics.RetrieveUpdateAPIView):
 class MebelDetailAPIView(APIView):
     def get(self, request, pk):
         products = MebelModel.objects.get(id=pk)
+        products.view_count += 1
+        products.save()
         serializer = AllMebelSerializer(products, context={'request': request})
         return Response(serializer.data)
 
