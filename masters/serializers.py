@@ -62,7 +62,7 @@ class MasterSerializer(serializers.ModelSerializer):
 class UpdSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterModel
-        fields = ['id', 'draft']
+        fields = ['id', 'draft', 'product_status']
 
 
 class UpdMasterCreateSerializer(serializers.ModelSerializer):
