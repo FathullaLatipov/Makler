@@ -20,7 +20,7 @@ from products.serializers import CategorySerializer, HomeSerializer, AmenitiesSe
     HomeDetailSerializer, HomeFavSerializer, HomeCreateSerializer, HomeImageSerializer, \
     WebAmenitiesSerializer, NewHomeCreateSerializer, WebPriceSerializer, NewWebHomeCreateSerializer, \
     PriceListSerializer, NewAllWebHomeCreateSerializer, APPHomeCreateSerializer, UserWishlistModelSerializer, \
-    GetUserWishlistModelSerializer
+    GetUserWishlistModelSerializer, HomeUpdatePatchSerializer
 from products.utils import get_wishlist_data
 
 
@@ -235,8 +235,14 @@ class HouseUpdateAPIView(generics.RetrieveUpdateAPIView):
         self.perform_update(serializer)
         return Response(serializer.data)
 
+
+class PatchHouseUpdateAPIView(generics.UpdateAPIView):
+    queryset = HouseModel.objects.all()
+    serializer_class = HomeUpdatePatchSerializer
+
     def partial_update(self, request, *args, **kwargs):
         kwargs['draft'] = True
+        kwargs['product_status'] = 3
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):

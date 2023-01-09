@@ -50,7 +50,7 @@ class UpdateAllMebelSerializer(serializers.ModelSerializer):
 class PatchUpdateAllMebelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MebelModel
-        fields = ['id', 'draft']
+        fields = ['id', 'draft', 'product_status']
 
 
 class MebelSerializer(serializers.ModelSerializer):

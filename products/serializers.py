@@ -77,7 +77,8 @@ class APPHomeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'creator', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
+        fields = ['id', 'creator', 'title', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type',
+                  'typeOfRent',
                   'typeOfHouse', 'rental_type', 'property_type',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'web_address_title', 'web_address_latitude',
                   'web_address_longtitude', 'general', 'residential',
@@ -244,10 +245,12 @@ class HomeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HouseModel
-        fields = ['id', 'title', 'category', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type', 'typeOfRent',
+        fields = ['id', 'title', 'category', 'descriptions', 'price', 'phone_number', 'app_currency', 'app_type',
+                  'typeOfRent',
                   'typeOfHouse', 'web_address_title', 'web_address_latitude', 'web_address_longtitude', 'rental_type',
                   'typeOfObject', 'app_ipoteka', 'app_mebel', 'type', 'address', 'general', 'residential',
-                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status', 'isBookmarked',
+                  'number_of_rooms', 'floor', 'floor_from', 'building_type', 'amenities', 'product_status',
+                  'isBookmarked',
                   'images', 'uploaded_images', 'creator']
 
 
@@ -286,6 +289,7 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
     price_type = PriceListSerializer()
     how_sale = NewWebHowSaleSerializer()
     type = HouseTypeSerializer
+
     # rental_type = HouseRentalTypeSerializer
 
     # address = AddressSerializer()
@@ -302,6 +306,12 @@ class NewAllWebHomeCreateSerializer(serializers.ModelSerializer):
                   'amenities', 'phone_number', 'youtube_link', 'how_sale',
                   'isBookmarked', 'draft', 'product_status', 'view_count', 'created_at',
                   ]
+
+
+class HomeUpdatePatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HouseModel
+        fields = ['id', 'draft', 'product_status']
 
 
 class NewWebHomeCreateSerializer(serializers.ModelSerializer):
@@ -323,7 +333,7 @@ class NewWebHomeCreateSerializer(serializers.ModelSerializer):
                   'number_of_rooms', 'floor', 'floor_from', 'building_type',
                   'app_ipoteka', 'app_mebel', 'app_new_building',
                   'amenities', 'phone_number', 'how_sale', 'youtube_link',
-                  'isBookmarked', 'draft', 'created_at',
+                  'isBookmarked', 'draft', 'product_status', 'created_at',
                   ]
         extra_kwargs = {"creator": {"read_only": True}, "product_status": {"read_only": True}}
 
@@ -430,7 +440,6 @@ class HomeDetailSerializer(serializers.ModelSerializer):
 
 
 class UserWishlistModelSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = UserWishlistModel
         fields = ['id', 'user', 'product']
